@@ -1,0 +1,125 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Đội ngũ cán bộ";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Đội ngũ cán bộ";
+    ViewData["OgDescription"] =
+        "Đội ngũ cán bộ Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/gioi-thieu/doi-ngu-can-bo";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/gioi-thieu">
+                        Giới thiệu
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Đội ngũ cán bộ</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Đội ngũ cán bộ</h1>
+            <hr>
+
+            <p>
+                Đội ngũ cán bộ Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                là tập thể những cán bộ có chuyên môn, kinh nghiệm và tinh thần trách nhiệm cao,
+                giữ vai trò nòng cốt trong việc kết nối, duy trì và phát triển mối quan hệ hợp tác
+                giữa nhà trường và cộng đồng doanh nghiệp.
+            </p>
+
+            <div class="row g-4 mt-3">
+                <!-- Cán bộ 1 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 text-center">
+                        <img src="/image/layout/AnhThe.jpeg" class="card-img-top anh-the" alt="Ảnh cán bộ">
+                        <div class="card-body">
+                            <h5 class="card-title">Nguyễn Nhật Khánh</h5>
+                            <p class="card-text">
+                                <strong>Chức danh:</strong> Trưởng bộ phận Hợp tác Doanh nghiệp
+                            </p>
+                            <p class="card-text">
+                                <strong>Vai trò:</strong> Phụ trách chung, xây dựng chiến lược hợp tác,
+                                ký kết và quản lý các chương trình hợp tác với doanh nghiệp.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cán bộ 2 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 text-center">
+                        <img src="/image/layout/AnhThe.jpeg" class="card-img-top anh-the" alt="Ảnh cán bộ">
+                        <div class="card-body">
+                            <h5 class="card-title">Nguyễn Nhật Khánh</h5>
+                            <p class="card-text">
+                                <strong>Chức danh:</strong> Phó Trưởng bộ phận
+                            </p>
+                            <p class="card-text">
+                                <strong>Vai trò:</strong> Điều phối hoạt động thực tập, kiến tập,
+                                kết nối doanh nghiệp với các khoa và sinh viên.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cán bộ 3 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 text-center">
+                        <img src="/image/layout/AnhThe.jpeg" class="card-img-top anh-the" alt="Ảnh cán bộ">
+                        <div class="card-body">
+                            <h5 class="card-title">Nguyễn Nhật Khánh</h5>
+                            <p class="card-text">
+                                <strong>Chức danh:</strong> Chuyên viên Hợp tác Doanh nghiệp
+                            </p>
+                            <p class="card-text">
+                                <strong>Vai trò:</strong> Phụ trách công tác truyền thông,
+                                tổ chức hội thảo, ngày hội việc làm và hỗ trợ tuyển dụng.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-4">
+                Với sự phối hợp chặt chẽ và tinh thần chuyên nghiệp, đội ngũ cán bộ Hệ thống Hợp tác Doanh nghiệp
+                không ngừng nâng cao hiệu quả hoạt động, góp phần xây dựng môi trường đào tạo gắn kết thực tiễn,
+                đáp ứng nhu cầu của người học và doanh nghiệp.
+            </p>
+
+            <hr>
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = "/gioi-thieu/doi-ngu-can-bo",
+                Title = "Đội ngũ cán bộ"
+            })
+        </div>
+
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

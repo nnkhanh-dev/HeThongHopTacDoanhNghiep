@@ -1,0 +1,35 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.DanhMucBaiViet.DanhMucBaiVietVM>
+
+@{
+    ViewData["Title"] = "Chi tiết danh mục bài viết";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-newspaper"></i> Chi tiết danh mục bài viết
+        </div>
+        <div class="box-body">
+            <div class="mb-3">
+                <strong>Tên danh mục:</strong>
+                @Model.Data.Ten
+            </div>
+            <div class="mb-3">
+                <strong>Mô tả:</strong>
+                @(string.IsNullOrWhiteSpace(Model.Data.MoTa) ? "Không có dữ liệu" : Model.Data.MoTa)
+            </div>
+            <div class="mb-3">
+                <strong>Slug:</strong>
+                @Model.Data.Slug
+            </div>
+            <div class="mb-3">
+                <strong>Ngày tạo:</strong>
+                @Model.Data.CreatedAt.ToString("dd/MM/yyyy")
+            </div>
+            <div class="d-flex gap-2">
+                <a href="/admin/danh-muc-bai-viet/" class="btn btn-secondary">Quay lại</a>
+                <a href="/admin/danh-muc-bai-viet/chinh-sua/@Model.Data.Id" class="btn btn-primary">Cập nhật</a>
+            </div>
+        </div>
+    </div>
+</div>

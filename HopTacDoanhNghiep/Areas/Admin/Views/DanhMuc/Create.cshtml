@@ -1,0 +1,31 @@
+﻿@model HopTacDoanhNghiep.Areas.Admin.ViewModels.DanhMucBaiViet.DanhMucBaiVietCreateVM
+
+@{
+    ViewData["Title"] = "Tạo danh mục bài viết";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-newspaper"></i> Tạo danh mục bài viết
+        </div>
+        <div class="box-body">
+            <form asp-action="Create" asp-area="Admin" asp-controller="DanhMuc" method="post">
+                <div class="mb-3">
+                    <label asp-for="Ten"><strong>Tên danh mục</strong> <span class="text-danger">(*)</span></label>
+                    <input type="text" asp-for="Ten" class="form-control" />
+                    <span asp-validation-for="Ten" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="MoTa"><strong>Mô tả</strong></label>
+                    <textarea asp-for="MoTa" class="form-control"></textarea>
+                    <span asp-validation-for="MoTa" class="text-danger"></span>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="/admin/danh-muc-bai-viet" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-success">Tạo mới</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

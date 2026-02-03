@@ -1,0 +1,25 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.ShareSocialVM
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+@{
+    var baseUrl = Configuration["BaseUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}";
+    var fullUrl = baseUrl + Model.Url;
+}
+
+<div class="share-social d-flex gap-2">
+    <a href="javascript:void(0)"
+       onclick="shareFacebook('@fullUrl')"
+       aria-label="Chia sẻ Facebook">
+        <i class="fa-brands fa-square-facebook fs-3"></i>
+    </a>
+
+    <a href="javascript:void(0)"
+       onclick="shareZalo('@fullUrl')">
+        <i class="fa-solid fa-message fs-3"></i>
+    </a>
+
+    <a href="javascript:void(0)"
+       onclick="shareLinkedIn('@fullUrl')">
+        <i class="fa-brands fa-linkedin fs-3"></i>
+    </a>
+</div>

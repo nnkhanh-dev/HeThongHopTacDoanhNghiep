@@ -1,0 +1,89 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Giới thiệu chung";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Giới thiệu chung";
+    ViewData["OgDescription"] =
+        "Giới thiệu chung Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+     ViewData["OgUrl"] = "/gioi-thieu/gioi-thieu-chung";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/gioi-thieu">
+                        Giới thiệu
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Giới thiệu chung</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Giới thiệu chung</h1>
+            <hr>
+            <p>
+                Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng được xây dựng
+                với mục tiêu tăng cường gắn kết giữa nhà trường và cộng đồng doanh nghiệp, góp phần nâng cao chất lượng
+                đào tạo, nghiên cứu khoa học và khả năng đáp ứng nhu cầu thực tiễn của thị trường lao động.
+            </p>
+
+            <p>
+                Thông qua hệ thống này, nhà trường thiết lập và phát triển mối quan hệ hợp tác bền vững với các doanh nghiệp,
+                tập đoàn, tổ chức trong và ngoài nước hoạt động ở các lĩnh vực công nghệ, kỹ thuật và dịch vụ liên quan.
+                Đây là cầu nối quan trọng giúp chuyển giao tri thức, công nghệ, cũng như thúc đẩy hoạt động đổi mới sáng tạo.
+            </p>
+
+            <p>
+                Hệ thống Hợp tác Doanh nghiệp tạo điều kiện cho sinh viên được tiếp cận môi trường làm việc thực tế
+                thông qua các chương trình thực tập, kiến tập, tham quan doanh nghiệp, đào tạo theo đơn đặt hàng
+                và tuyển dụng sau tốt nghiệp. Qua đó, sinh viên có cơ hội nâng cao kỹ năng nghề nghiệp, kỹ năng mềm
+                và định hướng rõ ràng hơn về lộ trình phát triển nghề nghiệp.
+            </p>
+
+            <p>
+                Đối với doanh nghiệp, hệ thống là kênh kết nối hiệu quả để tiếp cận nguồn nhân lực chất lượng cao,
+                tham gia đóng góp ý kiến xây dựng chương trình đào tạo, hợp tác nghiên cứu – phát triển,
+                chuyển giao công nghệ và đồng hành cùng nhà trường trong các hoạt động học thuật, hướng nghiệp.
+            </p>
+
+            <p>
+                Với định hướng lấy người học và nhu cầu xã hội làm trung tâm, Hệ thống Hợp tác Doanh nghiệp của
+                Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng không ngừng được hoàn thiện và mở rộng,
+                góp phần khẳng định vai trò của nhà trường trong đào tạo nguồn nhân lực kỹ thuật chất lượng cao,
+                phục vụ sự phát triển kinh tế – xã hội của khu vực miền Trung – Tây Nguyên và cả nước.
+            </p>
+
+            <hr>
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = "/gioi-thieu/gioi-thieu-chung",
+                Title = "Giới thiệu chung"
+            })
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

@@ -1,0 +1,93 @@
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.ViewModels.BaiViet.BaiVietVM>
+
+@{
+    var data = Model.Records;
+    ViewData["Title"] = "Huấn luyện kỹ năng";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Huấn luyện kỹ năng";
+    ViewData["OgDescription"] =
+        "Huấn luyện kỹ năng Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/tu-van-huong-nghiep/huan-luyen-ky-nang";
+}
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/tu-van-huong-nghiep">
+                        Tư vấn - Hướng nghiệp
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Huấn luyện kỹ năng</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <div class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Huấn luyện kỹ năng</h1>
+            <hr>
+            
+            @await Html.PartialAsync("_Search")
+            
+            <div class="list-post mb-4">
+                @if (data != null && data.Any())
+                {
+                    foreach (var post in data)
+                    {
+                        <article class="post">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="thumbnail-wrapper">
+                                        <img src="@(!string.IsNullOrWhiteSpace(post.AnhMinhHoa) ? post.AnhMinhHoa : "/image/layout/default_post_thumbnail.jpg")" alt="Ảnh thumbnail bài viết">
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="content">
+                                        <h2 class="post-title"><a href="/tu-van-huong-nghiep/huan-luyen-ky-nang/@post.Slug">@post.TieuDe</a></h2>
+                                        <p class="summary">
+                                            @post.NoiDung
+                                        </p>
+                                        <div class="metadata">
+                                            <div class="metadata-item">
+                                                <i class="fa-solid fa-clock"></i> @post.CreatedAt?.ToString("dd/MM/yyyy")
+                                            </div>
+                                            <div class="metadata-item">
+                                                <i class="fa-solid fa-user-tie"></i> @post.TacGia
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+                else
+                {
+                    <div class="text-center w-100 fs-4 fw-bold text-muted mt-5">
+                        <i class="fa-solid fa-folder-open empty-icon"></i>
+                        Không có bài viết nào
+                    </div>
+                }
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}

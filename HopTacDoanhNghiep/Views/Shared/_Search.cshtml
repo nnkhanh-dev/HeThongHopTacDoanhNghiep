@@ -1,0 +1,34 @@
+@{
+    var keyword = Context.Request.Query["keyword"].ToString();
+}
+
+<div class="post-search mb-4">
+    <form method="get" action="@Context.Request.Path">
+        <div class="post-search-group">
+            <input type="text" 
+                   class="form-control" 
+                   name="keyword" 
+                   placeholder="Tìm kiếm..." 
+                   value="@keyword"
+                   aria-label="Tìm kiếm">
+            
+            @* Giữ pageSize nếu có *@
+            @if (!string.IsNullOrEmpty(Context.Request.Query["pageSize"]))
+            {
+                <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+            }
+
+            @if (!string.IsNullOrEmpty(keyword))
+            {
+            <a href="@Context.Request.Path" class="post-btn post-btn-clear">
+                <i class="fa-solid fa-times"></i>
+            </a>
+            }
+            
+            <button class="post-btn post-btn-search" type="submit">
+                <i class="fa-solid fa-search"></i>
+            </button>
+           
+        </div>
+    </form>
+</div>

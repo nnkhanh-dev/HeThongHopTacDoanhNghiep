@@ -1,0 +1,74 @@
+@using HopTacDoanhNghiep.ViewModels.Common
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.ViewModels.BaiViet.BaiVietVM>
+@{
+    var data = Model.Data;
+    ViewData["Title"] = Model.Data?.TieuDe;
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = Model.Data?.TieuDe;
+    ViewData["OgDescription"] =
+        Model.Data?.TieuDe;
+    ViewData["OgUrl"] = $"/chuong-trinh-su-kien/cuoc-thi-sinh-vien/{Model.Data?.Slug}";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+               <li class="breadcrumb-item">
+                    <a href="/chuong-trinh-su-kien">
+                        Chương trình - Sự kiện
+                    </a>
+                </li>
+                 <li class="breadcrumb-item">
+                    <a href="/chuong-trinh-su-kien/cuoc-thi-sinh-vien">
+                        Cuộc thi sinh viên
+                    </a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">@data.TieuDe</h1>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <i class="fa-solid fa-clock"></i> @data.CreatedAt?.ToString("dd/MM/yyyy")
+                </div>
+                <div class="metadata-item">
+                    <i class="fa-solid fa-user-tie"></i> @data.TacGia
+                </div>
+            </div>
+            <hr>
+            
+            @Html.Raw(data.NoiDung)
+
+            <hr>
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = $"/chuong-trinh-su-kien/cuoc-thi-sinh-vien/{data?.Slug}",
+                Title = data?.TieuDe
+            })
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

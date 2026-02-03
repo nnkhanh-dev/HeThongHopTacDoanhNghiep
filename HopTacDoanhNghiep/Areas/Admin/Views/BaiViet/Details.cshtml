@@ -1,0 +1,69 @@
+﻿@using HopTacDoanhNghiep.Enums.BaiViet
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet.BaiVietVM>
+@{
+    ViewData["Title"] = "Chi tiết bài viết";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-newspaper"></i> Chi tiết bài viết
+        </div>
+        <div class="box-body">
+            <div class="mb-3">
+                <strong>Tiêu đề:</strong>
+                @Model.Data.TieuDe
+            </div>
+            <div class="mb-3">
+                <strong>Tác giả:</strong>
+                @Model.Data.TacGia
+            </div>
+            <div class="mb-3">
+                <strong>Danh mục:</strong>
+                @Model.Data.DanhMuc
+            </div>
+            <div class="mb-3">
+                <strong>Trạng thái:</strong>
+                @switch (Model.Data.TrangThai)
+                {
+                    case BaiVietStatus.Nhap:
+                        <span class="badge bg-secondary">Nháp</span>
+                        break;
+                    case BaiVietStatus.XuatBan:
+                        <span class="badge bg-success">Đã xuất bản</span>
+                        break;
+                    case BaiVietStatus.ThuHoi:
+                        <span class="badge bg-warning text-dark">Đã thu hồi</span>
+                        break;
+                    default:
+                        <span class="badge bg-dark">Không xác định</span>
+                        break;
+                }
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Data.AnhMinhHoa))
+            {
+                <div class="mb-3">
+                    <strong>Ảnh minh họa:</strong>
+                    <div class="thumbnail">
+                        <img src="@Model.Data.AnhMinhHoa" alt="ảnh minh họa">
+                    </div>
+                </div>
+            }
+
+            <hr>
+           
+            <div class="mb-3">
+                @Html.Raw(Model.Data.NoiDung)
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="/admin/bai-viet" class="btn btn-secondary">Quay lại</a>
+                <a href="/admin/bai-viet/chinh-sua/@Model.Data.Id" class="btn btn-primary">Cập nhật</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/admin/BaiViet/BaiViet.css" rel="stylesheet" />
+}

@@ -1,0 +1,133 @@
+﻿@import url('../_variables.css');
+
+.post-search {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.post-search form {
+    width: 100%;
+}
+
+.post-search-group {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+}
+
+@media (min-width: 768px){
+    .post-search-group {
+        max-width: 400px;
+    }
+
+    .post-search form {
+        max-width: 400px;
+    }
+} 
+
+.post-search-group:focus-within {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.post-search input[type="text"] {
+    flex: 1;
+    border: none;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 4px 0 0 4px;
+    background-color: transparent;
+}
+
+.post-search input[type="text"]:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.post-btn {
+    padding: 0.65rem 1.25rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-btn-search {
+    background-color: white;
+    color: var(--dark-color);
+    border-radius: 0 4px 4px 0;
+}
+
+.post-btn-clear {
+    background-color: white;
+    color: var(--dark-color);
+    border-radius: 0;
+}
+
+.post-btn i {
+    font-size: 0.9rem;
+}
+
+/* Post List */
+.post {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px dashed var(--primary-color);
+    padding: var(--spacing-sm) 0;
+}
+
+.thumbnail-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.thumbnail-wrapper img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.metadata {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.post-title,
+.summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+}
+
+.post-title a{
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.post-title a:hover{
+    color: var(--primary-color);
+}
+
+.empty-icon {
+    display: block;
+    margin: 1rem auto;
+    font-size: 4rem;
+}
+
+.anh-the {
+    width: 200px;
+    margin: var(--spacing-sm) auto;
+}
+

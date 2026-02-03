@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        @(ViewData["Title"] != null ? ViewData["Title"] + " - " : "") Hệ thống Hợp tác doanh nghiệp - Đại học Công nghệ Kỹ thuật - Đại học Đà Nẵng
+    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/admin/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HopTacDoanhNghiep.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.1.1/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="admin-wrapper">
+        @await Html.PartialAsync("_Sidebar")
+        <div class="main-content">
+            @await Html.PartialAsync("_Header")
+            <main class="content">
+                @await Html.PartialAsync("_Notification")
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="~/js/admin/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin/BaiViet/BaiViet.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

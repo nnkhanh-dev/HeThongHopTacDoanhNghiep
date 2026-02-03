@@ -1,0 +1,71 @@
+﻿@model HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet.BaiVietEditVM
+@{
+    ViewData["Title"] = "Tạo bài viết";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-newspaper"></i> Chỉnh sửa bài viết
+        </div>
+        <div class="box-body">
+            <form enctype="multipart/form-data" method="post" asp-action="Edit" asp-area="Admin" asp-asp-controller="BaiViet">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label asp-for="TieuDe"><strong>Tiêu đề</strong> <span class="text-danger">(*)</span></label>
+                    <input asp-for="TieuDe" class="form-control" />
+                    <span asp-validation-for="TieuDe" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><strong>Ảnh minh họa</strong></label>
+                    <input type="file" asp-for="AnhMinhHoa" accept="image/*" class="form-control" />
+                    <span asp-validation-for="AnhMinhHoa" class="text-danger"></span>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.AnhHienTai))
+                {
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Ảnh hiện tại</strong></label>
+                        <div class="thumbnail">
+                            <img src="@Model.AnhHienTai" alt="Ảnh minh họa hiện tại">
+                        </div>
+                    </div>
+                }
+                <div class="mb-3">
+                    <label asp-for="DanhMucId"><strong>Danh mục</strong> <span class="text-danger">(*)</span></label>
+                    <select asp-for="DanhMucId" id="DanhMucSelect" class="form-select" data-initial-val="@(Model != null ? Model.DanhMucId.ToString() : "")" data-initial-text="@(ViewBag.DanhMucName ?? "")">
+                        @if (Model != null && Model.DanhMucId > 0)
+                        {
+                            <option value="@Model.DanhMucId" selected>@(ViewBag.DanhMucName ?? Model.DanhMuc)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DanhMucId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="TrangThai"><strong>Trạng thái</strong> <span class="text-danger">(*)</span></label>
+                    <select asp-for="TrangThai" id="TrangThaiSelect" class="form-select">
+                        <option value="0">Nháp</option>
+                        <option value="1">Xuất bản</option>
+                        <option value="2">Thu hôi</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="NoiDung"><strong>Nội dung</strong> <span class="text-danger">(*)</span></label>
+                    <textarea id="NoiDung" name="NoiDung" rows="10" class="form-control">@Html.Raw(Model?.NoiDung)</textarea>
+                    <span asp-validation-for="NoiDung" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                <a href="/admin/bai-viet" class="btn btn-secondary">Quay lại</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/admin/BaiViet/BaiViet.js"></script>
+}
+
+@section Styles{
+    <link href="/css/admin/BaiViet/BaiViet.css" rel="stylesheet" />
+}

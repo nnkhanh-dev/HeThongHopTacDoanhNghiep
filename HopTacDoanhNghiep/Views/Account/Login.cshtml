@@ -1,0 +1,54 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Account.LoginVM
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+<div class="breadcrumb-wrap">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-fluid map-bg py-5">
+    <div class="login-form">
+        <form asp-controller="Account" asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            
+            <div class="mb-4">
+                <h1 class="title"><i class="fa-solid fa-globe"></i> Đăng nhập</h1>
+                <p class="subtitle">Chào mừng đến với Hệ thống Hợp tác Doanh nghiệp !</p>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Username"><strong><i class="fa-solid fa-user"></i> Tài khoản</strong></label>
+                <input type="text" asp-for="Username" class="form-control">
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Password"><strong><i class="fa-solid fa-lock"></i> Mật khẩu</strong></label>
+                <input type="password" asp-for="Password" class="form-control">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="checkbox" asp-for="RememberMe">
+                <label asp-for="RememberMe">Ghi nhớ đăng nhập</label>
+            </div>
+            <div>
+                <button type="submit">Đăng nhập</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/auth_page.css" />
+}

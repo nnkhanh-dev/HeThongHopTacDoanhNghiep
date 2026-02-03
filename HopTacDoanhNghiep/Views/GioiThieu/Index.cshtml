@@ -1,0 +1,88 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Giới thiệu";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Giới thiệu";
+    ViewData["OgDescription"] =
+        "Giới thiệu Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/gioi-thieu";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <div class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Giới thiệu</h1>
+            <hr>
+            <div class="list-post mb-4">
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/gioi-thieu/gioi-thieu-chung">Giới thiệu chung</a></h2>
+                        <p class="summary">
+                            Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng được xây dựng
+                            với mục tiêu tăng cường gắn kết giữa nhà trường và cộng đồng doanh nghiệp, góp phần nâng cao chất lượng
+                            đào tạo, nghiên cứu khoa học và khả năng đáp ứng nhu cầu thực tiễn của thị trường lao động.
+                        </p>
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/gioi-thieu/qua-trinh-hinh-thanh-phat-trien">Quá trình hình thành và phát triển</a></h2>
+                        <p class="summary">
+                            Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                            được hình thành xuất phát từ yêu cầu thực tiễn trong việc gắn kết hoạt động đào tạo
+                            của nhà trường với nhu cầu sử dụng nguồn nhân lực của doanh nghiệp và xã hội.
+                            Trong bối cảnh giáo dục đại học chuyển mạnh theo hướng ứng dụng và hội nhập,
+                            nhà trường xác định hợp tác doanh nghiệp là một trong những trụ cột quan trọng
+                            để nâng cao chất lượng đào tạo và hiệu quả nghiên cứu.
+                        </p>
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/gioi-thieu/chuc-nang-nhiem-vu">Chức năng nhiệm vụ</a></h2>
+                        <p class="summary">
+                            Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                            có chức năng tham mưu và tổ chức triển khai các hoạt động kết nối, hợp tác giữa nhà trường
+                            với doanh nghiệp, tổ chức, đơn vị sử dụng lao động nhằm phục vụ hiệu quả cho công tác đào tạo,
+                            nghiên cứu khoa học và phát triển nguồn nhân lực kỹ thuật chất lượng cao.
+                        </p>
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/gioi-thieu/doi-ngu-can-bo">Đội ngũ cán bộ</a></h2>
+                        <p class="summary">
+                            Đội ngũ cán bộ Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                            là tập thể những cán bộ có chuyên môn, kinh nghiệm và tinh thần trách nhiệm cao,
+                            giữ vai trò nòng cốt trong việc kết nối, duy trì và phát triển mối quan hệ hợp tác
+                            giữa nhà trường và cộng đồng doanh nghiệp.
+                        </p>                       
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}

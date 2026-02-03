@@ -1,0 +1,92 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Quá trình hình thành và phát triển";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Quá trình hình thành và phát triển";
+    ViewData["OgDescription"] =
+        "Quá trình hình thành và phát triển Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/gioi-thieu/qua-trinh-hinh-thanh-phat-trien";
+}
+
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/gioi-thieu">
+                        Giới thiệu
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Quá trình hình thành và phát triển</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Quá trình hình thành và phát triển</h1>
+            <hr>
+            <p>
+                Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                được hình thành xuất phát từ yêu cầu thực tiễn trong việc gắn kết hoạt động đào tạo
+                của nhà trường với nhu cầu sử dụng nguồn nhân lực của doanh nghiệp và xã hội.
+                Trong bối cảnh giáo dục đại học chuyển mạnh theo hướng ứng dụng và hội nhập,
+                nhà trường xác định hợp tác doanh nghiệp là một trong những trụ cột quan trọng
+                để nâng cao chất lượng đào tạo và hiệu quả nghiên cứu.
+            </p>
+
+            <p>
+                Ở giai đoạn đầu, các hoạt động hợp tác chủ yếu được triển khai thông qua các chương trình
+                thực tập, kiến tập và tham quan doanh nghiệp dành cho sinh viên. Mối quan hệ hợp tác
+                ban đầu được thiết lập với các doanh nghiệp trong khu vực miền Trung, tập trung vào
+                các lĩnh vực công nghệ, kỹ thuật và sản xuất, tạo nền tảng cho việc mở rộng quy mô
+                và chiều sâu hợp tác trong những năm tiếp theo.
+            </p>
+
+            <p>
+                Trên cơ sở những kết quả đạt được, nhà trường từng bước xây dựng và chuẩn hóa
+                Hệ thống Hợp tác Doanh nghiệp với cơ cấu quản lý rõ ràng, quy trình phối hợp chặt chẽ
+                và nội dung hợp tác ngày càng đa dạng. Các hoạt động hợp tác được mở rộng sang
+                lĩnh vực nghiên cứu khoa học, chuyển giao công nghệ, đồng xây dựng chương trình đào tạo,
+                đào tạo theo nhu cầu doanh nghiệp và hỗ trợ tuyển dụng sinh viên sau tốt nghiệp.
+            </p>
+
+            <p>
+                Trong giai đoạn phát triển hiện nay, Hệ thống Hợp tác Doanh nghiệp không ngừng được
+                mở rộng về quy mô và đối tác, bao gồm nhiều doanh nghiệp, tập đoàn, tổ chức trong và ngoài nước.
+                Hệ thống đóng vai trò là cầu nối chiến lược giữa nhà trường và doanh nghiệp,
+                góp phần nâng cao năng lực đào tạo ứng dụng, thúc đẩy đổi mới sáng tạo
+                và khẳng định vị thế của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                trong hệ thống giáo dục đại học Việt Nam.
+            </p>
+
+            <hr>
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = "/gioi-thieu/qua-trinh-hinh-thanh-phat-trien",
+                Title = "Quá trình hình thành và phát triển"
+            })
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

@@ -1,0 +1,143 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet.BaiVietVM>
+@using HopTacDoanhNghiep.Enums.BaiViet
+
+@{
+    ViewData["Title"] = "Quản lý bài viết";
+    var statusFilter = Context.Request.Query["status"].ToString();
+    var danhMucFilter = Context.Request.Query["danhMucId"].ToString();
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-newspaper"></i> Quản lý bài viết
+        </div>
+        <div class="box-body">
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="/admin/bai-viet/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card mb-3 p-3">
+                <form method="get" action="/admin/bai-viet">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <input type="text"
+                                   class="form-control"
+                                   name="keyword"
+                                   placeholder="Tìm kiếm..."
+                                   value="@Context.Request.Query["keyword"]">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <select class="form-select" id="DanhMucFilter" name="danhMucId">
+                                <option value="">Tất cả danh mục</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <select class="form-select" name="status">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="0" selected="@(statusFilter == "0")">Nháp</option>
+                                <option value="1" selected="@(statusFilter == "1")">Đã xuất bản</option>
+                                <option value="2" selected="@(statusFilter == "2")">Đã thu hồi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-search"></i> Tìm kiếm
+                            </button>
+                            @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) ||
+                                                        !string.IsNullOrEmpty(statusFilter) ||
+                                                        !string.IsNullOrEmpty(danhMucFilter))
+                            {
+                                <a href="/admin/bai-viet" class="btn btn-secondary">
+                                    <i class="fa-solid fa-times"></i> Xóa bộ lọc
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    @* Giữ pageSize nếu có *@
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["pageSize"]))
+                    {
+                        <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+                    }
+                </form>
+            </div>
+            
+
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <td>Tiêu đề</td>
+                            <td>Tác giả</td>
+                            <td>Danh mục</td>
+                            <td>Trạng thái</td>
+                            <td>Chức năng</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.TieuDe</td>
+                                    <td>@(item.TacGia ?? "N/A")</td>
+                                    <td>@(item.DanhMuc ?? "Chưa phân loại")</td>
+                                    <td>
+                                        @switch (item.TrangThai)
+                                        {
+                                            case BaiVietStatus.Nhap:
+                                                <span class="badge bg-secondary">Nháp</span>
+                                                break;
+                                            case BaiVietStatus.XuatBan:
+                                                <span class="badge bg-success">Đã xuất bản</span>
+                                                break;
+                                            case BaiVietStatus.ThuHoi:
+                                                <span class="badge bg-warning text-dark">Đã thu hồi</span>
+                                                break;
+                                            default:
+                                                <span class="badge bg-dark">Không xác định</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/admin/bai-viet/chi-tiet/@item.Id" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                        <a href="/admin/bai-viet/chinh-sua/@item.Id" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit"></i> Sửa
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" onclick="DeleteBaiViet(@item.Id, '@item.TieuDe')">
+                                            <i class="fa-solid fa-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/admin/BaiViet/BaiViet.js"></script>
+}

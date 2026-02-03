@@ -1,0 +1,76 @@
+@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Chương trình - Sự kiện";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Chương trình - Sự kiện";
+    ViewData["OgDescription"] =
+        "Chương trình - Sự kiện Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/chuong-trinh-su-kien";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Chương trình - Sự kiện</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <div class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Chương trình - Sự kiện</h1>
+            <hr>
+            <div class="list-post mb-4">
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/chuong-trinh-su-kien/ngay-hoi-tuyen-dung">Ngày hội tuyển dụng</a></h2>
+                        <p class="summary">
+                            Sự kiện kết nối sinh viên với các doanh nghiệp hàng đầu, tạo cơ hội
+                            tìm kiếm việc làm, thực tập và phát triển nghề nghiệp cho sinh viên
+                            Trường Đại học Công nghệ Kỹ thuật.
+                        </p>
+                       
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/chuong-trinh-su-kien/cuoc-thi-sinh-vien">Cuộc thi sinh viên</a></h2>
+                        <p class="summary">
+                            Các cuộc thi học thuật, nghiên cứu khoa học, khởi nghiệp và phát triển
+                            kỹ năng dành cho sinh viên, tạo sân chơi bổ ích và nâng cao năng lực
+                            chuyên môn, sáng tạo.
+                        </p>
+                       
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/chuong-trinh-su-kien/hoi-thao-giao-luu">Hội thảo - Giao lưu</a></h2>
+                        <p class="summary">
+                            Các buổi hội thảo chuyên đề, tọa đàm và giao lưu với chuyên gia,
+                            doanh nhân, cựu sinh viên nhằm chia sẻ kinh nghiệm, định hướng nghề nghiệp
+                            và mở rộng mạng lưới quan hệ.
+                        </p>
+                      
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}

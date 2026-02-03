@@ -1,0 +1,86 @@
+@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Tư vấn - Hướng nghiệp";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Tư vấn - Hướng nghiệp";
+    ViewData["OgDescription"] =
+        "Tư vấn - Hướng nghiệp Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/tu-van-huong-nghiep";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Tư vấn - Hướng nghiệp</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <div class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Tư vấn - Hướng nghiệp</h1>
+            <hr>
+            <div class="list-post mb-4">
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/thong-tin/hop-tac-doanh-nghiep">Hợp tác doanh nghiệp</a></h2>
+                        <p class="summary">
+                            Thông tin về các đối tác doanh nghiệp, chương trình phối hợp đào tạo,
+                            thực tập, tuyển dụng và các hoạt động kết nối doanh nghiệp
+                            nhằm nâng cao chất lượng đào tạo và cơ hội nghề nghiệp cho sinh viên.
+                        </p>
+                      
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/tu-van-huong-nghiep/ute-khoi-nghiep">UTE Khởi nghiệp</a></h2>
+                        <p class="summary">
+                            Chương trình hỗ trợ khởi nghiệp dành cho sinh viên UTE, bao gồm
+                            tư vấn ý tưởng, hướng dẫn xây dựng kế hoạch kinh doanh và
+                            kết nối với các nhà đầu tư, doanh nghiệp.
+                        </p>
+                        
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/tu-van-huong-nghiep/phat-trien-nghe-nghiep">Phát triển nghề nghiệp</a></h2>
+                        <p class="summary">
+                            Tư vấn định hướng nghề nghiệp, lộ trình phát triển sự nghiệp,
+                            các cơ hội học tập nâng cao và chiến lược xây dựng thương hiệu
+                            cá nhân trong môi trường làm việc chuyên nghiệp.
+                        </p>
+                        
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/tu-van-huong-nghiep/huan-luyen-ky-nang">Huấn luyện kỹ năng</a></h2>
+                        <p class="summary">
+                            Các khóa đào tạo, workshop và chương trình huấn luyện kỹ năng mềm,
+                            kỹ năng chuyên môn, kỹ năng giao tiếp và làm việc nhóm
+                            nhằm nâng cao năng lực cạnh tranh cho sinh viên.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}

@@ -1,0 +1,96 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Chức năng nhiệm vụ";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Chức năng nhiệm vụ";
+    ViewData["OgDescription"] =
+        "Chức năng nhiệm vụ Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/gioi-thieu/chuc-nang-nhiem-vu";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/gioi-thieu">
+                        Giới thiệu
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Chức năng nhiệm vụ</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Chức năng nhiệm vụ</h1>
+            <hr>
+            <p>
+                Hệ thống Hợp tác Doanh nghiệp của Trường Đại học Công nghệ Kỹ thuật – Đại học Đà Nẵng
+                có chức năng tham mưu và tổ chức triển khai các hoạt động kết nối, hợp tác giữa nhà trường
+                với doanh nghiệp, tổ chức, đơn vị sử dụng lao động nhằm phục vụ hiệu quả cho công tác đào tạo,
+                nghiên cứu khoa học và phát triển nguồn nhân lực kỹ thuật chất lượng cao.
+            </p>
+
+            <p>
+                Các nhiệm vụ trọng tâm của Hệ thống Hợp tác Doanh nghiệp bao gồm:
+            </p>
+
+            <ul>
+                <li>
+                    Xây dựng, duy trì và phát triển mạng lưới đối tác doanh nghiệp trong và ngoài nước;
+                    thiết lập mối quan hệ hợp tác lâu dài, bền vững trên cơ sở cùng phát triển.
+                </li>
+                <li>
+                    Phối hợp với các đơn vị chuyên môn và doanh nghiệp trong việc tổ chức cho sinh viên
+                    tham gia thực tập, kiến tập, trải nghiệm thực tế nghề nghiệp; hỗ trợ công tác tuyển dụng
+                    và giới thiệu việc làm cho sinh viên sau tốt nghiệp.
+                </li>
+                <li>
+                    Tham gia kết nối doanh nghiệp đóng góp ý kiến xây dựng, cập nhật chương trình đào tạo
+                    theo định hướng ứng dụng, đáp ứng yêu cầu thực tiễn của thị trường lao động.
+                </li>
+                <li>
+                    Tổ chức và phối hợp triển khai các hoạt động hợp tác nghiên cứu khoa học,
+                    chuyển giao công nghệ, đổi mới sáng tạo giữa giảng viên, sinh viên và doanh nghiệp.
+                </li>
+                <li>
+                    Thực hiện công tác truyền thông, quảng bá hình ảnh nhà trường và doanh nghiệp đối tác
+                    thông qua các chương trình hợp tác, ngày hội việc làm, hội thảo, tọa đàm chuyên đề.
+                </li>
+                <li>
+                    Tổng hợp, đánh giá hiệu quả các hoạt động hợp tác doanh nghiệp; đề xuất giải pháp
+                    nâng cao chất lượng và mở rộng phạm vi hợp tác trong từng giai đoạn phát triển.
+                </li>
+            </ul>
+
+            <hr>
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = "/gioi-thieu/chuc-nang-nhiem-vu",
+                Title = "Chức năng nhiệm vụ"
+            })
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}
