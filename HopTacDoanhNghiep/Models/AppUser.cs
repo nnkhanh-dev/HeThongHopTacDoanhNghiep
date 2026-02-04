@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HopTacDoanhNghiep.Enums.NguoiDung;
+using Microsoft.AspNetCore.Identity;
 
 namespace HopTacDoanhNghiep.Models
 {
@@ -6,5 +7,7 @@ namespace HopTacDoanhNghiep.Models
     {
         public string HoTen { get; set; }
         public string? Avatar { get; set; }
+        public NguoiDungStatus TrangThai { get; set; } = NguoiDungStatus.HoatDong;
+        public string? GhiChu { get; set; }
     }
 }

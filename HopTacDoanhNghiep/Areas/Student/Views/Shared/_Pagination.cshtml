@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.WebUtilities
+@model dynamic
+
+@{
+    if (Model == null || Model.PageSize <= 0) {
+        return;
+    }
+
+    var totalPages = (int)System.Math.Ceiling((double)Model.TotalRecords / Model.PageSize);
+    if (totalPages <= 1) {
+        return; // no pagination needed
+    }
+
+    var path = Context.Request.Path;
+}
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @* Previous *@
+        @if (Model.PageIndex > 1)
+        {
+            var prevQuery = Context.Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+            prevQuery["pageIndex"] = (Model.PageIndex - 1).ToString();
+            prevQuery["pageSize"] = Model.PageSize.ToString();
+            var prevUrl = QueryHelpers.AddQueryString(path, prevQuery);
+            <li class="page-item">
+                <a class="page-link" href="@prevUrl" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        }
+
+        @* Render page numbers with window and ellipses when too many pages *@
+        @if (totalPages <= 7)
+        {
+            for (var i = 1; i <= totalPages; i++)
+            {
+                var q = Context.Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+                q["pageIndex"] = i.ToString();
+                q["pageSize"] = Model.PageSize.ToString();
+                var url = QueryHelpers.AddQueryString(path, q);
+                var active = i == Model.PageIndex ? "active" : "";
+                <li class="page-item @active"><a class="page-link" href="@url">@i</a></li>
+            }
+        }
+        else
+        {
+            var start = Model.PageIndex - 2;
+            var end = Model.PageIndex + 2;
+            if (start < 1) { end += (1 - start); start = 1; }
+            if (end > totalPages) { start -= (end - totalPages); end = totalPages; }
+
+            if (start > 1)
+            {
+                var qf = Context.Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+                qf["pageIndex"] = "1";
+                qf["pageSize"] = Model.PageSize.ToString();
+                var urlF = QueryHelpers.AddQueryString(path, qf);
+                <li class="page-item"><a class="page-link" href="@urlF">1</a></li>
+                if (start > 2)
+                {
+                    <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+                }
+            }
+
+            for (var i = start; i <= end; i++)
+            {
+                var q = Context.Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+                q["pageIndex"] = i.ToString();
+                q["pageSize"] = Model.PageSize.ToString();
+                var url = QueryHelpers.AddQueryString(path, q);
+                var active = i == Model.PageIndex ? "active" : "";
+                <li class="page-item @active"><a class="page-link" href="@url">@i</a></li>
+            }
+
+            if (end < totalPages)
+            {
+                if (end < totalPages - 1)
+                {
+                    <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+                }
+                var ql = Context.Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+                ql["pageIndex"] = totalPages.ToString();
+                ql["pageSize"] = Model.PageSize.ToString();
+                var urlL = QueryHelpers.AddQueryString(path, ql);
+                <li class="page-item"><a class="page-link" href="@urlL">@totalPages</a></li>
+            }
+        }
+
+        @* Next *@
+        @if (Model.PageIndex < totalPages)
+        {
+            var nextQuery = Context.Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+            nextQuery["pageIndex"] = (Model.PageIndex + 1).ToString();
+            nextQuery["pageSize"] = Model.PageSize.ToString();
+            var nextUrl = QueryHelpers.AddQueryString(path, nextQuery);
+            <li class="page-item">
+                <a class="page-link" href="@nextUrl" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        }
+    </ul>
+</nav>

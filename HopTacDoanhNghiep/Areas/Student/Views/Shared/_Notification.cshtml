@@ -1,0 +1,63 @@
+﻿@{
+    var success = TempData["SuccessMessage"] as string;
+    var error = TempData["ErrorMessage"] as string;
+    var warning = TempData["WarningMessage"] as string;
+    var info = TempData["InfoMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(success) || !string.IsNullOrEmpty(error) || !string.IsNullOrEmpty(warning) || !string.IsNullOrEmpty(info))
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end', // top right
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            @if (!string.IsNullOrEmpty(success))
+            {
+                    <text>
+                    Toast.fire({
+                        icon: 'success',
+                        title: '@success'
+                    });
+                    </text>
+            }
+            else if (!string.IsNullOrEmpty(error))
+            {
+                    <text>
+                    Toast.fire({
+                        icon: 'error',
+                        title: '@error'
+                    });
+                    </text>
+            }
+            else if (!string.IsNullOrEmpty(warning))
+            {
+                    <text>
+                    Toast.fire({
+                        icon: 'warning',
+                        title: '@warning'
+                    });
+                    </text>
+            }
+            else if (!string.IsNullOrEmpty(info))
+            {
+                    <text>
+                    Toast.fire({
+                        icon: 'info',
+                        title: '@info'
+                    });
+                    </text>
+            }
+        });
+    </script>
+}
+

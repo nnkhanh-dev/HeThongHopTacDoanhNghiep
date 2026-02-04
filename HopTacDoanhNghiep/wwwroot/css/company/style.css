@@ -77,8 +77,8 @@ p {
     }
 }
 
-/* ===== ADMIN LAYOUT ===== */
-.admin-wrapper {
+/* ===== COMPANY LAYOUT ===== */
+.company-wrapper {
     display: flex;
     min-height: 100vh;
 }

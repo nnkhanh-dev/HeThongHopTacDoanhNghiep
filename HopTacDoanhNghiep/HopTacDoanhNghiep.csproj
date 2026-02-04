@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Areas\Company\Services\" />
     <Folder Include="Areas\Company\ViewModels\" />
-    <Folder Include="Areas\Company\Views\" />
     <Folder Include="Areas\Student\Services\" />
     <Folder Include="Areas\Student\ViewModels\" />
     <Folder Include="wwwroot\lib\fontawesome\" />
