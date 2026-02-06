@@ -15,6 +15,7 @@ namespace HopTacDoanhNghiep.Data
         public DbSet<BaiViet> BaiViets { get; set; }
         public DbSet<SinhVien> SinhViens { get; set; }
         public DbSet<DoanhNghiep> DoanhNghieps { get; set; }
+        public DbSet<LichSuNhapDuLieu> LichSuNhapDuLieus { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

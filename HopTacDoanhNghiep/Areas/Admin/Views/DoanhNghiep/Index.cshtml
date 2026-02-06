@@ -1,0 +1,72 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.DoanhNghiep.DoanhNghiepVM>
+
+@{
+    ViewData["Title"] = "Quản lý doanh nghiệp";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-user-shield"></i> Quản lý doanh nghiệp
+        </div>
+        <div class="box-body">
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="/admin/doanh-nghiep/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
+                        <a href="/admin/doanh-nghiep/nhap-du-lieu" class="btn btn-success"><i class="fa-solid fa-arrow-up-from-bracket"></i> Nhập dữ liệu</a>
+                    </div>
+                </div>
+            </div>
+            @await Html.PartialAsync("_Search")
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th style="width:15%">Mã DN</th>
+                            <th style="width:25%">Tên</th>
+                            <th style="width:15%">Mã số thuế</th>
+                            <th style="width:25%">Địa chỉ</th>
+                            <th style="width:20%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.MaDN</td>
+                                    <td>@item.TenHienThi</td>
+                                    <td>@item.MaSoThue</td>
+                                    <td>@item.DiaChi</td>
+                                    <td>
+                                        <a href="/admin/doanh-nghiep/chi-tiet/@item.Id" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                        <a href="/admin/doanh-nghiep/chinh-sua/@item.Id" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit"></i> Sửa
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" onclick="DeleteDoanhNghiep(@item.Id)">
+                                            <i class="fa-solid fa-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+

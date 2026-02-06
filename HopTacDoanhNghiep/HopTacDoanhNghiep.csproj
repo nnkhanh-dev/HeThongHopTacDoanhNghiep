@@ -13,9 +13,14 @@
     <Folder Include="Areas\Student\ViewModels\" />
     <Folder Include="wwwroot\lib\fontawesome\" />
     <Folder Include="wwwroot\uploads\bai-viet\" />
+    <Folder Include="wwwroot\uploads\import\errors\" />
+    <Folder Include="wwwroot\uploads\import\sinh-vien\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Hangfire" Version="1.8.23" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.23" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.23">

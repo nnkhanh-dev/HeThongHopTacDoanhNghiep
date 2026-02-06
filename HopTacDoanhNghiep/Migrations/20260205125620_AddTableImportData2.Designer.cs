@@ -4,6 +4,7 @@ using HopTacDoanhNghiep.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HopTacDoanhNghiep.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260205125620_AddTableImportData2")]
+    partial class AddTableImportData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,9 +284,6 @@ namespace HopTacDoanhNghiep.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DuongDanFileLoi")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhanLoai")

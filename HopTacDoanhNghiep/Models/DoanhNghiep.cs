@@ -23,10 +23,12 @@ namespace HopTacDoanhNghiep.Models
         public string? GioiThieu { get; set; }
         public int? QuyMoNhanSu { get; set; }
         public string NguoiDungId { get; set; }
-        public NguoiDungStatus TrangThai { get; set; } = NguoiDungStatus.HoatDong;
         public string? GhiChu { get; set; }
         [ForeignKey("NguoiDungId")]
         public AppUser NguoiDung { get; set; }
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
     }
 }

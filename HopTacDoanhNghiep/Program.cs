@@ -1,5 +1,8 @@
+using Hangfire;
+using Hangfire.SqlServer;
 using HopTacDoanhNghiep.Areas.Admin.Services;
 using HopTacDoanhNghiep.Data;
+using HopTacDoanhNghiep.Middlewares;
 using HopTacDoanhNghiep.Models;
 using HopTacDoanhNghiep.Services;
 using Microsoft.AspNetCore.Identity;
@@ -41,12 +44,36 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+
+// ===== Hangfire
+builder.Services.AddHangfire(config =>
+{
+    config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+          .UseSimpleAssemblyNameTypeSerializer()
+          .UseRecommendedSerializerSettings()
+          .UseSqlServerStorage(
+              builder.Configuration.GetConnectionString("Default"),
+              new SqlServerStorageOptions
+              {
+                  CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                  SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                  QueuePollInterval = TimeSpan.FromSeconds(15),
+                  UseRecommendedIsolationLevel = true,
+                  DisableGlobalLocks = true
+              });
+});
+
+builder.Services.AddHangfireServer();
+
 // ===== Services
 builder.Services.AddScoped<ISlug, SlugService>();
 builder.Services.AddScoped<IFileStorage, FileStorageService>();
 builder.Services.AddScoped<IBaiViet, BaiVietService>();
 builder.Services.AddScoped<IBaiVietAdmin, BaiVietAdminService>();
 builder.Services.AddScoped<IDanhMucBaiVietAdmin, DanhMucBaiVietAdminService>();
+builder.Services.AddScoped<ISinhVienAdmin, SinhVienAdminService>();
+builder.Services.AddScoped<IDoanhNghiepAdmin, DoanhNghiepAdminService>();
+builder.Services.AddScoped<INhapDuLieuAdmin, NhapDuLieuAdminService>();
 
 var app = builder.Build();
 
@@ -68,6 +95,14 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHangfireDashboard("/hangfire"); app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[]
+    {
+        new HangfireAdminAuthorizationFilter()
+    }
+});
 
 app.MapControllerRoute(
     name: "areas",

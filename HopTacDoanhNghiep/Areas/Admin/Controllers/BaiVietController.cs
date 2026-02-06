@@ -26,14 +26,10 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         }
 
         [HttpGet("admin/bai-viet")]
-        public async Task<IActionResult> Index(
-            int pageIndex = 1,
-            int pageSize = 10,
-            string? keyword = null,
-            int? danhMucId = null,
-            BaiVietStatus? status = null
-        )
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string? keyword = null, int? danhMucId = null, BaiVietStatus? status = null)
         {
+            if (pageIndex < 1) pageIndex = 1;
+            if (pageSize < 1) pageSize = 10;
             var result = await _baiViet.GetListBaiViet(pageIndex, pageSize, keyword, danhMucId, status);
             return View(result);
         }

@@ -21,6 +21,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         [HttpGet("admin/danh-muc-bai-viet")]
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string? keyword = null)
         {
+            if (pageIndex < 1) pageIndex = 1;
+            if (pageSize < 1) pageSize = 10;
             var result = await _danhMuc.GetListDanhMucBaiViet(pageIndex, pageSize, keyword);
             return View(result);
         }

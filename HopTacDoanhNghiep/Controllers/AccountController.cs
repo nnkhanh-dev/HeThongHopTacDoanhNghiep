@@ -87,6 +87,9 @@ namespace HopTacDoanhNghiep.Controllers
             }
 
             // ===== Chỉ chạy khi login thành công =====
+            // Đăng xuất để thêm claims và sign in lại
+            await _signInManager.SignOutAsync();
+
             var roles = await _userManager.GetRolesAsync(user);
             var existingClaims = await _userManager.GetClaimsAsync(user);
 
@@ -117,14 +120,6 @@ namespace HopTacDoanhNghiep.Controllers
                 
                 if (doanhNghiep != null)
                 {
-                    // Kiểm tra trạng thái DoanhNghiep
-                    if (doanhNghiep.TrangThai != Enums.NguoiDung.NguoiDungStatus.HoatDong)
-                    {
-                        await _signInManager.SignOutAsync();
-                        ModelState.AddModelError(string.Empty, "Tài khoản doanh nghiệp của bạn đã bị khóa liên hệ với quản trị viên để được hỗ trợ.");
-                        return View(model);
-                    }
-
                     await _userManager.AddClaimAsync(user, 
                         new Claim("FullName", doanhNghiep.TenHienThi ?? user.HoTen ?? "Company"));
                     
@@ -145,14 +140,6 @@ namespace HopTacDoanhNghiep.Controllers
                 
                 if (sinhVien != null)
                 {
-                    // Kiểm tra trạng thái SinhVien
-                    if (sinhVien.TrangThai != Enums.NguoiDung.NguoiDungStatus.HoatDong)
-                    {
-                        await _signInManager.SignOutAsync();
-                        ModelState.AddModelError(string.Empty, "Tài khoản sinh viên của bạn đã bị khóa liên hệ với quản trị viên để được hỗ trợ.");
-                        return View(model);
-                    }
-
                     await _userManager.AddClaimAsync(user, 
                         new Claim("FullName", sinhVien.HoTen ?? user.HoTen ?? "Student"));
                     
@@ -166,8 +153,8 @@ namespace HopTacDoanhNghiep.Controllers
                 }
             }
 
-            // Refresh lại sign in để claims mới được load vào session
-            await _signInManager.RefreshSignInAsync(user);
+            // Sign in lại với claims mới
+            await _signInManager.SignInAsync(user, isPersistent: model.RememberMe);
 
             return await RedirectToAreaForUser(user);
         }

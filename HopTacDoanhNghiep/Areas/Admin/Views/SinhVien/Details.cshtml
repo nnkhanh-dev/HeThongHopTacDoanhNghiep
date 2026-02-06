@@ -1,0 +1,71 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.SinhVien.SinhVienVM>
+@{
+    ViewData["Title"] = "Chi tiết sinh viên";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-newspaper"></i> Chi tiết sinh viên
+        </div>
+        <div class="box-body">          
+            @if (!string.IsNullOrWhiteSpace(Model.Data.AnhThe))
+            {
+                <div class="mb-3">
+                    <strong>Ảnh thẻ:</strong>
+                    <img src = "@Model.Data.AnhThe" alt="Ảnh thẻ">
+                </div>
+            }
+        
+            <div class="mb-3">
+                <strong>Mã sinh viên:</strong>
+                @Model.Data.MaSV
+            </div>
+            <div class="mb-3">
+                <strong>Họ tên:</strong>
+                @Model.Data.HoTen
+            </div>
+            <div class="mb-3">
+                <strong>Ngày sinh:</strong>
+                @Model.Data.NgaySinh?.ToString("dd/MM/yyyy")
+            </div>
+            <div class="mb-3">
+                <strong>Email:</strong>
+                @Model.Data.Email
+            </div>
+            <div class="mb-3">
+                <strong>Số điện thoại:</strong>
+                @Model.Data.SDT
+            </div>
+            <div class="mb-3">
+                <strong>Lớp:</strong>
+                @Model.Data.Lop
+            </div>
+            <div class="mb-3">
+                <strong>Khoa:</strong>
+                @Model.Data.Khoa
+            </div>
+            <div class="mb-3">
+                <strong>Chuyên ngành:</strong>
+                @Model.Data.ChuyenNganh
+            </div>
+            <div class="mb-3">
+                <strong>Tìm việc:</strong>
+                @(Model.Data.TimViec == true ? "Đang tìm việc" : "Hiện tại không có nhu cầu tìm việc")
+            </div>
+            <div class="mb-3">
+                <strong>Ghi chú:</strong>
+                @Model.Data.GhiChu
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="/admin/sinh-vien" class="btn btn-secondary">Quay lại</a>
+                <a href="/admin/sinh-vien/chinh-sua/@Model.Data.Id" class="btn btn-primary">Cập nhật</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/admin/Authentication/authentication.css" rel="stylesheet" />
+}
