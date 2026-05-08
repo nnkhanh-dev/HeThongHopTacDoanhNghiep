@@ -18,7 +18,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
         public async Task<BaseResult<DoanhNghiepVM>> GetDoanhNghiepById(Guid id)
         {
             var doanhNghiep = await _context.DoanhNghieps.AsNoTracking()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.DeletedAt == null)
                 .Select(x => new DoanhNghiepVM
                 {
                     Id = x.Id,
@@ -48,7 +48,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
 
         public async Task<PageResult<DoanhNghiepVM>> GetListDoanhNghiep(int pageIndex = 1, int pageSize = 10, string? keyword = null)
         {
-            var query = _context.DoanhNghieps.AsNoTracking();
+            var query = _context.DoanhNghieps.Where(x => x.DeletedAt == null).AsNoTracking();
 
             if (!string.IsNullOrEmpty(keyword))
             {

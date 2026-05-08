@@ -1,0 +1,171 @@
+﻿@model HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.VietLamCreateVM
+@{
+    ViewData["Title"] = "Tạo việc làm";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> Tạo việc làm
+        </div>
+        <div class="box-body">
+            <form id="multiStepForm" method="post" asp-action="Create" asp-area="Company" asp-controller="ViecLam">
+                @Html.AntiForgeryToken()
+
+                <!-- Step 1: Thông tin cơ bản -->
+                <fieldset class="form-step active" data-step="1">
+                    <h5 class="mb-4"><i class="fa-solid fa-info-circle"></i> Bước 1: Thông tin cơ bản</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="TieuDe"><strong>Tiêu đề</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="TieuDe" class="form-control" placeholder="Nhập tiêu đề việc làm" />
+                        <span asp-validation-for="TieuDe" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><strong>Lĩnh vực</strong> <span class="text-danger">(*)</span></label>
+                        <select id="LinhVucSelect" name="LinhVucId" class="form-select" data-initial-val="@Model?.LinhVucId">
+                        </select>
+                        <span class="text-danger" data-valmsg-for="LinhVucId"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="LoaiViecLam"><strong>Loại việc làm</strong> <span class="text-danger">(*)</span></label>
+                        <select asp-for="LoaiViecLam" class="form-select">
+                            <option value="">Chọn loại</option>
+                            <option value="0">Bán thời gian</option>
+                            <option value="1">Toàn thời gian</option>
+                            <option value="2">Thực tập</option>
+                        </select>
+                        <span asp-validation-for="LoaiViecLam" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DoiTuongUngTuyen"><strong>Đối tượng ứng tuyển</strong> <span class="text-danger">(*)</span></label>
+                        <select asp-for="DoiTuongUngTuyen" class="form-select">
+                            <option value="">Chọn đối tượng</option>
+                            <option value="1">Thực tập sinh</option>
+                            <option value="2">Sinh viên năm cuối</option>
+                            <option value="3">Mới tốt nghiệp</option>
+                            <option value="4">Đã tốt nghiệp</option>
+                        </select>
+                        <span asp-validation-for="DoiTuongUngTuyen" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="TrinhDo"><strong>Trình độ</strong> <span class="text-danger">(*)</span></label>
+                        <select asp-for="TrinhDo" class="form-select">
+                            <option value="">Chọn trình độ</option>
+                            <option value="1">Trung cấp</option>
+                            <option value="2">Cao đẳng</option>
+                            <option value="3">Đại học</option>
+                            <option value="4">Sau đại học</option>
+                        </select>
+                        <span asp-validation-for="TrinhDo" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="LuongToiThieu"><strong>Lương tối thiểu (VNĐ)</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="LuongToiThieu" type="number" class="form-control" placeholder="0" min="0" />
+                        <span asp-validation-for="LuongToiThieu" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="LuongToiDa"><strong>Lương tối đa (VNĐ)</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="LuongToiDa" type="number" class="form-control" placeholder="0" min="0" />
+                        <span asp-validation-for="LuongToiDa" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DiaDiem"><strong>Địa điểm</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="DiaDiem" class="form-control" placeholder="Nhập địa điểm làm việc" />
+                        <span asp-validation-for="DiaDiem" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NgayBatDau"><strong>Ngày bắt đầu</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="NgayBatDau" type="date" class="form-control" />
+                        <span asp-validation-for="NgayBatDau" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NgayHetHan"><strong>Ngày hết hạn</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="NgayHetHan" type="date" class="form-control" />
+                        <span asp-validation-for="NgayHetHan" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Status"><strong>Trạng thái</strong> <span class="text-danger">(*)</span></label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="0">Nháp</option>
+                            <option value="1">Công bố</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="TuKhoa"><strong>Từ khóa</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="TuKhoa" class="form-control" placeholder="Ví dụ: C#, ASP.NET, React,..." />
+                        <span asp-validation-for="TuKhoa" class="text-danger"></span>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary next-step">
+                            Bước tiếp theo <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <a href="/doanh-nghiep/viec-lam" class="btn btn-secondary">Quay lại</a>
+                    </div>
+                </fieldset>
+
+                <!-- Step 2: Chi tiết việc làm -->
+                <fieldset class="form-step" data-step="2">
+                    <h5 class="mb-4"><i class="fa-solid fa-info-circle"></i> Bước 2: Chi tiết việc làm</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="MoTa"><strong>Mô tả công việc</strong> <span class="text-danger">(*)</span></label>
+                        <textarea id="MoTa" asp-for="MoTa" rows="10" class="form-control"></textarea>
+                        <span asp-validation-for="MoTa" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="YeuCau"><strong>Yêu cầu công việc</strong> <span class="text-danger">(*)</span></label>
+                        <textarea id="YeuCau" asp-for="YeuCau" rows="10" class="form-control"></textarea>
+                        <span asp-validation-for="YeuCau" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="QuyenLoi"><strong>Quyền lợi</strong> <span class="text-danger">(*)</span></label>
+                        <textarea id="QuyenLoi" asp-for="QuyenLoi" rows="10" class="form-control"></textarea>
+                        <span asp-validation-for="QuyenLoi" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="UuTien"><strong>Ưu tiên</strong> <span class="text-danger">(*)</span></label>
+                        <textarea id="UuTien" asp-for="UuTien" rows="10" class="form-control"></textarea>
+                        <span asp-validation-for="UuTien" class="text-danger"></span>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary prev-step">
+                            <i class="fa-solid fa-arrow-left"></i> Bước trước đó
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-check"></i> Tạo việc làm
+                        </button>
+                        <a href="/doanh-nghiep/viec-lam" class="btn btn-secondary">Quay lại</a>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/company/ViecLam/ViecLam.js"></script>
+    <script src="/js/company/ViecLam/MultiStepForm.js"></script>
+}
+
+@section Styles {
+    <link href="/css/company/ViecLam/ViecLam.css" rel="stylesheet" />
+    <link href="/css/company/ViecLam/MultiStepForm.css" rel="stylesheet" />
+}

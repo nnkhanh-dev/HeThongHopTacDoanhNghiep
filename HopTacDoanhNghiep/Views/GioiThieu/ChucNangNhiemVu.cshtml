@@ -82,7 +82,12 @@
             })
         </div>
         <div class="col-12 col-xl-3 mt-5 mt-xl-0">
-            @await Html.PartialAsync("_VerticalBanner")
+            <div>
+                @await Html.PartialAsync("_GioiThieuSidebar")
+            </div>
+            <div>
+                @await Html.PartialAsync("_VerticalBanner")
+            </div>
         </div>
     </article>
 </div>

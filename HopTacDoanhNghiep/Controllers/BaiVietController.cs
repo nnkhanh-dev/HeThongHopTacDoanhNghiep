@@ -28,6 +28,8 @@ namespace HopTacDoanhNghiep.Controllers
             {
                 return NotFound();
             }
+            var relatedBaiViet = await _baiViet.GetListRelatedBaiViet(1, 10, baiViet.Data.Slug, null, baiViet.Data.DanhMucSlug);
+            baiViet.Data.BaiVietLienQuan = relatedBaiViet.Records.ToList();
             return View(baiViet);
         }
     }

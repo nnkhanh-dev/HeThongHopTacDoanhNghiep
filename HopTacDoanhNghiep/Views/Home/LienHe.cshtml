@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model HopTacDoanhNghiep.ViewModels.LienHe.LienHeVM
+@inject IConfiguration Configuration
+
 @{
+    ViewData["Title"] = "Liên hệ";
+}
+<div class="breadcrumb-wrap">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Liên hệ</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="contact-form">  
+        <div class="row">
+            <div class="mb-4">
+                <h1 class="title"><i class="fa-solid fa-users-rectangle"></i> Liên hệ</h1>
+                <p class="subtitle">Mọi thắc mắc hoặc mong muốn hợp tác của bạn sẽ được chúng tôi phản hồi sớm nhất có thể !</p>
+            </div>
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <form asp-controller="Home" asp-action="LienHe" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="HoTen"><strong><i class="fa-solid fa-user"></i> Họ và tên</strong></label>
+                        <input type="text" asp-for="HoTen" class="form-control">
+                        <span asp-validation-for="HoTen" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Email"><strong><i class="fa-solid fa-envelope"></i> Email</strong></label>
+                        <input type="text" asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="SDT"><strong><i class="fa-solid fa-phone"></i> Số điện thoại</strong></label>
+                        <input type="text" asp-for="SDT" class="form-control">
+                        <span asp-validation-for="SDT" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="NoiDung"><strong><i class="fa-solid fa-comment"></i> Nội dung</strong></label>
+                        <textarea rows="4" asp-for="NoiDung" class="form-control"></textarea>
+                        <span asp-validation-for="NoiDung" class="text-danger"></span>
+                    </div>
+                    <!-- CAPTCHA -->
+                    <div class="g-recaptcha mb-3"
+                         data-sitekey="@Configuration["GoogleReCaptcha:SiteKey"]">
+                    </div>
+                    <div>
+                        <button type="submit">Gửi</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 col-lg-6">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3469.4462524316514!2d108.20616247460016!3d16.0726022393487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142184930c87765%3A0xf27e1b78c01fbebe!2zMTM2IFRy4bqnbiBDYW8gVsOibiwgWHXDom4gSMOgLCBUaGFuaCBLaMOqLCDEkMOgIE7hurVuZyA1NTAwMDAsIFZp4buHdCBOYW0!5e1!3m2!1svi!2s!4v1771853560296!5m2!1svi!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/contact_page.css" />
+}
+
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 }

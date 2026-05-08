@@ -1,4 +1,5 @@
-﻿using HopTacDoanhNghiep.Data;
+﻿using HopTacDoanhNghiep.Areas.Admin.ViewModels.DoanhNghiep;
+using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Models;
 using HopTacDoanhNghiep.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
@@ -125,6 +126,9 @@ namespace HopTacDoanhNghiep.Controllers
                     
                     if (!string.IsNullOrEmpty(doanhNghiep.Logo))
                         await _userManager.AddClaimAsync(user, new Claim("Avatar", doanhNghiep.Logo));
+
+                    await _userManager.AddClaimAsync(user, new Claim("IdNguoiDung", doanhNghiep.Id.ToString()));
+
                 }
                 else
                 {
@@ -145,6 +149,8 @@ namespace HopTacDoanhNghiep.Controllers
                     
                     if (!string.IsNullOrEmpty(sinhVien.AnhThe))
                         await _userManager.AddClaimAsync(user, new Claim("Avatar", sinhVien.AnhThe));
+
+                    await _userManager.AddClaimAsync(user, new Claim("IdNguoiDung", sinhVien.Id.ToString()));
                 }
                 else
                 {

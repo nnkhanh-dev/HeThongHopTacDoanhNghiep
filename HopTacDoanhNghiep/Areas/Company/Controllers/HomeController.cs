@@ -8,6 +8,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
     public class HomeController : Controller
     {
         [HttpGet("doanh-nghiep/dashboard")]
+        [HttpGet("doanh-nghiep")]
         public IActionResult Index()
         {
             return View();

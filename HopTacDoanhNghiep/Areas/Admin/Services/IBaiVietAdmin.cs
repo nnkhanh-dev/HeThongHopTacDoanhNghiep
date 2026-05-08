@@ -11,6 +11,6 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
         Task<BaseResult<BaiVietVM>> GetBaiVietById(int id);
         Task<BaseResult> CreateBaiViet(BaiVietCreateVM baiViet);
         Task<BaseResult> EditBaiViet(int id, BaiVietEditVM baiViet);
-        Task<BaseResult> DeleteBaiViet(int id);
+        Task<BaseResult> DeleteBaiViet(int id, string deletedBy);
     }
 }

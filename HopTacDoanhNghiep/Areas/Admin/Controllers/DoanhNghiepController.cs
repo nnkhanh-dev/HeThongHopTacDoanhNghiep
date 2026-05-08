@@ -2,6 +2,7 @@
 using HopTacDoanhNghiep.Enums.NhapDuLieu;
 using HopTacDoanhNghiep.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
@@ -53,7 +54,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         [HttpPost("admin/doanh-nghiep/nhap-du-lieu/upload-excel")]
         public async Task<IActionResult> UploadExcel(IFormFile file)
         {
-            var result = await _nhapDuLieu.UploadDoanhNghiepExcel(file);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _nhapDuLieu.UploadDoanhNghiepExcel(file, userId);
             if (!result.IsSuccess)
             {
                 return Json(new { success = false, message = result.Message });

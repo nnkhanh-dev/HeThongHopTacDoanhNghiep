@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HopTacDoanhNghiep.Models
 {
-    [Index(nameof(MaDN), IsUnique = true)]
     public class DoanhNghiep
     {
         [Key]
@@ -30,5 +29,9 @@ namespace HopTacDoanhNghiep.Models
         public DateTime? UpdatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public string? DeletedBy { get; set; }
+
+        public ICollection<ViecLam> ViecLams { get; set; } = new List<ViecLam>();
     }
 }

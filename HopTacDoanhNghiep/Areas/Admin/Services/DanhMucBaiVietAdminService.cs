@@ -33,7 +33,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 Ten = danhMuc.Ten,
                 MoTa = danhMuc.MoTa,
                 Slug = slug,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = danhMuc.CreatedBy
             };
 
             try
@@ -51,7 +52,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
 
         public async Task<BaseResult> EditDanhMucBaiViet(int id, DanhMucBaiVietEditVM danhMuc)
         {
-            var item = await _context.DanhMucBaiViets.FindAsync(id);
+            var item = await _context.DanhMucBaiViets.FirstOrDefaultAsync(x => x.Id == id && x.DeletedAt == null);
 
             if(item == null)
             {
@@ -62,7 +63,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             {
                 var slug = await _slug.GenerateUniqueSlugAsync(
                     danhMuc.Ten,
-                    _context.DanhMucBaiViets.AsNoTracking().Where(x => x.Id != id),
+                    _context.DanhMucBaiViets.AsNoTracking().Where(x => x.Id != id && x.DeletedAt == null),
                     x => x.Slug
                 );
 
@@ -71,7 +72,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
 
             item.MoTa = danhMuc.MoTa;
-            item.UpdatedAt = DateTime.Now;
+            item.UpdatedAt = DateTime.UtcNow;
+            item.UpdatedBy = danhMuc.UpdatedBy;
 
             try
             {
@@ -86,32 +88,40 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> DeleteDanhMucBaiViet(int id)
+        public async Task<BaseResult> DeleteDanhMucBaiViet(int id, string deletedBy)
         {
-            var item = await _context.DanhMucBaiViets.FindAsync(id);
+            var item = await _context.DanhMucBaiViets.FirstOrDefaultAsync(x=> x.Id == id && x.DeletedAt == null);
 
             if (item == null)
             {
                 return BaseResult.Fail("Danh mục bài viết không tồn tại.");
             }
 
-            var hasBaiViet = await _context.BaiViets.AnyAsync(x => x.DanhMucId == id);
+            var hasBaiViet = await _context.BaiViets.AnyAsync(x => x.DanhMucId == id && x.DeletedAt == null);
 
             if (hasBaiViet)
             {
                 return BaseResult.Fail("Không thể xóa danh mục bài viết vì có bài viết liên quan.");
             }
 
-            _context.DanhMucBaiViets.Remove(item);
-            await _context.SaveChangesAsync();
-            return BaseResult.Success("Xóa danh mục bài viết thành công");
+            try
+            {
+                item.DeletedAt = DateTime.UtcNow;
+                item.DeletedBy = deletedBy;
+                await _context.SaveChangesAsync();
+                return BaseResult.Success("Xóa danh mục bài viết thành công");
+            }
+            catch (Exception ex)
+            {
+                return BaseResult.Fail("Đã có lỗi xảy ra khi xóa danh mục bài viết.");
+            }          
         }
 
         public async Task<BaseResult<DanhMucBaiVietVM>> GetDanhMucBaiVietById(int id)
         {
             var result = await _context.DanhMucBaiViets
                 .AsNoTracking()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.DeletedAt == null) 
                 .Select(x => new DanhMucBaiVietVM
                 {
                     Id = x.Id,
@@ -132,7 +142,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
 
         public async Task<PageResult<DanhMucBaiVietVM>> GetListDanhMucBaiViet(int pageIndex = 1, int pageSize = 10, string? keyword = null)
         {
-            var query = _context.DanhMucBaiViets.AsNoTracking();
+            var query = _context.DanhMucBaiViets.AsNoTracking().Where(x => x.DeletedAt == null); 
 
             if (!string.IsNullOrEmpty(keyword))
             {

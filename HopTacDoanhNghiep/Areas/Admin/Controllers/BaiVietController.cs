@@ -8,6 +8,7 @@ using HopTacDoanhNghiep.ViewModels.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HopTacDoanhNghiep.Areas.Admin.Controllers
@@ -67,6 +68,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
             }
 
             model.TacGia = User.FindFirst("FullName")?.Value ?? "Admin";
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            model.CreatedBy = userId;
 
             var result = await _baiViet.CreateBaiViet(model);
 
@@ -124,6 +127,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
                 return View(model);
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            model.UpdatedBy = userId;
             var result = await _baiViet.EditBaiViet(id, model);
 
             if(!result.IsSuccess){
@@ -138,7 +143,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         [HttpDelete("admin/bai-viet/xoa/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _baiViet.DeleteBaiViet(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _baiViet.DeleteBaiViet(id, userId);
 
             if (!result.IsSuccess)
             {

@@ -1,0 +1,19 @@
+﻿@{
+    var path = Context.Request.Path.Value?.ToLowerInvariant() ?? string.Empty;
+    bool IsActive(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return false;
+        url = url.ToLowerInvariant();
+        return path == url || path.StartsWith(url + "/");
+    }
+}
+
+<div class="sidemenu">
+    <h3 class="title">Danh mục</h3>
+    <ul class="menu">
+        <li class="@(IsActive("/gioi-thieu/gioi-thieu-chung") ? "active" : "")"><a href="/gioi-thieu/gioi-thieu-chung">Giới Thiệu Chung</a></li>
+        <li class="@(IsActive("/gioi-thieu/qua-trinh-hinh-thanh-phat-trien") ? "active" : "")"><a href="/gioi-thieu/qua-trinh-hinh-thanh-phat-trien">Quá Trình Hình Thành & Phát Triển</a></li>
+        <li class="@(IsActive("/gioi-thieu/chuc-nang-nhiem-vu") ? "active" : "")"><a href="/gioi-thieu/chuc-nang-nhiem-vu">Chức Năng Nhiệm Vụ</a></li>
+        <li class="@(IsActive("/gioi-thieu/doi-ngu-can-bo") ? "active" : "")"><a href="/gioi-thieu/doi-ngu-can-bo">Đội Ngũ Cán Bộ</a></li>
+    </ul>
+</div>

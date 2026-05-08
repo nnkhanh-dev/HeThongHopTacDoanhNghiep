@@ -93,6 +93,7 @@
     width: 100%;
     object-fit: cover;
     object-position: center;
+    transition: var(--transition-normal);
 }
 
 .metadata {
@@ -131,3 +132,7 @@
     margin: var(--spacing-sm) auto;
 }
 
+.related-item a {
+    text-decoration: none;
+    color: var(--dark-color);
+}

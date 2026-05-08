@@ -14,23 +14,13 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             _context = context;
         }
 
-        public async Task<PageResult<SinhVienVM>> GetListSinhVien(int pageIndex = 1, int pageSize = 10, string? keyword = null, string? khoa = null, string? chuyenNganh = null)
+        public async Task<PageResult<SinhVienVM>> GetListSinhVien(int pageIndex = 1, int pageSize = 10, string? keyword = null)
         {
-            var query = _context.SinhViens.AsNoTracking();
+            var query = _context.SinhViens.Where(x => x.DeletedAt == null).AsNoTracking();
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(sv => sv.HoTen.Contains(keyword) || sv.MaSV.Contains(keyword) || sv.Khoa.Contains(keyword) || sv.ChuyenNganh.Contains(keyword));
-            }
-
-            if (!string.IsNullOrEmpty(khoa))
-            {
-                query = query.Where(sv => sv.Khoa == khoa);
-            }
-
-            if (!string.IsNullOrEmpty(chuyenNganh))
-            {
-                query = query.Where(sv => sv.ChuyenNganh == chuyenNganh);
+                query = query.Where(sv => sv.HoTen.Contains(keyword) || sv.MaSV.Contains(keyword) || sv.Email.Contains(keyword));
             }
 
             var totalRecords = await query.CountAsync();
@@ -47,9 +37,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                     Id = sv.Id,
                     HoTen = sv.HoTen,
                     MaSV = sv.MaSV,
-                    Lop = sv.Lop,
-                    Khoa = sv.Khoa,
-                    ChuyenNganh = sv.ChuyenNganh
+                    NgaySinh = sv.NgaySinh,
+                    Email = sv.Email,
+                    SDT = sv.SDT
                 })
                 .ToListAsync();
 
@@ -66,18 +56,15 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
         public async Task<BaseResult<SinhVienVM>> GetSinhVienById(Guid id)
         {
             var sinhVien = await _context.SinhViens.AsNoTracking()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.DeletedAt == null)
                 .Select(x => new SinhVienVM
                 {
                     Id = x.Id,
                     HoTen = x.HoTen,
                     MaSV = x.MaSV,
                     NgaySinh = x.NgaySinh,
-                    Lop = x.Lop,
-                    Khoa = x.Khoa,
                     Email = x.Email,
                     SDT = x.SDT,
-                    ChuyenNganh = x.ChuyenNganh,
                     AnhThe = x.AnhThe,
                     TimViec = x.TimViec,
                     GhiChu = x.GhiChu

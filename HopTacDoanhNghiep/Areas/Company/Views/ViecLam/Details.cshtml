@@ -1,0 +1,210 @@
+﻿@using HopTacDoanhNghiep.Enums.ViecLam
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.VietLamVM>
+@{
+    ViewData["Title"] = "Chi tiết việc làm";
+    var isValid = Model.Data.NgayBatDau <= DateTime.UtcNow && Model.Data.NgayHetHan >= DateTime.UtcNow;
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> Chi tiết việc làm
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <strong>Tiêu đề:</strong>
+                        <p>@Model.Data.TieuDe</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <strong>Lĩnh vực:</strong>
+                        <p>@Model.Data.LinhVuc</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <strong>Loại việc làm:</strong>
+                        <p>
+                            @switch (Model.Data.LoaiViecLam)
+                            {
+                                case ViecLamType.BanThoiGian:
+                                    <span class="badge bg-warning text-dark">Bán thời gian</span>
+                                    break;
+                                case ViecLamType.ToanThoiGian:
+                                    <span class="badge bg-primary">Toàn thời gian</span>
+                                    break;
+                                case ViecLamType.ThucTap:
+                                    <span class="badge bg-info">Thực tập</span>
+                                    break;
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <strong>Đối tượng:</strong>
+                        <p>
+                            @switch (Model.Data.DoiTuongUngTuyen)
+                            {
+                                case DoiTuongUngTuyen.ThucTapSinh:
+                                    <span>Thực tập sinh</span>
+                                    break;
+                                case DoiTuongUngTuyen.SinhVienNamCuoi:
+                                    <span>Sinh viên năm cuối</span>
+                                    break;
+                                case DoiTuongUngTuyen.MoiTotNghiep:
+                                    <span>Mới tốt nghiệp</span>
+                                    break;
+                                case DoiTuongUngTuyen.DaTotNghiep:
+                                    <span>Đã tốt nghiệp</span>
+                                    break;
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <strong>Trình độ:</strong>
+                        <p>
+                            @switch (Model.Data.TrinhDo)
+                            {
+                                case TrinhDoType.TrungCap:
+                                    <span>Trung cấp</span>
+                                    break;
+                                case TrinhDoType.CaoDang:
+                                    <span>Cao đẳng</span>
+                                    break;
+                                case TrinhDoType.DaiHoc:
+                                    <span>Đại học</span>
+                                    break;
+                                case TrinhDoType.SauDaiHoc:
+                                    <span>Sau đại học</span>
+                                    break;
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <strong>Trạng thái:</strong>
+                        <p>
+                            @switch (Model.Data.Status)
+                            {
+                                case ViecLamStatus.Nhap:
+                                    <span class="badge bg-secondary">Nháp</span>
+                                    break;
+                                case ViecLamStatus.CongBo:
+                                    <span class="badge bg-success">Công bố</span>
+                                    break;
+                                case ViecLamStatus.An:
+                                    <span class="badge bg-danger">Ẩn</span>
+                                    break;
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <strong>Lương:</strong>
+                        <p>@((Model.Data.LuongToiThieu?.ToString("N0") ?? "0") + " - " + (Model.Data.LuongToiDa?.ToString("N0") ?? "0")) VNĐ</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <strong>Địa điểm:</strong>
+                        <p>@Model.Data.DiaDiem</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <strong>Hiệu lực:</strong>
+                        <p>
+                            @if (isValid)
+                            {
+                                <span class="badge bg-success">Còn hiệu lực</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Hết hiệu lực</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <strong>Ngày bắt đầu:</strong>
+                        <p>@Model.Data.NgayBatDau?.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <strong>Ngày hết hạn:</strong>
+                        <p>@Model.Data.NgayHetHan?.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Data.TuKhoa))
+            {
+                <div class="mb-3">
+                    <strong>Từ khóa:</strong>
+                    <p>@Model.Data.TuKhoa</p>
+                </div>
+            }
+
+            <hr/>
+
+            <div class="mb-3">
+                <strong>Mô tả công việc:</strong>
+                <div class="content-box">
+                    @Html.Raw(Model.Data.MoTa)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Yêu cầu công việc:</strong>
+                <div class="content-box">
+                    @Html.Raw(Model.Data.YeuCau)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Quyền lợi:</strong>
+                <div class="content-box">
+                    @Html.Raw(Model.Data.QuyenLoi)
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Data.UuTien))
+            {
+                <div class="mb-3">
+                    <strong>Ưu tiên:</strong>
+                    <div class="content-box">
+                        @Html.Raw(Model.Data.UuTien)
+                    </div>
+                </div>
+            }
+
+            <div class="d-flex gap-2">
+                <a href="/doanh-nghiep/viec-lam" class="btn btn-secondary">Quay lại</a>
+                <a href="/doanh-nghiep/viec-lam/chinh-sua/@Model.Data.Id" class="btn btn-primary">Cập nhật</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/company/ViecLam/ViecLam.css" rel="stylesheet" />
+}

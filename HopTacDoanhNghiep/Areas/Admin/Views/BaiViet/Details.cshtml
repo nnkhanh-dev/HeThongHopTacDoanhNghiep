@@ -50,6 +50,11 @@
                 </div>
             }
 
+            <div class="mb-3">
+                <strong>Từ khóa:</strong>
+                @(string.IsNullOrWhiteSpace(Model.Data.TuKhoa) ? "-" : Model.Data.TuKhoa)
+            </div>
+
             <hr>
            
             <div class="mb-3">

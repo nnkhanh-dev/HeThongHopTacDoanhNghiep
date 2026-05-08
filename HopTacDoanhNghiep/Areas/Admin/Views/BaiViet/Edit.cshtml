@@ -55,6 +55,12 @@
                     <span asp-validation-for="NoiDung" class="text-danger"></span>
                 </div>
 
+                <div class="mb-3">
+                    <label asp-for="TuKhoa"><strong>Từ khóa</strong></label>
+                    <input asp-for="TuKhoa" class="form-control" />
+                    <span asp-validation-for="TuKhoa" class="text-danger"></span>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
                 <a href="/admin/bai-viet" class="btn btn-secondary">Quay lại</a>
             </form>

@@ -19,7 +19,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet
         [Required(ErrorMessage = "Danh mục bài viết là bắt buộc")]
         public int DanhMucId { get; set; }
         [Required(ErrorMessage = "Trạng thái là bắt buộc")]
-
-        public BaiVietStatus TrangThai { get; set; } 
+        public BaiVietStatus TrangThai { get; set; }
+        public string? UpdatedBy { get; set; }
+        public string? TuKhoa { get; set; }
     }
 }

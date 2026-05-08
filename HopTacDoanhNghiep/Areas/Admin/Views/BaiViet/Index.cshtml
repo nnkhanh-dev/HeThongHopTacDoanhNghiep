@@ -14,63 +14,12 @@
         </div>
         <div class="box-body">
             <div class="mb-4">
-                <div class="row">
-                    <div class="col-12">
-                        <a href="/admin/bai-viet/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Filters -->
-            <div class="card mb-3 p-3">
-                <form method="get" action="/admin/bai-viet">
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <input type="text"
-                                   class="form-control"
-                                   name="keyword"
-                                   placeholder="Tìm kiếm..."
-                                   value="@Context.Request.Query["keyword"]">
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-select" id="DanhMucFilter" name="danhMucId">
-                                <option value="">Tất cả danh mục</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-select" name="status">
-                                <option value="">Tất cả trạng thái</option>
-                                <option value="0" selected="@(statusFilter == "0")">Nháp</option>
-                                <option value="1" selected="@(statusFilter == "1")">Đã xuất bản</option>
-                                <option value="2" selected="@(statusFilter == "2")">Đã thu hồi</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-search"></i> Tìm kiếm
-                            </button>
-                            @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) ||
-                                                        !string.IsNullOrEmpty(statusFilter) ||
-                                                        !string.IsNullOrEmpty(danhMucFilter))
-                            {
-                                <a href="/admin/bai-viet" class="btn btn-secondary">
-                                    <i class="fa-solid fa-times"></i> Xóa bộ lọc
-                                </a>
-                            }
-                        </div>
-                    </div>
-
-                    @* Giữ pageSize nếu có *@
-                    @if (!string.IsNullOrEmpty(Context.Request.Query["pageSize"]))
-                    {
-                        <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
-                    }
-                </form>
+                <a href="/admin/bai-viet/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#filterModal">
+                    <i class="fa-solid fa-filter"></i> Bộ lọc
+                </button>
             </div>
             
-
             <div class="table-responsive mb-3">
                 <table class="htdn-table">
                     <thead>
@@ -133,6 +82,64 @@
             </div>
             <div class="pagination-wrapper">
                 @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="filterModalLabel"><i class="fa-solid fa-filter"></i> Bộ lọc</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="get" action="/admin/bai-viet">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <input type="text"
+                                   class="form-control"
+                                   name="keyword"
+                                   placeholder="Tìm kiếm..."
+                                   value="@Context.Request.Query["keyword"]">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <select class="form-select" id="DanhMucFilter" name="danhMucId">
+                                <option value="">Tất cả danh mục</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <select class="form-select" name="status">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="0" selected="@(statusFilter == "0")">Nháp</option>
+                                <option value="1" selected="@(statusFilter == "1")">Đã xuất bản</option>
+                                <option value="2" selected="@(statusFilter == "2")">Đã thu hồi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-search"></i> Tìm kiếm
+                            </button>
+                            @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) ||
+                                                        !string.IsNullOrEmpty(statusFilter) ||
+                                                        !string.IsNullOrEmpty(danhMucFilter))
+                            {
+                                <a href="/admin/bai-viet" class="btn btn-secondary">
+                                    <i class="fa-solid fa-times"></i> Xóa bộ lọc
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    @* Giữ pageSize nếu có *@
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["pageSize"]))
+                    {
+                        <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+                    }
+                </form>
             </div>
         </div>
     </div>

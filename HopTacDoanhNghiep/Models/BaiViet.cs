@@ -13,6 +13,7 @@ namespace HopTacDoanhNghiep.Models
         public string TacGia { get; set; }
         public string NoiDung { get; set; }
         public string Slug { get; set; }
+        public string? TuKhoa { get; set; }
         public BaiVietStatus TrangThai { get; set; }
         public int DanhMucId { get; set; }
         [ForeignKey(nameof(DanhMucId))]
@@ -21,5 +22,7 @@ namespace HopTacDoanhNghiep.Models
         public DateTime? UpdatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public string? DeletedBy { get; set; }
     }
 }

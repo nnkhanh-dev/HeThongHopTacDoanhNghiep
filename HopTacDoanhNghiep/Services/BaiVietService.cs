@@ -21,7 +21,7 @@ namespace HopTacDoanhNghiep.Services
         {
             var item = await _context.BaiViets
                 .AsNoTracking()
-                .Where(x => x.Slug == slug && x.TrangThai == BaiVietStatus.XuatBan)
+                .Where(x => x.Slug == slug && x.TrangThai == BaiVietStatus.XuatBan && x.DeletedAt == null)
                 .Select(x => new BaiVietVM
                 {
                     TieuDe = x.TieuDe,
@@ -48,7 +48,7 @@ namespace HopTacDoanhNghiep.Services
         {
             var item = await _context.DanhMucBaiViets
                 .AsNoTracking()
-                .Where(x => x.Slug == slug)
+                .Where(x => x.Slug == slug && x.DeletedAt == null)
                 .Select(x => new DanhMucBaiVietVM
                 {
                     Ten = x.Ten,
@@ -67,7 +67,7 @@ namespace HopTacDoanhNghiep.Services
 
         public async Task<PageResult<BaiVietVM>> GetListBaiViet(int pageIndex, int pageSize, string? keyword, string? danhMucSlug)
         {
-            var query = _context.BaiViets.AsNoTracking().Where(x => x.TrangThai == BaiVietStatus.XuatBan);
+            var query = _context.BaiViets.AsNoTracking().Where(x => x.TrangThai == BaiVietStatus.XuatBan && x.DeletedAt == null);
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
@@ -76,7 +76,15 @@ namespace HopTacDoanhNghiep.Services
 
             if (!string.IsNullOrWhiteSpace(danhMucSlug))
             {
-                query = query.Where(x => x.DanhMuc.Slug == danhMucSlug);
+                if (danhMucSlug == "bai-viet")
+                {
+                    query = query.Where(x => x.DanhMuc.Slug != "tin-tuc"
+                                          && x.DanhMuc.Slug != "thong-bao");
+                }
+                else
+                {
+                    query = query.Where(x => x.DanhMuc.Slug == danhMucSlug);
+                }
             }
 
             var totalRecords = await query.CountAsync();
@@ -123,6 +131,47 @@ namespace HopTacDoanhNghiep.Services
             return text.Length <= maxLength
                 ? text
                 : text.Substring(0, maxLength) + "…";
+        }
+
+        public async Task<PageResult<BaiVietVM>> GetListRelatedBaiViet(int pageIndex, int pageSize, string baiVietSlug ,string? keyword, string? danhMucSlug)
+        {
+            var query = _context.BaiViets.AsNoTracking().Where(x => x.TrangThai == BaiVietStatus.XuatBan && x.DeletedAt == null && x.Slug != baiVietSlug);
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(x => x.TieuDe.Contains(keyword) || x.NoiDung.Contains(keyword));
+            }
+
+            if (!string.IsNullOrWhiteSpace(danhMucSlug))
+            {
+                query = query.Where(x => x.DanhMuc.Slug == danhMucSlug);
+            }
+
+            var totalRecords = await query.CountAsync();
+
+            var list = await query.OrderByDescending(x => x.CreatedAt)
+                                    .Skip((pageIndex - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .Select(x => new BaiVietVM
+                                    {
+                                        TieuDe = x.TieuDe,
+                                        AnhMinhHoa = x.AnhMinhHoa,
+                                        TacGia = x.TacGia,
+                                        NoiDung = StripHtml(x.NoiDung, 200),
+                                        Slug = x.Slug,
+                                        DanhMuc = x.DanhMuc.Ten,
+                                        DanhMucSlug = x.DanhMuc.Slug,
+                                        CreatedAt = x.CreatedAt
+                                    })
+                                    .ToListAsync();
+
+            return new PageResult<BaiVietVM>
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalRecords = totalRecords,
+                Records = list
+            };
         }
     }  
 

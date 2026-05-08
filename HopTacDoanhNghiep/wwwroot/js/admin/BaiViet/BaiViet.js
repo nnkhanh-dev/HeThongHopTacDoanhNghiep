@@ -30,6 +30,7 @@ function initDanhMucSelect() {
     $select.select2({
         theme: 'bootstrap-5',
         width: '100%',
+        dropdownParent: $select.closest('.modal').length ? $select.closest('.modal') : $(document.body),
         placeholder: 'Chọn danh mục',
         allowClear: true,
         ajax: {
@@ -150,6 +151,7 @@ function initSelect2ForDanhMucFilter($filter) {
     $filter.select2({
         theme: 'bootstrap-5',
         width: '100%',
+        dropdownParent: $filter.closest('.modal').length ? $filter.closest('.modal') : $(document.body),
         placeholder: 'Tất cả danh mục',
         allowClear: true,
         ajax: {
@@ -220,6 +222,7 @@ function initStatusFilter() {
     $statusFilter.select2({
         theme: 'bootstrap-5',
         width: '100%',
+        dropdownParent: $statusFilter.closest('.modal').length ? $statusFilter.closest('.modal') : $(document.body),
         placeholder: 'Tất cả trạng thái',
         allowClear: true,
         minimumResultsForSearch: Infinity // Hide search box for simple select

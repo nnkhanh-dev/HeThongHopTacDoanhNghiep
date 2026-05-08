@@ -52,9 +52,11 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                     TacGia = baiViet.TacGia ?? "Admin",
                     NoiDung = baiViet.NoiDung,
                     Slug = slug,
+                    TuKhoa = baiViet.TuKhoa ?? "",
                     TrangThai = baiViet.TrangThai,
                     DanhMucId = baiViet.DanhMucId ?? 0,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = baiViet.CreatedBy
                 };
 
                 _context.BaiViets.Add(entity);
@@ -68,9 +70,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> DeleteBaiViet(int id)
+        public async Task<BaseResult> DeleteBaiViet(int id, string deletedBy)
         {
-            var item = await _context.BaiViets.FindAsync(id);
+            var item = await _context.BaiViets.FirstOrDefaultAsync(x => x.Id == id && x.DeletedAt == null);
 
             if(item == null)
             {
@@ -79,8 +81,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
 
             try
             {
-                _context.BaiViets.Remove(item);
-
+                item.DeletedAt = DateTime.UtcNow;
+                item.DeletedBy = deletedBy;
                 await _context.SaveChangesAsync();
 
                 return BaseResult.Success("Xóa bài viết thành công");
@@ -96,7 +98,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             if (baiViet == null)
                 return BaseResult.Fail("Dữ liệu bài viết không hợp lệ");
 
-            var item = await _context.BaiViets.FindAsync(id);
+            var item = await _context.BaiViets.FirstOrDefaultAsync(x => x.Id == id && x.DeletedAt == null);
             if (item == null)
                 return BaseResult.Fail("Bài viết không tồn tại");
 
@@ -119,6 +121,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 item.DanhMucId = baiViet.DanhMucId;
                 item.TrangThai = baiViet.TrangThai;
                 item.UpdatedAt = DateTime.UtcNow;
+                item.UpdatedBy = baiViet.UpdatedBy;
+                item.TuKhoa = baiViet.TuKhoa ?? "";
 
                 if (baiViet.AnhMinhHoa != null)
                 {
@@ -144,7 +148,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
         {
             var item = await _context.BaiViets
                 .AsNoTracking()
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id && x.DeletedAt == null)
                 .Select(x => new BaiVietVM
                 {
                     Id = x.Id,
@@ -153,10 +157,12 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                     TacGia = x.TacGia,
                     NoiDung = x.NoiDung,
                     Slug = x.Slug,
+                    TuKhoa = x.TuKhoa,
                     TrangThai = x.TrangThai,
                     DanhMucId = x.DanhMucId,
                     DanhMuc = x.DanhMuc.Ten,
-                    CreatedAt = x.CreatedAt
+                    CreatedAt = x.CreatedAt,
+                    DeletedAt = x.DeletedAt
                 })
                 .FirstOrDefaultAsync();
 
@@ -170,7 +176,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
 
         public async Task<PageResult<BaiVietVM>> GetListBaiViet(int pageIndex, int pageSize, string? keyword, int? danhMucId = null, BaiVietStatus? status = null)
         {
-            var query = _context.BaiViets.AsNoTracking();
+            var query = _context.BaiViets.Where(x => x.DeletedAt == null).AsNoTracking();
 
             if (!string.IsNullOrEmpty(keyword))
             {

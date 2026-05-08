@@ -118,11 +118,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                         HoTen = row.Cell(1).GetValue<string>().Trim(),
                         MaSV = row.Cell(2).GetValue<string>().Trim(),
                         NgaySinhRaw = row.Cell(3).GetValue<string>().Trim(),
-                        Lop = row.Cell(4).GetValue<string>().Trim(),
-                        Khoa = row.Cell(5).GetValue<string>().Trim(),
-                        Email = row.Cell(6).GetValue<string>().Trim(),
-                        SDT = row.Cell(7).GetValue<string>().Trim(),
-                        ChuyenNganh = row.Cell(8).GetValue<string>().Trim()
+                        Email = row.Cell(4).GetValue<string>().Trim(),
+                        SDT = row.Cell(5).GetValue<string>().Trim()
                     })
                     .ToList();
 
@@ -163,12 +160,6 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                         errors.Add("Ngày sinh không đúng định dạng (dd/MM/yyyy)");
                     };
 
-                    if (string.IsNullOrWhiteSpace(row.Lop))
-                        errors.Add("Lớp không được để trống");
-
-                    if (string.IsNullOrWhiteSpace(row.Khoa))
-                        errors.Add("Khoa không được để trống");
-
                     if (string.IsNullOrWhiteSpace(row.Email))
                         errors.Add("Email không được để trống");
                     else if (!IsValidEmail(row.Email))
@@ -178,9 +169,6 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                         errors.Add("Số điện thoại không được để trống");
                     else if (!IsValidPhoneNumber(row.SDT))
                         errors.Add("Số điện thoại không đúng định dạng (10-11 số)");
-
-                    if (string.IsNullOrWhiteSpace(row.ChuyenNganh))
-                        errors.Add("Chuyên ngành không được để trống");
 
                     if (errors.Any())
                     {
@@ -230,11 +218,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                                     "dd/MM/yyyy",
                                     CultureInfo.InvariantCulture
                                 ),
-                                Lop = row.Lop,
-                                Khoa = row.Khoa,
                                 Email = row.Email,
                                 SDT = row.SDT,
-                                ChuyenNganh = row.ChuyenNganh,
                                 NguoiDungId = appUser.Id,
                                 TimViec = false,
                                 CreatedAt = DateTime.Now,
@@ -289,7 +274,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> UploadSinhVienExcel(IFormFile file)
+        public async Task<BaseResult> UploadSinhVienExcel(IFormFile file, string uploadById)
         {
             if (file == null || file.Length == 0)
                 return BaseResult.Fail("File không hợp lệ");
@@ -314,14 +299,14 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 DuongDanFileGoc = uploadResult.FilePath ?? string.Empty,
                 TrangThai = NhapDuLieuStatus.ChoXuLy,
                 CreatedAt = DateTime.Now,
-                CreatedBy = "admin" 
+                CreatedBy = uploadById
             };
 
             _context.LichSuNhapDuLieus.Add(history);
             await _context.SaveChangesAsync();
 
             // 3. Enqueue Hangfire job
-            BackgroundJob.Enqueue<INhapDuLieuAdmin>(
+            BackgroundJob.Enqueue<NhapDuLieuAdminService>(
                 x => x.ProcessSinhVienExcel(history.Id)
             );
 
@@ -374,13 +359,10 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 worksheet.Cell(1, 1).Value = "Họ tên";
                 worksheet.Cell(1, 2).Value = "Mã SV";
                 worksheet.Cell(1, 3).Value = "Ngày sinh";
-                worksheet.Cell(1, 4).Value = "Lớp";
-                worksheet.Cell(1, 5).Value = "Khoa";
-                worksheet.Cell(1, 6).Value = "Email";
-                worksheet.Cell(1, 7).Value = "SĐT";
-                worksheet.Cell(1, 8).Value = "Chuyên ngành";
-                worksheet.Cell(1, 9).Value = "Dòng dữ liệu";
-                worksheet.Cell(1, 10).Value = "Lỗi";
+                worksheet.Cell(1, 4).Value = "Email";
+                worksheet.Cell(1, 5).Value = "SĐT";
+                worksheet.Cell(1, 6).Value = "Dòng dữ liệu";
+                worksheet.Cell(1, 7).Value = "Lỗi";
 
                 // Style headers
                 var headerRow = worksheet.Row(1);
@@ -394,13 +376,10 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                     worksheet.Cell(row, 1).Value = invalidRow.HoTen;
                     worksheet.Cell(row, 2).Value = invalidRow.MaSV;
                     worksheet.Cell(row, 3).Value = invalidRow.NgaySinhRaw;
-                    worksheet.Cell(row, 4).Value = invalidRow.Lop;
-                    worksheet.Cell(row, 5).Value = invalidRow.Khoa;
-                    worksheet.Cell(row, 6).Value = invalidRow.Email;
-                    worksheet.Cell(row, 7).Value = invalidRow.SDT;
-                    worksheet.Cell(row, 8).Value = invalidRow.ChuyenNganh;
-                    worksheet.Cell(row, 9).Value = invalidRow.RowNumber;
-                    worksheet.Cell(row, 10).Value = invalidRow.ErrorMessage;
+                    worksheet.Cell(row, 4).Value = invalidRow.Email;
+                    worksheet.Cell(row, 5).Value = invalidRow.SDT;
+                    worksheet.Cell(row, 6).Value = invalidRow.RowNumber;
+                    worksheet.Cell(row, 7).Value = invalidRow.ErrorMessage;
                     
                     // Highlight error rows
                     worksheet.Row(row).Style.Fill.BackgroundColor = XLColor.LightPink;
@@ -424,7 +403,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> UploadDoanhNghiepExcel(IFormFile file)
+        public async Task<BaseResult> UploadDoanhNghiepExcel(IFormFile file, string uploadById)
         {
             if (file == null || file.Length == 0)
                 return BaseResult.Fail("File không hợp lệ");
@@ -449,14 +428,14 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 DuongDanFileGoc = uploadResult.FilePath ?? string.Empty,
                 TrangThai = NhapDuLieuStatus.ChoXuLy,
                 CreatedAt = DateTime.Now,
-                CreatedBy = "admin"
+                CreatedBy = uploadById
             };
 
             _context.LichSuNhapDuLieus.Add(history);
             await _context.SaveChangesAsync();
 
             // 3. Enqueue Hangfire job
-            BackgroundJob.Enqueue<INhapDuLieuAdmin>(
+            BackgroundJob.Enqueue<NhapDuLieuAdminService>(
                 x => x.ProcessDoanhNghiepExcel(history.Id)
             );
 

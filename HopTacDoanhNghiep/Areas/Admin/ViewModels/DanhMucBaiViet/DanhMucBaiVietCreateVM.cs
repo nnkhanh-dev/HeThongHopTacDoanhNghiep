@@ -7,5 +7,6 @@ namespace HopTacDoanhNghiep.Areas.Admin.ViewModels.DanhMucBaiViet
         [Required(ErrorMessage = "Tên danh mục bài viết không được để trống")]
         public string Ten { get; set; }
         public string? MoTa { get; set; }
+        public string? CreatedBy { get; set; }
     }
 }

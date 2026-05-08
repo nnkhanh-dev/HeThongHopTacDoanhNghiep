@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HopTacDoanhNghiep.Models
 {
-    [Index(nameof(MaSV), IsUnique = true)]
     public class SinhVien
     {
         [Key]
@@ -14,11 +13,8 @@ namespace HopTacDoanhNghiep.Models
         public string HoTen { get; set; }
         public string MaSV { get; set; }
         public DateTime NgaySinh { get; set; }
-        public string Lop { get; set; }
-        public string Khoa { get; set; }
         public string Email { get; set; }
         public string SDT { get; set; }
-        public string ChuyenNganh { get; set; }
         public string NguoiDungId { get; set; }
         public string? AnhThe { get; set; }
         public bool TimViec { get; set; } = false;
@@ -29,5 +25,10 @@ namespace HopTacDoanhNghiep.Models
         public DateTime? UpdatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public string? DeletedBy { get; set; }
+
+        public ICollection<SinhVienViecLam> SinhVienViecLams { get; set; }
+        public ICollection<LuuTru> LuuTrus { get; set; }
     }
 }

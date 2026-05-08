@@ -1,0 +1,66 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.LinhVuc.LinhVucVM>
+
+@{
+    ViewData["Title"] = "Quản lý lĩnh vực";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> Quản lý lĩnh vực
+        </div>
+        <div class="box-body">
+            <div class="mb-4">
+                <a href="/admin/linh-vuc/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
+            </div>
+            @await Html.PartialAsync("_Search")
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th style="width:40%">Tên lĩnh vực</th>
+                            <th style="width:40%">Mô tả</th>
+                            <th style="width:20%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.Ten</td>
+                                    <td>@(string.IsNullOrWhiteSpace(item.MoTa) ? "N/A" : item.MoTa)</td>
+                                    <td>
+                                        <a href="/admin/linh-vuc/chi-tiet/@item.Id" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                        <a href="/admin/linh-vuc/chinh-sua/@item.Id" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit"></i> Sửa
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" onclick="DeleteLinhVuc(@item.Id, '@item.Ten')">
+                                            <i class="fa-solid fa-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/admin/LinhVuc/LinhVuc.js"></script>
+}

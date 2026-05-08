@@ -1,0 +1,69 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.Nganh.NganhVM>
+
+@{
+    ViewData["Title"] = "Quản lý ngành";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-graduation-cap"></i> Quản lý ngành
+        </div>
+        <div class="box-body">
+            <div class="mb-4">
+                <a href="/admin/nganh/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
+            </div>
+            @await Html.PartialAsync("_Search")
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th style="width:20%">Mã ngành</th>
+                            <th style="width:30%">Tên ngành</th>
+                            <th style="width:30%">Tên chuyên ngành</th>
+                            <th style="width:20%">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.MaNganh</td>
+                                    <td>@item.TenNganh</td>
+                                    <td>@(string.IsNullOrWhiteSpace(item.TenChuyenNganh) ? "N/A" : item.TenChuyenNganh)</td>
+                                    <td>
+                                        <a href="/admin/nganh/chi-tiet/@item.Id" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                        <a href="/admin/nganh/chinh-sua/@item.Id" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit"></i> Sửa
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" onclick="DeleteNganh(@item.Id, '@item.TenNganh')">
+                                            <i class="fa-solid fa-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="/js/admin/Nganh/Nganh.js"></script>
+}

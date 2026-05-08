@@ -1,0 +1,27 @@
+﻿@{
+    var path = Context.Request.Path.Value?.ToLowerInvariant() ?? string.Empty;
+    bool IsActive(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return false;
+        url = url.ToLowerInvariant();
+        return path == url || path.StartsWith(url + "/");
+    }
+}
+
+<div class="sidemenu">
+    <h3 class="title">Danh mục</h3>
+    <ul class="menu">
+        <li class="@(IsActive("/tu-van-huong-nghiep/cam-nang") ? "active" : "")">
+            <a href="/tu-van-huong-nghiep/cam-nang">Cẩm Nang</a>
+        </li>
+        <li class="@(IsActive("/tu-van-huong-nghiep/ute-khoi-nghiep") ? "active" : "")">
+            <a href="/tu-van-huong-nghiep/ute-khoi-nghiep">UTE Khởi Nghiệp</a>
+        </li>
+        <li class="@(IsActive("/tu-van-huong-nghiep/phat-trien-nghe-nghiep") ? "active" : "")">
+            <a href="/tu-van-huong-nghiep/phat-trien-nghe-nghiep">Phát Triển Nghề Nghiệp</a>
+        </li>
+        <li class="@(IsActive("/tu-van-huong-nghiep/huan-luyen-ky-nang") ? "active" : "")">
+            <a href="/tu-van-huong-nghiep/huan-luyen-ky-nang">Huấn Luyện Kỹ Năng</a>
+        </li>
+    </ul>
+</div>

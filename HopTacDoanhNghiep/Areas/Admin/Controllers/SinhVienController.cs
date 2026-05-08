@@ -1,6 +1,7 @@
 ﻿using HopTacDoanhNghiep.Areas.Admin.Services;
 using HopTacDoanhNghiep.Enums.NhapDuLieu;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HopTacDoanhNghiep.Areas.Admin.Controllers
@@ -18,11 +19,11 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         }
 
         [HttpGet("admin/sinh-vien")]
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string? keyword = null, string? khoa = null, string? chuyenNganh = null)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string? keyword = null)
         {
             if(pageIndex < 1) pageIndex = 1;
             if(pageSize < 1) pageSize = 10;
-            var sinhViens = await _sinhVien.GetListSinhVien(pageIndex, pageSize, keyword, khoa, chuyenNganh);
+            var sinhViens = await _sinhVien.GetListSinhVien(pageIndex, pageSize, keyword);
             return View(sinhViens);
         }
 
@@ -50,7 +51,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         [HttpPost("admin/sinh-vien/nhap-du-lieu/upload-excel")]
         public async Task<IActionResult> UploadExcel(IFormFile file)
         {
-            var result = await _nhapDuLieu.UploadSinhVienExcel(file);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _nhapDuLieu.UploadSinhVienExcel(file, userId);
             if (!result.IsSuccess)
             {
                 return Json(new { success = false, message = result.Message });

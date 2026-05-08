@@ -1,0 +1,142 @@
+﻿@using HopTacDoanhNghiep.Enums.ViecLam
+@using HopTacDoanhNghiep.ViewModels.Common
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.ViewModels.ViecLam.ViecLamVM>
+@{
+    var data = Model.Data;
+    ViewData["Title"] = Model.Data?.TieuDe;
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = Model.Data?.TieuDe;
+    ViewData["OgDescription"] =
+        Model.Data?.TieuDe;
+    ViewData["OgUrl"] = $"/viec-lam-tuyen-dung/{Model.Data?.Slug}";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+               <li class="breadcrumb-item">
+                    <a href="/viec-lam-tuyen-dung">
+                        Việc làm - Tuyển dụng
+                    </a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">@data.TieuDe</h1>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <i class="fa-solid fa-user-tie"></i> @data.DoanhNghiep
+                </div>
+                 <div>
+                    <i class="fa-solid fa-map-pin"></i> @(data.DiaDiem ?? "")
+                 </div>
+                <div>
+                    <i class="fa-solid fa-layer-group"></i> @(data.LinhVuc ?? "N/A")
+                </div>
+                <div>
+                    <i class="fa-solid fa-clock-rotate-left"></i> @data.NgayBatDau.ToString("dd/MM/yyyy") - @data.NgayHetHan.ToString("dd/MM/yyyy")
+                </div>
+                <div>
+                    <i class="fa-solid fa-cubes"></i>
+                    @switch (data.LoaiViecLam)
+                    {
+                        case ViecLamType.BanThoiGian:
+                            <span> Bán thời gian</span>
+                            break;
+                        case ViecLamType.ToanThoiGian:
+                            <span> Toàn thời gian</span>
+                            break;
+                        case ViecLamType.ThucTap:
+                            <span> Thực tập</span>
+                            break;
+                    }
+                </div>
+            </div>
+            <hr>
+            <div class="mb-3">
+                <div class="mb-2">
+                    <strong>Mô tả</strong>
+                </div>
+                 <div>
+                    @Html.Raw(data.MoTa)
+                 </div>
+            </div>
+            <div class="mb-3">
+                <div class="mb-2">
+                    <strong>Yêu cầu</strong>
+                </div>
+                 <div>
+                    @Html.Raw(data.YeuCau)
+                 </div>
+            </div>
+            <div class="mb-3">
+                <div class="mb-2">
+                    <strong>Ưu tiên</strong>
+                </div>
+                 <div>
+                    @Html.Raw(data.UuTien)
+                 </div>
+            </div>
+           <div class="mb-3">
+                <div class="mb-2">
+                    <strong>Quyền lợi</strong>
+                </div>
+                 <div>
+                    @Html.Raw(data.QuyenLoi)
+                 </div>
+            </div>
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = $"/viec-lam-tuyen-dung/{data?.Slug}",
+                Title = data?.TieuDe
+            })
+
+            <hr>
+
+            @{
+                if(data.ViecLamLienQuan != null && data.ViecLamLienQuan.Any())
+                {
+                    <div>
+                        <h3>Việc làm liên quan</h3>
+                        <div class="list-related">
+                            @{
+                                foreach(var related in data.ViecLamLienQuan)
+                                {
+                                    <div class="related-item">
+                                        <a href="/viec-lam-tuyen-dung/@related.Slug"><i class="fa-solid fa-circle-right"></i> @related.TieuDe</a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }      
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            <div>
+                @await Html.PartialAsync("_VerticalBanner")
+            </div>
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

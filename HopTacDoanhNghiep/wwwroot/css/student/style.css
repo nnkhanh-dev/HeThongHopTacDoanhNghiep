@@ -357,6 +357,7 @@ p {
     justify-content: center;
     font-size: 0.9rem;
     overflow: hidden;
+    border: 1px solid #eeeeee;
 }
 
 .user-avatar img{

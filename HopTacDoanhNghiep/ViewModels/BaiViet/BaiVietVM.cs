@@ -16,5 +16,7 @@ namespace HopTacDoanhNghiep.ViewModels.BaiViet
         public string? DanhMuc { get; set; }
         public BaiVietStatus? TrangThai { get; set; }
         public DateTime? CreatedAt { get; set; }
+
+        public ICollection<BaiVietVM> BaiVietLienQuan { get; set; } = new List<BaiVietVM>();
     }
 }

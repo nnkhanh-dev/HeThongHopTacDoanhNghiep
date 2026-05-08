@@ -15,6 +15,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet
         public int? DanhMucId { get; set; }
         [Required(ErrorMessage = "Trạng thái là bắt buộc")]
         public BaiVietStatus TrangThai { get; set; }
-        public string? TacGia { get; set; }  
+        public string? TacGia { get; set; } 
+        public string? CreatedBy { get; set; }
+        public string? TuKhoa { get; set; }
     }
 }

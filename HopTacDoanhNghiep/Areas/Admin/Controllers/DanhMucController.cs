@@ -3,6 +3,7 @@ using HopTacDoanhNghiep.Areas.Admin.ViewModels.DanhMucBaiViet;
 using HopTacDoanhNghiep.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HopTacDoanhNghiep.Areas.Admin.Controllers
@@ -82,7 +83,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ";
                 return View(danhMuc);
             }
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            danhMuc.UpdatedBy = userId;
             var result = await _danhMuc.EditDanhMucBaiViet(id, danhMuc);
 
             if (!result.IsSuccess)
@@ -104,7 +106,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ";
                 return View(danhMuc);
             }
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            danhMuc.CreatedBy = userId;
             var result = await  _danhMuc.CreateDanhMucBaiViet(danhMuc);
 
             if(!result.IsSuccess)
@@ -121,7 +124,8 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         [HttpDelete("admin/danh-muc-bai-viet/xoa/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await  _danhMuc.DeleteDanhMucBaiViet(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await  _danhMuc.DeleteDanhMucBaiViet(id, userId);
 
             if(!result.IsSuccess)
             {

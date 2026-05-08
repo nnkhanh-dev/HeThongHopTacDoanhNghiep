@@ -51,16 +51,40 @@
             
             @Html.Raw(data.NoiDung)
 
-            <hr>
-
             @await Html.PartialAsync("_ShareSocial",
             new ShareSocialVM {
                 Url = $"/thong-tin/tin-tuc/{data?.Slug}",
                 Title = data?.TieuDe
             })
+
+            <hr>
+
+            @{
+                if(data.BaiVietLienQuan != null && data.BaiVietLienQuan.Any())
+                {
+                    <div>
+                        <h3>Tin tức khác</h3>
+                        <div class="list-related">
+                            @{
+                                foreach(var related in data.BaiVietLienQuan)
+                                {
+                                    <div class="related-item">
+                                        <a href="/thong-tin/tin-tuc/@related.Slug"><i class="fa-solid fa-circle-right"></i> @related.TieuDe</a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }      
         </div>
-        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
-            @await Html.PartialAsync("_VerticalBanner")
+         <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            <div>
+                @await Html.PartialAsync("_ThongTinSidebar")
+            </div>
+            <div>
+                @await Html.PartialAsync("_VerticalBanner")
+            </div>
         </div>
     </article>
 </div>

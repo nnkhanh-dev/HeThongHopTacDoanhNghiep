@@ -9,6 +9,6 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
         Task<BaseResult<DanhMucBaiVietVM>> GetDanhMucBaiVietById(int id);
         Task<BaseResult> CreateDanhMucBaiViet(DanhMucBaiVietCreateVM danhMuc);
         Task<BaseResult> EditDanhMucBaiViet(int id, DanhMucBaiVietEditVM danhMuc);
-        Task<BaseResult> DeleteDanhMucBaiViet(int id);
+        Task<BaseResult> DeleteDanhMucBaiViet(int id, string deletedBy);
     }
 }

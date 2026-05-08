@@ -1,6 +1,7 @@
 using Hangfire;
 using Hangfire.SqlServer;
 using HopTacDoanhNghiep.Areas.Admin.Services;
+using HopTacDoanhNghiep.Areas.Company.Services;
 using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Middlewares;
 using HopTacDoanhNghiep.Models;
@@ -74,6 +75,12 @@ builder.Services.AddScoped<IDanhMucBaiVietAdmin, DanhMucBaiVietAdminService>();
 builder.Services.AddScoped<ISinhVienAdmin, SinhVienAdminService>();
 builder.Services.AddScoped<IDoanhNghiepAdmin, DoanhNghiepAdminService>();
 builder.Services.AddScoped<INhapDuLieuAdmin, NhapDuLieuAdminService>();
+builder.Services.AddScoped<IViecLamCompany, ViecLamCompanyService>();
+builder.Services.AddScoped<ILinhVucCompany, LinhVucCompanyService>();
+builder.Services.AddScoped<ILinhVucAdmin, LinhVucAdminService>();
+builder.Services.AddScoped<ILinhVuc, LinhVucService>();
+builder.Services.AddScoped<INganhAdmin, NganhAdminService>();
+builder.Services.AddScoped<IViecLam, ViecLamService>();
 
 var app = builder.Build();
 
