@@ -17,11 +17,11 @@ namespace HopTacDoanhNghiep.Controllers
     public class HomeController : Controller
     {
         private readonly IBaiViet _baiViet;
-        private readonly IViecLam _viecLam;
+        private readonly ITinTuyenDung _viecLam;
         private readonly AppDbContext _db;
         private readonly IConfiguration _config;
 
-        public HomeController(IBaiViet baiViet, IViecLam viecLam, AppDbContext db, IConfiguration config)
+        public HomeController(IBaiViet baiViet, ITinTuyenDung viecLam, AppDbContext db, IConfiguration config)
         {
             _baiViet = baiViet;
             _viecLam = viecLam;
@@ -33,7 +33,7 @@ namespace HopTacDoanhNghiep.Controllers
         {
             var tinResult = await _baiViet.GetListBaiViet(1, 12, null, "tin-tuc");
             var thongBaoResult = await _baiViet.GetListBaiViet(1, 12, null, "thong-bao");
-            var viecResult = await _viecLam.GetListViecLam(1, 6, null, null, null, null, null, null, null, null, null);
+            var viecResult = await _viecLam.GetListTinTuyenDung(1, 6, null, null, null, null, null, null, null, null);
             var baiVietResult = await _baiViet.GetListBaiViet(1, 12, null, "bai-viet");
 
             var model = new HomeVM

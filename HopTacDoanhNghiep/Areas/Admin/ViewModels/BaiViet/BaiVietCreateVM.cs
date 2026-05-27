@@ -12,7 +12,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet
         [Required(ErrorMessage = "Nội dung không được để trống")]
         public string NoiDung { get; set; }
         [Required(ErrorMessage = "Danh mục bài viết là bắt buộc")]
-        public int? DanhMucId { get; set; }
+        public int? MaDanhMuc { get; set; }
         [Required(ErrorMessage = "Trạng thái là bắt buộc")]
         public BaiVietStatus TrangThai { get; set; }
         public string? TacGia { get; set; } 

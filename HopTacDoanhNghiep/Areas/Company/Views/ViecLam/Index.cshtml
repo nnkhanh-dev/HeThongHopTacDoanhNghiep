@@ -1,4 +1,4 @@
-﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.VietLamVM>
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.TinTuyenDungVM>
 @using HopTacDoanhNghiep.Enums.ViecLam
 
 @{
@@ -18,7 +18,7 @@
 <div class="container">
     <div class="box">
         <div class="box-header mb-4">
-            <i class="fa-solid fa-briefcase"></i> Quản lý việc làm
+            <i class="fa-solid fa-briefcase"></i> Quản lý tin tuyển dụng
         </div>
         <div class="box-body">
             <div class="mb-4">
@@ -42,10 +42,7 @@
                                 </div>
                             </div>
                             <div class="job-body mt-3">
-                                <h3 class="job-title"><a href="/doanh-nghiep/viec-lam/chi-tiet/@item.Id">@item.TieuDe</a></h3>
-                                <div>
-                                    <i class="fa-solid fa-layer-group"></i> @(item.LinhVuc ?? "N/A")
-                                </div>
+                                <h3 class="job-title"><a href="/doanh-nghiep/viec-lam/chi-tiet/@item.MaTTD">@item.TieuDe</a></h3>
                                 <div>
                                     <i class="fa-solid fa-piggy-bank"></i> @((item.LuongToiThieu?.ToString("N0") ?? "0") + " - " + (item.LuongToiDa?.ToString("N0") ?? "0")) VNĐ
                                 </div>
@@ -69,9 +66,9 @@
                                 </div>
                             </div>
                             <div class="job-footer mt-3">
-                                <a href="/doanh-nghiep/viec-lam/chi-tiet/@item.Id" class="text-info" title="Xem chi tiết"><i class="fa-solid fa-eye"></i></a>
-                                <a href="/doanh-nghiep/viec-lam/chinh-sua/@item.Id" class="text-primary" title="Chỉnh sửa"><i class="fa-solid fa-edit"></i></a>
-                                <a href="javascript:void(0);" onclick="DeleteViecLam(@item.Id, '@item.TieuDe')" class="text-danger" title="Xóa"><i class="fa-solid fa-trash"></i></a>
+                                <a href="/doanh-nghiep/viec-lam/chi-tiet/@item.MaTTD" class="text-info" title="Xem chi tiết"><i class="fa-solid fa-eye"></i></a>
+                                <a href="/doanh-nghiep/viec-lam/chinh-sua/@item.MaTTD" class="text-primary" title="Chỉnh sửa"><i class="fa-solid fa-edit"></i></a>
+                                <a href="javascript:void(0);" onclick="DeleteViecLam(@item.MaTTD, '@item.TieuDe')" class="text-danger" title="Xóa"><i class="fa-solid fa-trash"></i></a>
                                 <a href="#" class="text-success" title="Danh sách ứng viên"><i class="fa-solid fa-users"></i></a>
                             </div>
                         </div>

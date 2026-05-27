@@ -58,13 +58,13 @@
                                         }
                                     </td>
                                     <td>
-                                        <a href="/admin/bai-viet/chi-tiet/@item.Id" class="btn btn-sm btn-warning text-white">
+                                        <a href="/admin/bai-viet/chi-tiet/@item.MaBaiViet" class="btn btn-sm btn-warning text-white">
                                             <i class="fa-solid fa-eye"></i> Xem
                                         </a>
-                                        <a href="/admin/bai-viet/chinh-sua/@item.Id" class="btn btn-sm btn-primary">
+                                        <a href="/admin/bai-viet/chinh-sua/@item.MaBaiViet" class="btn btn-sm btn-primary">
                                             <i class="fa-solid fa-edit"></i> Sửa
                                         </a>
-                                        <button class="btn btn-sm btn-danger" onclick="DeleteBaiViet(@item.Id, '@item.TieuDe')">
+                                        <button class="btn btn-sm btn-danger" onclick="DeleteBaiViet(@item.MaBaiViet, '@item.TieuDe')">
                                             <i class="fa-solid fa-trash"></i> Xóa
                                         </button>
                                     </td>

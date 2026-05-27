@@ -1,5 +1,5 @@
 ﻿@using HopTacDoanhNghiep.Enums.ViecLam
-@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.VietLamVM>
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.TinTuyenDungVM>
 @{
     ViewData["Title"] = "Chi tiết việc làm";
     var isValid = Model.Data.NgayBatDau <= DateTime.UtcNow && Model.Data.NgayHetHan >= DateTime.UtcNow;
@@ -16,12 +16,6 @@
                     <div class="mb-3">
                         <strong>Tiêu đề:</strong>
                         <p>@Model.Data.TieuDe</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <strong>Lĩnh vực:</strong>
-                        <p>@Model.Data.LinhVuc</p>
                     </div>
                 </div>
             </div>
@@ -199,7 +193,7 @@
 
             <div class="d-flex gap-2">
                 <a href="/doanh-nghiep/viec-lam" class="btn btn-secondary">Quay lại</a>
-                <a href="/doanh-nghiep/viec-lam/chinh-sua/@Model.Data.Id" class="btn btn-primary">Cập nhật</a>
+                <a href="/doanh-nghiep/viec-lam/chinh-sua/@Model.Data.MaTTD" class="btn btn-primary">Cập nhật</a>
             </div>
         </div>
     </div>

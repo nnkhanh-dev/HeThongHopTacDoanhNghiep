@@ -13,10 +13,10 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
     [Authorize(Roles = "Company")]
     public class ViecLamController : Controller
     {
-        private readonly IViecLamCompany _viecLam;
+        private readonly ITinTuyenDungCompany _viecLam;
         private readonly IFileStorage _fileStorage;
 
-        public ViecLamController(IViecLamCompany viecLam, IFileStorage fileStorage)
+        public ViecLamController(ITinTuyenDungCompany viecLam, IFileStorage fileStorage)
         {
             _viecLam = viecLam;
             _fileStorage = fileStorage;
@@ -27,7 +27,6 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
             int pageIndex = 1,
             int pageSize = 6,
             string? keyword = null,
-            string? linhVuc = null,
             ViecLamStatus? status = null,
             ViecLamType? loaiViecLam = null,
             DoiTuongUngTuyen? doiTuongUngTuyen = null,
@@ -39,14 +38,13 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
             string? sapXepTheo = null
         )
         {
-            var doanhNghiepId = User.FindFirstValue("IdNguoiDung");
+            var doanhNghiepId = User.Identity?.Name;
 
-            var result = await _viecLam.GetListViecLam(
+            var result = await _viecLam.GetListTinTuyenDung(
                 doanhNghiepId,
                 pageIndex,
                 pageSize,
                 keyword,
-                linhVuc,
                 status,
                 loaiViecLam,
                 doiTuongUngTuyen,
@@ -69,7 +67,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
                 return BadRequest();
             }
 
-            var result = await _viecLam.GetViecLamById(id);
+            var result = await _viecLam.GetTinTuyenDungById(id);
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Message;
@@ -88,24 +86,24 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
 
         [HttpPost("doanh-nghiep/viec-lam/tao-moi")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(VietLamCreateVM model)
+        public async Task<IActionResult> Create(TinTuyenDungCreateVM model)
         {
             if (!ModelState.IsValid)
             {
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ!";
-                return View("CreateNew", model);
+                return View("Create", model);
             }
 
-            var userId = User.FindFirstValue("IdNguoiDung");
-            model.CreatedBy = userId;
-            model.DoanhNghiepId = userId;
+            var doanhNghiepId = User.Identity?.Name;
+            model.CreatedBy = doanhNghiepId;
+            model.MaDoanhNghiep = doanhNghiepId;
 
-            var result = await _viecLam.CreateViecLam(model);
+            var result = await _viecLam.CreateTinTuyenDung(model);
 
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Message;
-                return View("CreateNew", model);
+                return View("Create", model);
             }
 
             TempData["SuccessMessage"] = result.Message;
@@ -120,7 +118,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
                 return BadRequest();
             }
 
-            var viecLam = await _viecLam.GetViecLamById(id);
+            var viecLam = await _viecLam.GetTinTuyenDungById(id);
 
             if (!viecLam.IsSuccess)
             {
@@ -128,7 +126,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
                 return RedirectToAction("Index");
             }
 
-            var data = new VietLamEditVM
+            var data = new TinTuyenDungEditVM
             {
                 TieuDe = viecLam.Data.TieuDe,
                 MoTa = viecLam.Data.MoTa,
@@ -145,8 +143,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
                 DoiTuongUngTuyen = viecLam.Data.DoiTuongUngTuyen,
                 TrinhDo = viecLam.Data.TrinhDo,
                 Status = viecLam.Data.Status,
-                LinhVucId = viecLam.Data.LinhVucId,
-                DoanhNghiepId = viecLam.Data.DoanhNghiepId
+                MaDoanhNghiep = viecLam.Data.MaDoanhNghiep
             };
 
             return View(data);
@@ -154,7 +151,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
 
         [HttpPost("doanh-nghiep/viec-lam/chinh-sua/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, VietLamEditVM model)
+        public async Task<IActionResult> Edit(int id, TinTuyenDungEditVM model)
         {
             if (id <= 0)
             {
@@ -170,7 +167,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
             var userId = User.FindFirstValue("IdNguoiDung");
             model.UpdatedBy = userId;
 
-            var result = await _viecLam.EditViecLam(id, model);
+            var result = await _viecLam.EditTinTuyenDung(id, model);
 
             if (!result.IsSuccess)
             {
@@ -187,7 +184,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
         {
             var userId = User.FindFirstValue("IdNguoiDung");
 
-            var result = await _viecLam.DeleteViecLam(id, userId);
+            var result = await _viecLam.DeleteTinTuyenDung(id, userId);
 
             if (!result.IsSuccess)
             {

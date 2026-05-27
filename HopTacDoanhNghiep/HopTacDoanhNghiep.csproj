@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Student\Services\" />
-    <Folder Include="Areas\Student\ViewModels\" />
     <Folder Include="wwwroot\lib\fontawesome\" />
-    <Folder Include="wwwroot\uploads\bai-viet\" />
     <Folder Include="wwwroot\uploads\import\errors\" />
     <Folder Include="wwwroot\uploads\import\sinh-vien\" />
   </ItemGroup>

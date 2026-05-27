@@ -1,0 +1,80 @@
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.CanBo.CanBoVM>
+
+@{
+    ViewData["Title"] = "Quản lý cán bộ";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-user-tie"></i> Quản lý cán bộ
+        </div>
+        <div class="box-body">
+            <div class="mb-4 d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                <a href="/admin/can-bo/them-moi" class="btn btn-success">
+                    <i class="fa-solid fa-plus"></i> Thêm mới
+                </a>
+            </div>
+
+            @await Html.PartialAsync("_Search")
+
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th>Mã CB</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>SĐT</th>
+                            <th>Đơn vị</th>
+                            <th>Chức vụ</th>
+                            <th>Trạng thái</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.MaCB</td>
+                                    <td>@item.HoTen</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.SDT</td>
+                                    <td>@(item.TenDonVi ?? item.MaDV.ToString())</td>
+                                    <td>@(item.TenChucVu ?? item.MaCV.ToString())</td>
+                                    <td>
+                                        @if (item.TrangThai == HopTacDoanhNghiep.Enums.NguoiDung.NguoiDungStatus.HoatDong)
+                                        {
+                                            <span class="badge bg-success">Hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Khóa tài khoản</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/admin/can-bo/chinh-sua/@item.MaCB" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-edit"></i> Sửa
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>

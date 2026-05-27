@@ -30,7 +30,7 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Avatar")
+                    b.Property<string>("AnhDaiDien")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -102,11 +102,11 @@ namespace HopTacDoanhNghiep.Migrations
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.BaiViet", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MaBaiViet")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaBaiViet"));
 
                     b.Property<string>("AnhMinhHoa")
                         .HasColumnType("nvarchar(max)");
@@ -115,16 +115,16 @@ namespace HopTacDoanhNghiep.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DanhMucId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaDanhMuc")
+                        .HasColumnType("int");
 
                     b.Property<string>("NoiDung")
                         .IsRequired()
@@ -154,20 +154,28 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MaBaiViet");
 
-                    b.HasIndex("DanhMucId");
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("MaDanhMuc");
 
                     b.ToTable("BaiViets");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.DangKyPhongVan", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.CanBo", b =>
                 {
-                    b.Property<int>("LichPhongVanId")
-                        .HasColumnType("int");
+                    b.Property<string>("MaCB")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("SinhVienViecLamId")
-                        .HasColumnType("int");
+                    b.Property<string>("AnhThe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BHTN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BHTT")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -181,26 +189,81 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GhiChu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaChucVu")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaDonVi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MaNguoiDung")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("STK")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("LichPhongVanId", "SinhVienViecLamId");
+                    b.HasKey("MaCB");
 
-                    b.HasIndex("SinhVienViecLamId");
+                    b.HasIndex("MaChucVu");
 
-                    b.ToTable("DangKyPhongVans");
+                    b.HasIndex("MaDonVi");
+
+                    b.HasIndex("MaNguoiDung");
+
+                    b.ToTable("CanBos");
+                });
+
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.ChucVu", b =>
+                {
+                    b.Property<int>("MaChucVu")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaChucVu"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenChucVu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaChucVu");
+
+                    b.ToTable("ChucVus");
                 });
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.DanhMucBaiViet", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MaDanhMuc")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaDanhMuc"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -231,16 +294,15 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MaDanhMuc");
 
                     b.ToTable("DanhMucBaiViets");
                 });
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.DoanhNghiep", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaDN")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -257,7 +319,7 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("DiaChi")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("EmailCongTy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
@@ -266,28 +328,25 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("GioiThieu")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Hotline")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaDN")
+                    b.Property<string>("MaNguoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MaSoThue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("NgayThanhLap")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NguoiDungId")
+                    b.Property<string>("NoiDungHopTac")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("QuyMoNhanSu")
                         .HasColumnType("int");
-
-                    b.Property<string>("SDT")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenHienThi")
                         .IsRequired()
@@ -295,6 +354,9 @@ namespace HopTacDoanhNghiep.Migrations
 
                     b.Property<string>("TenPhapLy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TrangThaiHopTac")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -305,25 +367,20 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("Website")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MaDN");
 
-                    b.HasIndex("MaDN")
-                        .IsUnique()
-                        .HasFilter("[DeletedAt] IS NULL");
-
-                    b.HasIndex("NguoiDungId")
-                        .IsUnique();
+                    b.HasIndex("MaNguoiDung");
 
                     b.ToTable("DoanhNghieps");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LichPhongVan", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.DonUngTuyen", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MaUT")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaUT"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -337,18 +394,18 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DiaDiem")
+                    b.Property<string>("HoSoUngTuyen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SoLuongUngVien")
+                    b.Property<string>("MaSV")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("MaTTD")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ThoiGianBatDau")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ThoiGianKetThuc")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -356,23 +413,22 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ViecLamId")
-                        .HasColumnType("int");
+                    b.HasKey("MaUT");
 
-                    b.HasKey("Id");
+                    b.HasIndex("MaSV");
 
-                    b.HasIndex("ViecLamId");
+                    b.HasIndex("MaTTD");
 
-                    b.ToTable("LichPhongVans");
+                    b.ToTable("DonUngTuyens");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LichSuNhapDuLieu", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.DonVi", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MaDV")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaDV"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -380,34 +436,88 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DuongDanFileGoc")
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NhanDoiTac")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Tel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenDV")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DuongDanFileLoi")
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("GhiChu")
+                    b.Property<string>("Website")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhanLoai")
+                    b.HasKey("MaDV");
+
+                    b.ToTable("DonVis");
+                });
+
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.HopTacDonVi", b =>
+                {
+                    b.Property<int>("MaHTDV")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("ThanhCong")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaHTDV"));
 
-                    b.Property<int?>("ThatBai")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("TongDuLieu")
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaDN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("MaDV")
                         .HasColumnType("int");
 
                     b.Property<int>("TrangThai")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("LichSuNhapDuLieus");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaHTDV");
+
+                    b.HasIndex("MaDN");
+
+                    b.HasIndex("MaDV");
+
+                    b.ToTable("HopTacDonVis");
                 });
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.LienHe", b =>
@@ -460,165 +570,10 @@ namespace HopTacDoanhNghiep.Migrations
                     b.ToTable("LienHes");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LinhVuc", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MoTa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ten")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LinhVucs");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LinhVucNganh", b =>
-                {
-                    b.Property<int>("LinhVucId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NganhId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LinhVucId", "NganhId");
-
-                    b.HasIndex("NganhId");
-
-                    b.ToTable("LinhVucNganhs");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LuuTru", b =>
-                {
-                    b.Property<Guid>("SinhVienId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ViecLamId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SinhVienId", "ViecLamId");
-
-                    b.HasIndex("ViecLamId");
-
-                    b.ToTable("LuuTrus");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.Nganh", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaNganh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TenChuyenNganh")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenNganh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaNganh")
-                        .IsUnique()
-                        .HasFilter("[DeletedAt] IS NULL");
-
-                    b.ToTable("Nganhs");
-                });
-
             modelBuilder.Entity("HopTacDoanhNghiep.Models.SinhVien", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("MaSV")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AnhThe")
                         .HasColumnType("nvarchar(max)");
@@ -635,34 +590,20 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("EmailGiaoDuc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HoTen")
+                    b.Property<string>("HoSoNangLuc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaSV")
+                    b.Property<string>("MaNguoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("NgaySinh")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NguoiDungId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SDT")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TimViec")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -670,25 +611,20 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MaSV");
 
-                    b.HasIndex("MaSV")
-                        .IsUnique()
-                        .HasFilter("[DeletedAt] IS NULL");
-
-                    b.HasIndex("NguoiDungId")
-                        .IsUnique();
+                    b.HasIndex("MaNguoiDung");
 
                     b.ToTable("SinhViens");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.SinhVienViecLam", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.ThongBao", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MaThongBao")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaThongBao"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -702,18 +638,17 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HoSoUngTuyen")
+                    b.Property<string>("MaNguoiDung")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LoaiHoSo")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("SinhVienId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
+                    b.Property<string>("TieuDe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -721,25 +656,20 @@ namespace HopTacDoanhNghiep.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ViecLamId")
-                        .HasColumnType("int");
+                    b.HasKey("MaThongBao");
 
-                    b.HasKey("Id");
+                    b.HasIndex("MaNguoiDung");
 
-                    b.HasIndex("SinhVienId");
-
-                    b.HasIndex("ViecLamId");
-
-                    b.ToTable("SinhVienViecLams");
+                    b.ToTable("ThongBaos");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.ViecLam", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.TinTuyenDung", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MaTTD")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTTD"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -757,13 +687,7 @@ namespace HopTacDoanhNghiep.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("DoanhNghiepId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("DoiTuongUngTuyen")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LinhVucId")
                         .HasColumnType("int");
 
                     b.Property<int>("LoaiViecLam")
@@ -774,6 +698,9 @@ namespace HopTacDoanhNghiep.Migrations
 
                     b.Property<decimal>("LuongToiThieu")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("MaDoanhNgiep")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MoTa")
                         .IsRequired()
@@ -821,13 +748,11 @@ namespace HopTacDoanhNghiep.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MaTTD");
 
-                    b.HasIndex("DoanhNghiepId");
+                    b.HasIndex("MaDoanhNgiep");
 
-                    b.HasIndex("LinhVucId");
-
-                    b.ToTable("ViecLams");
+                    b.ToTable("TinTuyenDungs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -965,138 +890,120 @@ namespace HopTacDoanhNghiep.Migrations
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.BaiViet", b =>
                 {
+                    b.HasOne("HopTacDoanhNghiep.Models.AppUser", "NguoiDung")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
                     b.HasOne("HopTacDoanhNghiep.Models.DanhMucBaiViet", "DanhMuc")
                         .WithMany("BaiViets")
-                        .HasForeignKey("DanhMucId")
+                        .HasForeignKey("MaDanhMuc")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("DanhMuc");
+
+                    b.Navigation("NguoiDung");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.DangKyPhongVan", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.CanBo", b =>
                 {
-                    b.HasOne("HopTacDoanhNghiep.Models.LichPhongVan", "LichPhongVan")
-                        .WithMany("DangKyPhongVans")
-                        .HasForeignKey("LichPhongVanId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("HopTacDoanhNghiep.Models.ChucVu", "ChucVu")
+                        .WithMany("CanBos")
+                        .HasForeignKey("MaChucVu")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HopTacDoanhNghiep.Models.SinhVienViecLam", "SinhVienViecLam")
-                        .WithMany("DangKyPhongVans")
-                        .HasForeignKey("SinhVienViecLamId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("HopTacDoanhNghiep.Models.DonVi", "DonVi")
+                        .WithMany("CanBos")
+                        .HasForeignKey("MaDonVi")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("LichPhongVan");
+                    b.HasOne("HopTacDoanhNghiep.Models.AppUser", "NguoiDung")
+                        .WithMany()
+                        .HasForeignKey("MaNguoiDung")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("SinhVienViecLam");
+                    b.Navigation("ChucVu");
+
+                    b.Navigation("DonVi");
+
+                    b.Navigation("NguoiDung");
                 });
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.DoanhNghiep", b =>
                 {
                     b.HasOne("HopTacDoanhNghiep.Models.AppUser", "NguoiDung")
-                        .WithOne()
-                        .HasForeignKey("HopTacDoanhNghiep.Models.DoanhNghiep", "NguoiDungId")
+                        .WithMany()
+                        .HasForeignKey("MaNguoiDung")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("NguoiDung");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LichPhongVan", b =>
-                {
-                    b.HasOne("HopTacDoanhNghiep.Models.ViecLam", "ViecLam")
-                        .WithMany("LichPhongVans")
-                        .HasForeignKey("ViecLamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ViecLam");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LinhVucNganh", b =>
-                {
-                    b.HasOne("HopTacDoanhNghiep.Models.LinhVuc", "LinhVuc")
-                        .WithMany("LinhVucNganhs")
-                        .HasForeignKey("LinhVucId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("HopTacDoanhNghiep.Models.Nganh", "Nganh")
-                        .WithMany("LinhVucNganhs")
-                        .HasForeignKey("NganhId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("LinhVuc");
-
-                    b.Navigation("Nganh");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LuuTru", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.DonUngTuyen", b =>
                 {
                     b.HasOne("HopTacDoanhNghiep.Models.SinhVien", "SinhVien")
-                        .WithMany("LuuTrus")
-                        .HasForeignKey("SinhVienId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("DonUngTuyens")
+                        .HasForeignKey("MaSV");
 
-                    b.HasOne("HopTacDoanhNghiep.Models.ViecLam", "ViecLam")
-                        .WithMany("LuuTrus")
-                        .HasForeignKey("ViecLamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasOne("HopTacDoanhNghiep.Models.TinTuyenDung", "TinTuyenDung")
+                        .WithMany("DonUngTuyens")
+                        .HasForeignKey("MaTTD");
 
                     b.Navigation("SinhVien");
 
-                    b.Navigation("ViecLam");
+                    b.Navigation("TinTuyenDung");
+                });
+
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.HopTacDonVi", b =>
+                {
+                    b.HasOne("HopTacDoanhNghiep.Models.DoanhNghiep", "DoanhNghiep")
+                        .WithMany()
+                        .HasForeignKey("MaDN")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HopTacDoanhNghiep.Models.DonVi", "DonVi")
+                        .WithMany()
+                        .HasForeignKey("MaDV");
+
+                    b.Navigation("DoanhNghiep");
+
+                    b.Navigation("DonVi");
                 });
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.SinhVien", b =>
                 {
                     b.HasOne("HopTacDoanhNghiep.Models.AppUser", "NguoiDung")
-                        .WithOne()
-                        .HasForeignKey("HopTacDoanhNghiep.Models.SinhVien", "NguoiDungId")
+                        .WithMany()
+                        .HasForeignKey("MaNguoiDung")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("NguoiDung");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.SinhVienViecLam", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.ThongBao", b =>
                 {
-                    b.HasOne("HopTacDoanhNghiep.Models.SinhVien", "SinhVien")
-                        .WithMany("SinhVienViecLams")
-                        .HasForeignKey("SinhVienId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("HopTacDoanhNghiep.Models.ViecLam", "ViecLam")
-                        .WithMany("SinhVienViecLams")
-                        .HasForeignKey("ViecLamId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("SinhVien");
-
-                    b.Navigation("ViecLam");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.ViecLam", b =>
-                {
-                    b.HasOne("HopTacDoanhNghiep.Models.DoanhNghiep", "DoanhNghiep")
-                        .WithMany("ViecLams")
-                        .HasForeignKey("DoanhNghiepId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("HopTacDoanhNghiep.Models.LinhVuc", "LinhVuc")
-                        .WithMany("ViecLams")
-                        .HasForeignKey("LinhVucId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("HopTacDoanhNghiep.Models.AppUser", "NguoiDung")
+                        .WithMany("ThongBaos")
+                        .HasForeignKey("MaNguoiDung")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DoanhNghiep");
+                    b.Navigation("NguoiDung");
+                });
 
-                    b.Navigation("LinhVuc");
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.TinTuyenDung", b =>
+                {
+                    b.HasOne("HopTacDoanhNghiep.Models.DoanhNghiep", "DoanhNghiep")
+                        .WithMany("TinTuyenDungs")
+                        .HasForeignKey("MaDoanhNgiep");
+
+                    b.Navigation("DoanhNghiep");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1150,6 +1057,16 @@ namespace HopTacDoanhNghiep.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.AppUser", b =>
+                {
+                    b.Navigation("ThongBaos");
+                });
+
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.ChucVu", b =>
+                {
+                    b.Navigation("CanBos");
+                });
+
             modelBuilder.Entity("HopTacDoanhNghiep.Models.DanhMucBaiViet", b =>
                 {
                     b.Navigation("BaiViets");
@@ -1157,45 +1074,22 @@ namespace HopTacDoanhNghiep.Migrations
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.DoanhNghiep", b =>
                 {
-                    b.Navigation("ViecLams");
+                    b.Navigation("TinTuyenDungs");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LichPhongVan", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.DonVi", b =>
                 {
-                    b.Navigation("DangKyPhongVans");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.LinhVuc", b =>
-                {
-                    b.Navigation("LinhVucNganhs");
-
-                    b.Navigation("ViecLams");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.Nganh", b =>
-                {
-                    b.Navigation("LinhVucNganhs");
+                    b.Navigation("CanBos");
                 });
 
             modelBuilder.Entity("HopTacDoanhNghiep.Models.SinhVien", b =>
                 {
-                    b.Navigation("LuuTrus");
-
-                    b.Navigation("SinhVienViecLams");
+                    b.Navigation("DonUngTuyens");
                 });
 
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.SinhVienViecLam", b =>
+            modelBuilder.Entity("HopTacDoanhNghiep.Models.TinTuyenDung", b =>
                 {
-                    b.Navigation("DangKyPhongVans");
-                });
-
-            modelBuilder.Entity("HopTacDoanhNghiep.Models.ViecLam", b =>
-                {
-                    b.Navigation("LichPhongVans");
-
-                    b.Navigation("LuuTrus");
-
-                    b.Navigation("SinhVienViecLams");
+                    b.Navigation("DonUngTuyens");
                 });
 #pragma warning restore 612, 618
         }

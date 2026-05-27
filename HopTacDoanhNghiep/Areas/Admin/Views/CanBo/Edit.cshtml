@@ -1,0 +1,98 @@
+@model HopTacDoanhNghiep.Areas.Admin.ViewModels.CanBo.EditCanBoVM
+
+@{
+    ViewData["Title"] = "Chỉnh sửa cán bộ";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-user-tie"></i> Chỉnh sửa cán bộ
+        </div>
+        <div class="box-body">
+            <form asp-action="Edit" asp-area="Admin" asp-controller="CanBo" asp-route-maCanBo="@Model.MaCB" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="MaCB" />
+                <input type="hidden" asp-for="AnhThe" />
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label asp-for="MaCB"><strong>Mã cán bộ</strong></label>
+                        <input asp-for="MaCB" class="form-control" readonly />
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label asp-for="HoTen"><strong>Họ tên</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="HoTen" class="form-control" />
+                        <span asp-validation-for="HoTen" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label asp-for="Email"><strong>Email</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label asp-for="SDT"><strong>Số điện thoại</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="SDT" class="form-control" />
+                        <span asp-validation-for="SDT" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label asp-for="TrangThai"><strong>Trạng thái</strong></label>
+                        <select asp-for="TrangThai" class="form-select">
+                            <option value="0">Khóa tài khoản</option>
+                            <option value="1">Hoạt động</option>
+                        </select>
+                        <span asp-validation-for="TrangThai" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label asp-for="MaDV"><strong>Đơn vị</strong> <span class="text-danger">(*)</span></label>
+                        <select asp-for="MaDV" class="form-select" asp-items="ViewBag.DonVis">
+                            <option value="">-- Chọn đơn vị --</option>
+                        </select>
+                        <span asp-validation-for="MaDV" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label asp-for="MaCV"><strong>Chức vụ</strong> <span class="text-danger">(*)</span></label>
+                        <select asp-for="MaCV" class="form-select" asp-items="ViewBag.ChucVus">
+                            <option value="">-- Chọn chức vụ --</option>
+                        </select>
+                        <span asp-validation-for="MaCV" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="AnhThe"><strong>Ảnh thẻ</strong></label>
+                        @if (!string.IsNullOrWhiteSpace(Model.AnhThe))
+                        {
+                            <div class="mb-2">
+                                <img src="@Model.AnhThe" alt="Ảnh thẻ hiện tại" style="max-width: 180px; height: auto; border-radius: 8px; border: 1px solid #ddd; padding: 4px; background: #fff;" />
+                            </div>
+                        }
+                        <input type="file" name="AnhTheFile" class="form-control" accept="image/*" />
+                        <span asp-validation-for="AnhThe" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label asp-for="BHTT"><strong>Bảo hiểm thân thể</strong></label>
+                        <input asp-for="BHTT" class="form-control" />
+                        <span asp-validation-for="BHTT" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label asp-for="BHTN"><strong>Bảo hiểm tai nạn</strong></label>
+                        <input asp-for="BHTN" class="form-control" />
+                        <span asp-validation-for="BHTN" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label asp-for="STK"><strong>STK ngân hàng</strong></label>
+                        <input asp-for="STK" class="form-control" />
+                        <span asp-validation-for="STK" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <a href="/admin/can-bo" class="btn btn-secondary">Quay lại</a>
+                    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

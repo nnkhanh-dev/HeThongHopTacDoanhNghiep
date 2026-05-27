@@ -6,8 +6,10 @@ namespace HopTacDoanhNghiep.Models
     public class AppUser : IdentityUser
     {
         public string HoTen { get; set; }
-        public string? Avatar { get; set; }
+        public string? AnhDaiDien { get; set; }
         public NguoiDungStatus TrangThai { get; set; } = NguoiDungStatus.HoatDong;
         public string? GhiChu { get; set; }
+
+        public ICollection<ThongBao> ThongBaos { get; set; }
     }
 }

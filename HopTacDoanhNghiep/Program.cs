@@ -2,6 +2,8 @@ using Hangfire;
 using Hangfire.SqlServer;
 using HopTacDoanhNghiep.Areas.Admin.Services;
 using HopTacDoanhNghiep.Areas.Company.Services;
+using HopTacDoanhNghiep.Areas.Student.Services;
+using HopTacDoanhNghiep.Areas.Officer.Services;
 using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Middlewares;
 using HopTacDoanhNghiep.Models;
@@ -69,18 +71,20 @@ builder.Services.AddHangfireServer();
 // ===== Services
 builder.Services.AddScoped<ISlug, SlugService>();
 builder.Services.AddScoped<IFileStorage, FileStorageService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IBaiViet, BaiVietService>();
 builder.Services.AddScoped<IBaiVietAdmin, BaiVietAdminService>();
 builder.Services.AddScoped<IDanhMucBaiVietAdmin, DanhMucBaiVietAdminService>();
-builder.Services.AddScoped<ISinhVienAdmin, SinhVienAdminService>();
-builder.Services.AddScoped<IDoanhNghiepAdmin, DoanhNghiepAdminService>();
-builder.Services.AddScoped<INhapDuLieuAdmin, NhapDuLieuAdminService>();
-builder.Services.AddScoped<IViecLamCompany, ViecLamCompanyService>();
-builder.Services.AddScoped<ILinhVucCompany, LinhVucCompanyService>();
-builder.Services.AddScoped<ILinhVucAdmin, LinhVucAdminService>();
-builder.Services.AddScoped<ILinhVuc, LinhVucService>();
-builder.Services.AddScoped<INganhAdmin, NganhAdminService>();
-builder.Services.AddScoped<IViecLam, ViecLamService>();
+builder.Services.AddScoped<IDonUngTuyenStudent, DonUngTuyenStudentService>();
+builder.Services.AddScoped<IDonUngTuyenCompany, DonUngTuyenCompanyService>();
+builder.Services.AddScoped<ITinTuyenDungStudent, TinTuyenDungStudentService>();
+builder.Services.AddScoped<ITinTuyenDungCompany, TinTuyenDungCompanyService>();
+builder.Services.AddScoped<ITinTuyenDung, TinTuyenDungService>();
+builder.Services.AddScoped<IDonVi, DonViService>();
+builder.Services.AddScoped<IDoanhNghiepOfficer, DoanhNghiepOfficerService>();
+builder.Services.AddScoped<IDonViAdmin, DonViAdminService>();
+builder.Services.AddScoped<IChucVuAdmin, ChucVuAdminService>();
+builder.Services.AddScoped<ICanBoAdmin, CanBoAdminService>();
 
 var app = builder.Build();
 

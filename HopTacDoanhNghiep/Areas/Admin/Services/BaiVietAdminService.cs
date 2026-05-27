@@ -54,7 +54,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                     Slug = slug,
                     TuKhoa = baiViet.TuKhoa ?? "",
                     TrangThai = baiViet.TrangThai,
-                    DanhMucId = baiViet.DanhMucId ?? 0,
+                    MaDanhMuc = baiViet.MaDanhMuc ?? 0,
                     CreatedAt = DateTime.UtcNow,
                     CreatedBy = baiViet.CreatedBy
                 };
@@ -70,9 +70,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> DeleteBaiViet(int id, string deletedBy)
+        public async Task<BaseResult> DeleteBaiViet(int maBaiViet, string deletedBy)
         {
-            var item = await _context.BaiViets.FirstOrDefaultAsync(x => x.Id == id && x.DeletedAt == null);
+            var item = await _context.BaiViets.FirstOrDefaultAsync(x => x.MaBaiViet == maBaiViet && x.DeletedAt == null);
 
             if(item == null)
             {
@@ -93,12 +93,12 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> EditBaiViet(int id, BaiVietEditVM baiViet)
+        public async Task<BaseResult> EditBaiViet(int maBaiViet, BaiVietEditVM baiViet)
         {
             if (baiViet == null)
                 return BaseResult.Fail("Dữ liệu bài viết không hợp lệ");
 
-            var item = await _context.BaiViets.FirstOrDefaultAsync(x => x.Id == id && x.DeletedAt == null);
+            var item = await _context.BaiViets.FirstOrDefaultAsync(x => x.MaBaiViet == maBaiViet && x.DeletedAt == null);
             if (item == null)
                 return BaseResult.Fail("Bài viết không tồn tại");
 
@@ -109,7 +109,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 {
                     var slug = await _slugService.GenerateUniqueSlugAsync(
                         baiViet.TieuDe,
-                        _context.BaiViets.AsNoTracking().Where(x => x.Id != id),
+                        _context.BaiViets.AsNoTracking().Where(x => x.MaBaiViet != maBaiViet),
                         x => x.Slug
                     );
                     
@@ -118,7 +118,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 }
 
                 item.NoiDung = baiViet.NoiDung;
-                item.DanhMucId = baiViet.DanhMucId;
+                item.MaDanhMuc = baiViet.MaDanhMuc;
                 item.TrangThai = baiViet.TrangThai;
                 item.UpdatedAt = DateTime.UtcNow;
                 item.UpdatedBy = baiViet.UpdatedBy;
@@ -144,14 +144,14 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult<BaiVietVM>> GetBaiVietById(int id)
+        public async Task<BaseResult<BaiVietVM>> GetBaiVietById(int maBaiViet)
         {
             var item = await _context.BaiViets
                 .AsNoTracking()
-                .Where(x => x.Id == id && x.DeletedAt == null)
+                .Where(x => x.MaBaiViet == maBaiViet && x.DeletedAt == null)
                 .Select(x => new BaiVietVM
                 {
-                    Id = x.Id,
+                    MaBaiViet = x.MaBaiViet,
                     TieuDe = x.TieuDe,
                     AnhMinhHoa = x.AnhMinhHoa,
                     TacGia = x.TacGia,
@@ -159,7 +159,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                     Slug = x.Slug,
                     TuKhoa = x.TuKhoa,
                     TrangThai = x.TrangThai,
-                    DanhMucId = x.DanhMucId,
+                    MaDanhMuc = x.MaDanhMuc,
                     DanhMuc = x.DanhMuc.Ten,
                     CreatedAt = x.CreatedAt,
                     DeletedAt = x.DeletedAt
@@ -174,7 +174,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             return BaseResult<BaiVietVM>.Success(item, "Lấy dữ liệu bài viết thành công");
         }
 
-        public async Task<PageResult<BaiVietVM>> GetListBaiViet(int pageIndex, int pageSize, string? keyword, int? danhMucId = null, BaiVietStatus? status = null)
+        public async Task<PageResult<BaiVietVM>> GetListBaiViet(int pageIndex, int pageSize, string? keyword, int? MaDanhMuc = null, BaiVietStatus? status = null)
         {
             var query = _context.BaiViets.Where(x => x.DeletedAt == null).AsNoTracking();
 
@@ -183,9 +183,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 query = query.Where(x => x.TieuDe.Contains(keyword) || x.TacGia.Contains(keyword));
             }
             
-            if (danhMucId.HasValue)
+            if (MaDanhMuc.HasValue)
             {
-                query = query.Where(x => x.DanhMucId == danhMucId.Value);
+                query = query.Where(x => x.MaDanhMuc == MaDanhMuc.Value);
             }
 
             if (status.HasValue)
@@ -204,14 +204,14 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 .Take(pageSize)
                 .Select(x => new BaiVietVM
                 {
-                    Id = x.Id,
+                    MaBaiViet = x.MaBaiViet,
                     TieuDe = x.TieuDe,
                     AnhMinhHoa = x.AnhMinhHoa,
                     TacGia = x.TacGia,
                     NoiDung = x.NoiDung,
                     Slug = x.Slug,
                     TrangThai = x.TrangThai,
-                    DanhMucId = x.DanhMucId,
+                    MaDanhMuc = x.MaDanhMuc,
                     DanhMuc = x.DanhMuc.Ten,
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,

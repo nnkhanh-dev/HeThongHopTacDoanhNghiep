@@ -1,0 +1,112 @@
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Company.ViewModels.DonUngTuyen.DonUngTuyenVM>
+@using HopTacDoanhNghiep.Enums.HoSo
+
+@{
+    ViewData["Title"] = "Đơn ứng tuyển";
+    var keyword = Context.Request.Query["keyword"].ToString();
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-file-signature"></i> Đơn ứng tuyển
+        </div>
+        <div class="box-body">
+            @Html.AntiForgeryToken()
+
+            @if (Model?.Records != null && Model.Records.Any())
+            {
+                <div class="don-ung-tuyen-grid">
+                    @foreach (var item in Model.Records)
+                    {
+                        <article class="don-ung-tuyen-card">
+                            <div class="don-ung-tuyen-card-header">
+                                <div>
+                                    <div class="don-ung-tuyen-date">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        @item.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                    </div>
+                                </div>
+
+                                <div>
+                                    @switch (item.TrangThai)
+                                    {
+                                        case HoSoStatus.ChoPhanHoi:
+                                            <span class="badge bg-warning text-dark">Chờ phản hồi</span>
+                                            break;
+                                        case HoSoStatus.ChapNhan:
+                                            <span class="badge bg-success">Chấp nhận</span>
+                                            break;
+                                        case HoSoStatus.TuChoi:
+                                            <span class="badge bg-danger">Từ chối</span>
+                                            break;
+                                        case HoSoStatus.RutHoSo:
+                                            <span class="badge bg-secondary">Rút hồ sơ</span>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="don-ung-tuyen-card-body">
+                                <h3 class="don-ung-tuyen-title">
+                                    <a href="javascript:void(0);">@item.TieuDeTinTuyenDung</a>
+                                </h3>
+
+                                <div class="don-ung-tuyen-meta-list">
+                                    <div class="don-ung-tuyen-meta-item">
+                                        <span class="don-ung-tuyen-meta-label">Ứng viên</span>
+                                        <span class="don-ung-tuyen-meta-value">@(!string.IsNullOrWhiteSpace(item.TenSinhVien) ? item.TenSinhVien : "Chưa cập nhật")</span>
+                                    </div>
+                                    <div class="don-ung-tuyen-meta-item">
+                                        <span class="don-ung-tuyen-meta-label">Hồ sơ</span>
+                                        <span class="don-ung-tuyen-meta-value">
+                                            @if (!string.IsNullOrWhiteSpace(item.HoSoUngTuyen))
+                                            {
+                                                <a href="@item.HoSoUngTuyen" target="_blank" rel="noopener noreferrer">
+                                                    Xem hồ sơ
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Chưa có</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="don-ung-tuyen-card-footer">
+                                @if (item.TrangThai == HoSoStatus.ChoPhanHoi)
+                                {
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-success btn-change-status" data-maut="@item.MaUT" data-trangthai="@( (int)HopTacDoanhNghiep.Enums.HoSo.HoSoStatus.ChapNhan )">Chấp nhận</button>
+                                        <button type="button" class="btn btn-sm btn-danger btn-change-status" data-maut="@item.MaUT" data-trangthai="@( (int)HopTacDoanhNghiep.Enums.HoSo.HoSoStatus.TuChoi )">Từ chối</button>
+                                    </div>
+                                }
+                            </div>
+                        </article>
+                    }
+                </div>
+
+                <div class="pagination-wrapper">
+                    @await Html.PartialAsync("_Pagination", Model)
+                </div>
+            }
+            else
+            {
+                <div class="text-center w-100 fs-4 fw-bold text-muted mt-5">
+                    <i class="fa-solid fa-folder-open empty-icon"></i>
+                    Không có đơn ứng tuyển nào
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/company/DonUngTuyen/DonUngTuyen.js"></script>
+}
+
+@section Styles {
+    <link href="/css/company/DonUngTuyen/DonUngTuyen.css" rel="stylesheet" />
+}

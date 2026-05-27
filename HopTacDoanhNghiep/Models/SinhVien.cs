@@ -9,17 +9,13 @@ namespace HopTacDoanhNghiep.Models
     public class SinhVien
     {
         [Key]
-        public Guid Id { get; set; } 
-        public string HoTen { get; set; }
-        public string MaSV { get; set; }
-        public DateTime NgaySinh { get; set; }
-        public string Email { get; set; }
-        public string SDT { get; set; }
-        public string NguoiDungId { get; set; }
+        public string MaSV { get; set; } 
+        public string EmailGiaoDuc { get; set; }
+        public string MaNguoiDung { get; set; }
+        public string HoSoNangLuc { get; set; }
         public string? AnhThe { get; set; }
-        public bool TimViec { get; set; } = false;
         public string? GhiChu { get; set; }
-        [ForeignKey("NguoiDungId")]
+        [ForeignKey("MaNguoiDung")]
         public AppUser NguoiDung { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -28,7 +24,6 @@ namespace HopTacDoanhNghiep.Models
         public DateTime? DeletedAt { get; set; }
         public string? DeletedBy { get; set; }
 
-        public ICollection<SinhVienViecLam> SinhVienViecLams { get; set; }
-        public ICollection<LuuTru> LuuTrus { get; set; }
+        public ICollection<DonUngTuyen> DonUngTuyens { get; set; }
     }
 }

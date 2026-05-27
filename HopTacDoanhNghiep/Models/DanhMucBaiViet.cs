@@ -5,7 +5,7 @@ namespace HopTacDoanhNghiep.Models
     public class DanhMucBaiViet
     {
         [Key]
-        public int Id { get; set; }
+        public int MaDanhMuc { get; set; }
         public string Ten { get; set; }
         public string? MoTa { get; set; }
         public string Slug { get; set; }

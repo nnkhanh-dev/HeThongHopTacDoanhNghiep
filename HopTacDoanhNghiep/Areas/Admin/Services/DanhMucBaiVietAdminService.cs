@@ -50,9 +50,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> EditDanhMucBaiViet(int id, DanhMucBaiVietEditVM danhMuc)
+        public async Task<BaseResult> EditDanhMucBaiViet(int maDanhMuc, DanhMucBaiVietEditVM danhMuc)
         {
-            var item = await _context.DanhMucBaiViets.FirstOrDefaultAsync(x => x.Id == id && x.DeletedAt == null);
+            var item = await _context.DanhMucBaiViets.FirstOrDefaultAsync(x => x.MaDanhMuc == maDanhMuc && x.DeletedAt == null);
 
             if(item == null)
             {
@@ -63,7 +63,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             {
                 var slug = await _slug.GenerateUniqueSlugAsync(
                     danhMuc.Ten,
-                    _context.DanhMucBaiViets.AsNoTracking().Where(x => x.Id != id && x.DeletedAt == null),
+                    _context.DanhMucBaiViets.AsNoTracking().Where(x => x.MaDanhMuc != maDanhMuc && x.DeletedAt == null),
                     x => x.Slug
                 );
 
@@ -88,16 +88,16 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }
         }
 
-        public async Task<BaseResult> DeleteDanhMucBaiViet(int id, string deletedBy)
+        public async Task<BaseResult> DeleteDanhMucBaiViet(int maDanhMuc, string deletedBy)
         {
-            var item = await _context.DanhMucBaiViets.FirstOrDefaultAsync(x=> x.Id == id && x.DeletedAt == null);
+            var item = await _context.DanhMucBaiViets.FirstOrDefaultAsync(x=> x.MaDanhMuc == maDanhMuc && x.DeletedAt == null);
 
             if (item == null)
             {
                 return BaseResult.Fail("Danh mục bài viết không tồn tại.");
             }
 
-            var hasBaiViet = await _context.BaiViets.AnyAsync(x => x.DanhMucId == id && x.DeletedAt == null);
+            var hasBaiViet = await _context.BaiViets.AnyAsync(x => x.MaDanhMuc == maDanhMuc && x.DeletedAt == null);
 
             if (hasBaiViet)
             {
@@ -117,14 +117,14 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
             }          
         }
 
-        public async Task<BaseResult<DanhMucBaiVietVM>> GetDanhMucBaiVietById(int id)
+        public async Task<BaseResult<DanhMucBaiVietVM>> GetDanhMucBaiVietById(int maDanhMuc)
         {
             var result = await _context.DanhMucBaiViets
                 .AsNoTracking()
-                .Where(x => x.Id == id && x.DeletedAt == null) 
+                .Where(x => x.MaDanhMuc == maDanhMuc && x.DeletedAt == null) 
                 .Select(x => new DanhMucBaiVietVM
                 {
-                    Id = x.Id,
+                    MaDanhMuc = x.MaDanhMuc,
                     Ten = x.Ten,
                     MoTa = x.MoTa,
                     Slug = x.Slug,
@@ -160,7 +160,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
                 .Take(pageSize)
                 .Select(x => new DanhMucBaiVietVM
                 {
-                    Id = x.Id,
+                    MaDanhMuc = x.MaDanhMuc,
                     Ten = x.Ten,
                     MoTa = x.MoTa,
                     Slug = x.Slug,

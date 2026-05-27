@@ -4,7 +4,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet
 {
     public class BaiVietVM
     {
-        public int? Id { get; set; }
+        public int? MaBaiViet { get; set; }
         public string? TieuDe { get; set; }
         public string? AnhMinhHoa { get; set; }
         public string? TacGia { get; set; }
@@ -12,7 +12,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.ViewModels.BaiViet
         public string? Slug { get; set; }
         public BaiVietStatus? TrangThai { get; set; }
         public string? TuKhoa { get; set; }
-        public int? DanhMucId { get; set; }
+        public int? MaDanhMuc { get; set; }
         public string? DanhMuc { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

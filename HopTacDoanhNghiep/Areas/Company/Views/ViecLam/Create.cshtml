@@ -1,4 +1,4 @@
-﻿@model HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.VietLamCreateVM
+﻿@model HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.TinTuyenDungCreateVM
 @{
     ViewData["Title"] = "Tạo việc làm";
 }
@@ -20,13 +20,6 @@
                         <label asp-for="TieuDe"><strong>Tiêu đề</strong> <span class="text-danger">(*)</span></label>
                         <input asp-for="TieuDe" class="form-control" placeholder="Nhập tiêu đề việc làm" />
                         <span asp-validation-for="TieuDe" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label><strong>Lĩnh vực</strong> <span class="text-danger">(*)</span></label>
-                        <select id="LinhVucSelect" name="LinhVucId" class="form-select" data-initial-val="@Model?.LinhVucId">
-                        </select>
-                        <span class="text-danger" data-valmsg-for="LinhVucId"></span>
                     </div>
 
                     <div class="mb-3">

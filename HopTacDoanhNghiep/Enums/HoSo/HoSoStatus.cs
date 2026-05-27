@@ -5,9 +5,6 @@
         RutHoSo = -1,
         ChoPhanHoi = 0,
         ChapNhan = 1,
-        TuChoi = 2,
-        DangKyPhongVan = 3,
-        PhongVanThanhCong = 4,
-        PhongVanThatBai = 5
+        TuChoi = 2
     }
 }

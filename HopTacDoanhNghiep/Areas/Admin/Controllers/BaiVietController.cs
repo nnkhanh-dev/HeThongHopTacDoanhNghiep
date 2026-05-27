@@ -104,7 +104,7 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
                 TieuDe = baiViet.Data.TieuDe,
                 NoiDung = baiViet.Data.NoiDung,
                 AnhHienTai = baiViet.Data.AnhMinhHoa,
-                DanhMucId = baiViet.Data.DanhMucId ?? 0,
+                MaDanhMuc = baiViet.Data.MaDanhMuc ?? 0,
                 DanhMuc = baiViet.Data.DanhMuc ?? "",
                 TrangThai = baiViet.Data.TrangThai ?? BaiVietStatus.Nhap,
             };

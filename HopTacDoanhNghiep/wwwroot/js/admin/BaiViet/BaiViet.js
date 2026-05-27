@@ -54,7 +54,7 @@ function initDanhMucSelect() {
                 if (items.length > 0) {
                     results = items.map(function (item) {
                         return {
-                            id: item.id,
+                            id: item.maDanhMuc,
                             text: item.ten
                         };
                     });
@@ -175,7 +175,7 @@ function initSelect2ForDanhMucFilter($filter) {
                 if (items.length > 0) {
                     results = items.map(function (item) {
                         return {
-                            id: item.id,
+                            id: item.maDanhMuc,
                             text: item.ten
                         };
                     });
