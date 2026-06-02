@@ -85,11 +85,12 @@ builder.Services.AddScoped<IDoanhNghiepOfficer, DoanhNghiepOfficerService>();
 builder.Services.AddScoped<IDonViAdmin, DonViAdminService>();
 builder.Services.AddScoped<IChucVuAdmin, ChucVuAdminService>();
 builder.Services.AddScoped<ICanBoAdmin, CanBoAdminService>();
+builder.Services.AddScoped<IDoanhNghiepCompany, DoanhNghiepCompanyService>();
 
 var app = builder.Build();
 
 // SEED DATABASE
-await DbInitializer.SeedAsync(app);
+//await DbInitializer.SeedAsync(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

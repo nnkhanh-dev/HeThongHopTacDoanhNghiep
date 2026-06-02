@@ -1,4 +1,10 @@
 ﻿<aside class="sidebar" id="sidebar">
+    @{
+        var isKhoa = User.FindFirst("isKhoa")?.Value == "true";
+        var isBGH = User.FindFirst("isBGH")?.Value == "true";
+        var isPCTSV = User.FindFirst("isPCTSV")?.Value == "true";
+    }
+
     <div class="sidebar-header">
         <a href="/admin/dashboard" class="sidebar-brand">
             <img src="/image/layout/logo_htdn_basic.png" alt="Logo HTDN">
@@ -30,9 +36,18 @@
                 <div class="submenu-item">
                     <a href="/can-bo/doanh-nghiep/danh-sach">Danh sách</a>
                 </div>
-                <div class="submenu-item">
-                    <a href="/can-bo/doanh-nghiep/dang-ky">Đăng ký</a>
-                </div>
+                @if (isKhoa)
+                {
+                    <div class="submenu-item">
+                        <a href="/can-bo/doanh-nghiep/hop-tac">Hợp tác</a>
+                    </div>
+                }
+                @if (isBGH || isPCTSV)
+                {
+                    <div class="submenu-item">
+                        <a href="/can-bo/doanh-nghiep/dang-ky">Đăng ký</a>
+                    </div>
+                }
             </div>
         </div>
 

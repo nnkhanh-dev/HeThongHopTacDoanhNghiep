@@ -65,6 +65,42 @@
             </div>
 
             <div class="mb-3">
+                <strong>Chuyển trạng thái</strong>
+                <div class="content-box d-flex flex-wrap gap-2 align-items-center">
+                    @switch (Model.TrangThaiHopTac)
+                    {
+                        case HopTacDoanhNghiepStatus.ChoXuLy:
+                            <button type="button" class="btn btn-success btn-change-status" data-url="@Url.Action("UpdateTrangThaiHopTac", "DoanhNghiep", new { area = "Officer", MaDN = Model.MaDN })" data-status="@((int)HopTacDoanhNghiepStatus.XacNhanDoanhNghiep)" data-action-text="xác nhận doanh nghiệp">
+                                <i class="fa-solid fa-circle-check"></i> Xác nhận doanh nghiệp
+                            </button>
+                            <button type="button" class="btn btn-danger btn-change-status" data-url="@Url.Action("UpdateTrangThaiHopTac", "DoanhNghiep", new { area = "Officer", MaDN = Model.MaDN })" data-status="@((int)HopTacDoanhNghiepStatus.TuChoi)" data-action-text="từ chối doanh nghiệp">
+                                <i class="fa-solid fa-circle-xmark"></i> Từ chối
+                            </button>
+                            break;
+                        case HopTacDoanhNghiepStatus.XacNhanDoanhNghiep:
+                            <button type="button" class="btn btn-success btn-change-status" data-url="@Url.Action("UpdateTrangThaiHopTac", "DoanhNghiep", new { area = "Officer", MaDN = Model.MaDN })" data-status="@((int)HopTacDoanhNghiepStatus.XacNhanHopTac)" data-action-text="xác nhận hợp tác">
+                                <i class="fa-solid fa-handshake"></i> Xác nhận hợp tác
+                            </button>
+                            <button type="button" class="btn btn-danger btn-change-status" data-url="@Url.Action("UpdateTrangThaiHopTac", "DoanhNghiep", new { area = "Officer", MaDN = Model.MaDN })" data-status="@((int)HopTacDoanhNghiepStatus.TuChoi)" data-action-text="từ chối hợp tác">
+                                <i class="fa-solid fa-circle-xmark"></i> Từ chối
+                            </button>
+                            break;
+                        case HopTacDoanhNghiepStatus.XacNhanHopTac:
+                            <button type="button" class="btn btn-primary btn-change-status" data-url="@Url.Action("UpdateTrangThaiHopTac", "DoanhNghiep", new { area = "Officer", MaDN = Model.MaDN })" data-status="@((int)HopTacDoanhNghiepStatus.DuyetHopTac)" data-action-text="duyệt hợp tác">
+                                <i class="fa-solid fa-check-double"></i> Duyệt hợp tác
+                            </button>
+                            <button type="button" class="btn btn-danger btn-change-status" data-url="@Url.Action("UpdateTrangThaiHopTac", "DoanhNghiep", new { area = "Officer", MaDN = Model.MaDN })" data-status="@((int)HopTacDoanhNghiepStatus.TuChoi)" data-action-text="từ chối hợp tác">
+                                <i class="fa-solid fa-circle-xmark"></i> Từ chối
+                            </button>
+                            break;
+                        default:
+                            <span class="text-muted">Không có hành động khả dụng ở trạng thái hiện tại.</span>
+                            break;
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
                 <strong>Thông tin người đại diện</strong>
                 <div class="content-box">
                     <dl class="row mb-0">
@@ -89,4 +125,8 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/officer/ChiTietDoanhNghiep.css" />
+}
+
+@section Scripts {
+    <script src="~/js/officer/DoanhNghiep/ChiTietDangKyDoanhNghiep.js" asp-append-version="true"></script>
 }

@@ -105,6 +105,10 @@ namespace HopTacDoanhNghiep.Controllers
             }
 
             var roles = await _userManager.GetRolesAsync(user);
+            var isOfficer = roles.Contains("Officer");
+            var isKhoa = false;
+            var isBGH = false;
+            var isPCTSV = false;
 
             if (roles.Contains("Company"))
             {
@@ -118,6 +122,21 @@ namespace HopTacDoanhNghiep.Controllers
                         "Thông tin hoặc trạng thái hợp tác chưa được phê duyệt");
 
                     return View(model);
+                }
+            }
+
+            if (isOfficer)
+            {
+                var canBo = await _context.CanBos
+                    .Include(x => x.DonVi)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.MaNguoiDung == user.Id);
+
+                if (canBo?.DonVi != null)
+                {
+                    isPCTSV = canBo.DonVi.TenDV == "Phòng Công Tác Sinh Viên";
+                    isBGH = canBo.DonVi.TenDV == "Ban Giám Hiệu";
+                    isKhoa = canBo.DonVi.NhanDoiTac == true;
                 }
             }
 
@@ -140,17 +159,30 @@ namespace HopTacDoanhNghiep.Controllers
             // Xóa claims cũ để cập nhật lại
             var fullNameClaim = existingClaims.FirstOrDefault(c => c.Type == "FullName");
             var avatarClaim = existingClaims.FirstOrDefault(c => c.Type == "Avatar");
+            var isKhoaClaim = existingClaims.FirstOrDefault(c => c.Type == "isKhoa");
+            var isBGHClaim = existingClaims.FirstOrDefault(c => c.Type == "isBGH");
+            var isPCTSVClaim = existingClaims.FirstOrDefault(c => c.Type == "isPCTSV");
             
             if (fullNameClaim != null)
                 await _userManager.RemoveClaimAsync(user, fullNameClaim);
             if (avatarClaim != null)
                 await _userManager.RemoveClaimAsync(user, avatarClaim);
+            if (isKhoaClaim != null)
+                await _userManager.RemoveClaimAsync(user, isKhoaClaim);
+            if (isBGHClaim != null)
+                await _userManager.RemoveClaimAsync(user, isBGHClaim);
+            if (isPCTSVClaim != null)
+                await _userManager.RemoveClaimAsync(user, isPCTSVClaim);
 
-           await _userManager.AddClaimAsync(user,
-                    new Claim("FullName", user.HoTen ?? user.UserName ?? "Admin"));
+            await _userManager.AddClaimAsync(user,
+                new Claim("FullName", user.HoTen ?? user.UserName ?? "Admin"));
 
             if (!string.IsNullOrEmpty(user.AnhDaiDien))
                 await _userManager.AddClaimAsync(user, new Claim("Avatar", user.AnhDaiDien));
+
+            await _userManager.AddClaimAsync(user, new Claim("isKhoa", isKhoa.ToString().ToLowerInvariant()));
+            await _userManager.AddClaimAsync(user, new Claim("isBGH", isBGH.ToString().ToLowerInvariant()));
+            await _userManager.AddClaimAsync(user, new Claim("isPCTSV", isPCTSV.ToString().ToLowerInvariant()));
 
             // Sign in lại với claims mới
             await _signInManager.SignInAsync(user, isPersistent: model.RememberMe);
@@ -260,7 +292,7 @@ namespace HopTacDoanhNghiep.Controllers
                 HoTen = model.HoTenNguoiDaiDien
             };
 
-            var password = "Company@123";
+            var password = "DoanhNghiep@123";
 
             bool userCreated = false;
 

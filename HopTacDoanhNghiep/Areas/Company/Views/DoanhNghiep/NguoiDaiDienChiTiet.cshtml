@@ -1,0 +1,56 @@
+@using HopTacDoanhNghiep.Areas.Officer.ViewModels
+@model NguoiDaiDienVM
+@{
+    ViewData["Title"] = "Người đại diện";
+}
+
+<div class="container">
+    <div class="box mb-4">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-user"></i> Người đại diện
+        </div>
+        <div class="box-body">
+            @if (Model != null)
+            {
+                <div class="content-box">
+                    <div class="row g-4">
+                        <div class="col-md-3 text-center">
+                            @if (!string.IsNullOrWhiteSpace(Model.AnhNguoiDaiDien))
+                            {
+                                <img src="@Model.AnhNguoiDaiDien" alt="Ảnh người đại diện" class="img-fluid img-thumbnail" style="max-width:180px;" />
+                            }
+                            else
+                            {
+                                <div class="border rounded d-flex align-items-center justify-content-center bg-light" style="min-height: 140px;">
+                                    <span class="text-muted">Chưa có ảnh</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-9">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-3">Họ và tên</dt>
+                                <dd class="col-sm-9">@Model.HoTen</dd>
+
+                                <dt class="col-sm-3">Số điện thoại</dt>
+                                <dd class="col-sm-9">@Model.SoDienThoai</dd>
+
+                                <dt class="col-sm-3">Email</dt>
+                                <dd class="col-sm-9">@Model.Email</dd>
+                            </dl>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <a href="/doanh-nghiep/nguoi-dai-dien/chinh-sua" class="btn btn-primary">Cập nhật</a>
+                                <a href="/doanh-nghiep/thong-tin" class="btn btn-secondary">Quay lại</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/company/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

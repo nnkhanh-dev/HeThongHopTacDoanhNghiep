@@ -1,0 +1,102 @@
+@model HopTacDoanhNghiep.Areas.Company.ViewModels.DoanhNghiep.DoanhNghiepVM
+@using HopTacDoanhNghiep.Enums.HopTac
+@{
+    ViewData["Title"] = "Thông tin doanh nghiệp";
+}
+
+<div class="container">
+    <div class="box mb-4">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-building"></i> Thông tin doanh nghiệp
+        </div>
+        <div class="box-body">
+            @if (Model != null)
+            {
+                <div class="content-box mb-4">
+                    <div class="row g-4 align-items-start">
+                        <div class="col-md-3 text-center">
+                            @if (!string.IsNullOrWhiteSpace(Model.Logo))
+                            {
+                                <img src="@Model.Logo" alt="Logo doanh nghiệp" class="img-fluid img-thumbnail" style="max-width: 220px;" />
+                            }
+                            else
+                            {
+                                <div class="border rounded d-flex align-items-center justify-content-center bg-light" style="min-height: 180px;">
+                                    <span class="text-muted">Chưa có logo</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-9">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-3">Mã doanh nghiệp</dt>
+                                <dd class="col-sm-9">@Model.MaDN</dd>
+
+                                <dt class="col-sm-3">Trạng thái hợp tác</dt>
+                                <dd class="col-sm-9">
+                                    @switch (Model.TrangThaiHopTac)
+                                    {
+                                        case HopTacDoanhNghiepStatus.ChoXuLy:
+                                            <span class="badge bg-warning text-dark">Chờ xử lý</span>
+                                            break;
+                                        case HopTacDoanhNghiepStatus.XacNhanDoanhNghiep:
+                                            <span class="badge bg-info text-dark">Xác nhận doanh nghiệp</span>
+                                            break;
+                                        case HopTacDoanhNghiepStatus.XacNhanHopTac:
+                                            <span class="badge bg-success">Xác nhận hợp tác</span>
+                                            break;
+                                        case HopTacDoanhNghiepStatus.DuyetHopTac:
+                                            <span class="badge bg-primary">Đã duyệt hợp tác</span>
+                                            break;
+                                        case HopTacDoanhNghiepStatus.TuChoi:
+                                            <span class="badge bg-danger">Từ chối</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary">Không xác định</span>
+                                            break;
+                                    }
+                                </dd>
+
+                                <dt class="col-sm-3">Ghi chú</dt>
+                                <dd class="col-sm-9">@(!string.IsNullOrWhiteSpace(Model.GhiChu) ? Model.GhiChu : "-")</dd>
+
+                                <dt class="col-sm-3">Ngày tạo</dt>
+                                <dd class="col-sm-9">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                                <dt class="col-sm-3">Cập nhật gần nhất</dt>
+                                <dd class="col-sm-9">@(Model.UpdatedAt.HasValue ? Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "-")</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.GioiThieu))
+                {
+                    <div class="mb-3">
+                        <strong>Giới thiệu:</strong>
+                        <div class="content-box">
+                            @Html.Raw(Model.GioiThieu)
+                        </div>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.NoiDungHopTac))
+                {
+                    <div class="mb-3">
+                        <strong>Nội dung hợp tác:</strong>
+                        <div class="content-box">
+                            @Html.Raw(Model.NoiDungHopTac)
+                        </div>
+                    </div>
+                }
+
+                <div class="d-flex gap-2 mt-3">
+                    <a href="/doanh-nghiep/chinh-sua" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Cập nhật</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/company/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

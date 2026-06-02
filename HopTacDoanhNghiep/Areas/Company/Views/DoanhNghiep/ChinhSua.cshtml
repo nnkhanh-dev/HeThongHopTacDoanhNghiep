@@ -1,0 +1,94 @@
+@model HopTacDoanhNghiep.Areas.Company.ViewModels.DoanhNghiep.DoanhNghiepUpdateVM
+@using HopTacDoanhNghiep.Areas.Company.ViewModels.DoanhNghiep
+@{
+    ViewData["Title"] = "Cập nhật thông tin doanh nghiệp";
+    var doanhNghiep = ViewBag.DoanhNghiep as DoanhNghiepVM;
+}
+
+<div class="container">
+    <div class="box mb-4">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-building"></i> Cập nhật thông tin doanh nghiệp
+        </div>
+        <div class="box-body">
+            <form method="post" asp-action="ChinhSua" asp-controller="DoanhNghiep" asp-area="Company" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <input asp-for="Logo" type="hidden" />
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="TenHienThi" class="form-label"><strong>Tên hiển thị</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="TenHienThi" class="form-control" />
+                        <span asp-validation-for="TenHienThi" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="TenPhapLy" class="form-label"><strong>Tên pháp lý</strong></label>
+                        <input asp-for="TenPhapLy" class="form-control" />
+                        <span asp-validation-for="TenPhapLy" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="MaSoThue" class="form-label"><strong>Mã số thuế</strong></label>
+                        <input asp-for="MaSoThue" class="form-control" />
+                        <span asp-validation-for="MaSoThue" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Website" class="form-label"><strong>Website</strong></label>
+                        <input asp-for="Website" class="form-control" />
+                        <span asp-validation-for="Website" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Hotline" class="form-label"><strong>Hotline</strong></label>
+                        <input asp-for="Hotline" class="form-control" />
+                        <span asp-validation-for="Hotline" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="EmailCongTy" class="form-label"><strong>Email công ty</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="EmailCongTy" class="form-control" />
+                        <span asp-validation-for="EmailCongTy" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="QuyMoNhanSu" class="form-label"><strong>Quy mô nhân sự</strong></label>
+                        <input asp-for="QuyMoNhanSu" type="number" min="0" class="form-control" />
+                        <span asp-validation-for="QuyMoNhanSu" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="LogoFile" class="form-label"><strong>Logo mới</strong></label>
+                        <input name="LogoFile" id="LogoFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.gif,.webp" />
+                        <div class="form-text">Nếu không chọn file, logo hiện tại sẽ được giữ nguyên.</div>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="DiaChi" class="form-label"><strong>Địa chỉ</strong></label>
+                        <input asp-for="DiaChi" class="form-control" />
+                        <span asp-validation-for="DiaChi" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="GioiThieu" class="form-label"><strong>Giới thiệu</strong></label>
+                        <textarea asp-for="GioiThieu" rows="8" class="form-control"></textarea>
+                        <span asp-validation-for="GioiThieu" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                    </button>
+                    <a href="/doanh-nghiep/thong-tin" class="btn btn-secondary">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

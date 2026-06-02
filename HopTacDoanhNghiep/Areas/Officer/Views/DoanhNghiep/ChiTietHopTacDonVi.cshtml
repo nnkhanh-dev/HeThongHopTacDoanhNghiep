@@ -1,0 +1,138 @@
+@model HopTacDoanhNghiep.Areas.Officer.ViewModels.HopTacDonViVM
+@using HopTacDoanhNghiep.Enums.HopTac
+
+@{
+    ViewData["Title"] = "Chi tiết hợp tác đơn vị";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-handshake"></i> Chi tiết hợp tác đơn vị
+        </div>
+        <div class="box-body">
+            <div class="section-heading"><strong>Thông tin hợp tác</strong></div>
+            <div class="content-box mb-4">
+                <dl class="row gy-3 mb-0 detail-dl align-items-start">
+                    <dt class="col-md-3 text-muted">Mã hợp tác đơn vị</dt>
+                    <dd class="col-md-9 fw-semibold mb-0">@Model.MaHTDV</dd>
+
+                    <dt class="col-md-3 text-muted">Trạng thái</dt>
+                    <dd class="col-md-9 mb-0">
+                        @switch (Model.TrangThaiHopTac)
+                        {
+                            case HopTacDonViStatus.ChoPhanHoi:
+                                <span class="badge bg-warning text-dark">Chờ phản hồi</span>
+                                break;
+                            case HopTacDonViStatus.HopTac:
+                                <span class="badge bg-success">Hợp tác</span>
+                                break;
+                            case HopTacDonViStatus.KhongHopTac:
+                                <span class="badge bg-danger">Không hợp tác</span>
+                                break;
+                            default:
+                                <span class="badge bg-secondary">Không xác định</span>
+                                break;
+                        }
+                    </dd>
+
+                    <dt class="col-md-3 text-muted">Nội dung hợp tác</dt>
+                    <dd class="col-md-9 mb-0 lh-lg">@(!string.IsNullOrWhiteSpace(Model.NoiDungHopTac) ? Model.NoiDungHopTac : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Ngày tạo</dt>
+                    <dd class="col-md-9 mb-0">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                    <dt class="col-md-3 text-muted">Cập nhật gần nhất</dt>
+                    <dd class="col-md-9 mb-0">@(Model.UpdatedAt.HasValue ? Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "-")</dd>
+                </dl>
+            </div>
+
+            <div class="section-heading"><strong>Doanh nghiệp</strong></div>
+            <div class="content-box mb-4">
+                <dl class="row gy-3 mb-0 detail-dl align-items-start">
+                    <dt class="col-md-3 text-muted">Mã DN</dt>
+                    <dd class="col-md-9 fw-semibold mb-0">@Model.MaDN</dd>
+
+                    <dt class="col-md-3 text-muted">Tên hiển thị</dt>
+                    <dd class="col-md-9 mb-0">@Model.TenHienThi</dd>
+
+                    <dt class="col-md-3 text-muted">Tên pháp lý</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.TenPhapLy) ? Model.TenPhapLy : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Mã số thuế</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.MaSoThue) ? Model.MaSoThue : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Website</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.Website) ? Model.Website : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Hotline</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.Hotline) ? Model.Hotline : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Email</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.EmailCongTy) ? Model.EmailCongTy : "-")</dd>
+                </dl>
+            </div>
+
+            <div class="section-heading"><strong>Đơn vị</strong></div>
+            <div class="content-box mb-4">
+                <dl class="row gy-3 mb-0 detail-dl align-items-start">
+                    <dt class="col-md-3 text-muted">Mã đơn vị</dt>
+                    <dd class="col-md-9 fw-semibold mb-0">@(Model.MaDV.HasValue ? Model.MaDV.Value.ToString() : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Tên đơn vị</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.TenDV) ? Model.TenDV : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Điện thoại</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.DonViTel) ? Model.DonViTel : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Email</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.DonViEmail) ? Model.DonViEmail : "-")</dd>
+
+                    <dt class="col-md-3 text-muted">Website</dt>
+                    <dd class="col-md-9 mb-0">@(!string.IsNullOrWhiteSpace(Model.DonViWebsite) ? Model.DonViWebsite : "-")</dd>
+                </dl>
+            </div>
+
+            <div class="section-heading"><strong>Thao tác</strong></div>
+            <div class="content-box mb-4">
+                @if (Model.TrangThaiHopTac == HopTacDonViStatus.ChoPhanHoi)
+                {
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button"
+                                class="btn btn-success btn-action-status"
+                                data-url="@Url.Action("UpdateTrangThaiHopTacDV", "DoanhNghiep", new { area = "Officer", MaHTDV = Model.MaHTDV })"
+                                data-status="@((int)HopTacDonViStatus.HopTac)"
+                                data-action-text="đồng ý hợp tác">
+                            <i class="fa-solid fa-circle-check"></i> Đồng ý
+                        </button>
+                        <button type="button"
+                                class="btn btn-danger btn-action-status"
+                                data-url="@Url.Action("UpdateTrangThaiHopTacDV", "DoanhNghiep", new { area = "Officer", MaHTDV = Model.MaHTDV })"
+                                data-status="@((int)HopTacDonViStatus.KhongHopTac)"
+                                data-action-text="từ chối hợp tác">
+                            <i class="fa-solid fa-circle-xmark"></i> Từ chối
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <span class="text-muted">Không có thao tác nào khả dụng ở trạng thái hiện tại.</span>
+                }
+            </div>
+
+            <div class="mt-3 d-flex flex-wrap gap-2">
+                <a href="/can-bo/doanh-nghiep/hop-tac" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/officer/ChiTietDoanhNghiep.css" />
+}
+
+@section Scripts {
+    <script src="~/js/officer/DoanhNghiep/ChiTietHopTacDonVi.js" asp-append-version="true"></script>
+}
