@@ -1,0 +1,32 @@
+﻿@import url('../../_variables.css');
+
+.list-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.list-card .card {
+    width: 100%;
+    padding: 1rem;
+    background: #fdfdfd;
+    border: 1px solid #dadada;
+    box-shadow: var(--shadow-md);
+    border-radius: 0px !important;
+    border-left: 6px solid var(--dark-color); 
+    font-size: 1.25rem;
+}
+
+/* Tablet: 2 cột */
+@media (min-width: 768px) {
+    .list-card .card {
+        width: calc(50% - 0.5rem);
+    }
+}
+
+/* Desktop: 4 cột */
+@media (min-width: 1200px) {
+    .list-card .card {
+        width: calc(25% - 0.75rem);
+    }
+}

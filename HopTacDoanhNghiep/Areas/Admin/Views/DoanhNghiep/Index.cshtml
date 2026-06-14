@@ -1,0 +1,86 @@
+﻿@using HopTacDoanhNghiep.Enums.HopTac
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.DoanhNghiep.DoanhNghiepVM>
+
+@{
+    ViewData["Title"] = "Quản lý doanh nghiệp";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-user-tie"></i> Quản lý doanh nghiệp
+        </div>
+        <div class="box-body">
+            @await Html.PartialAsync("_Search")
+
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th>Mã DN</th>
+                            <th>Tên pháp lý</th>
+                            <th>Tên hiển thị</th>
+                            <th>Email</th>
+                            <th>Hotline</th>
+                            <th>Trạng thái</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.MaDN</td>
+                                    <td>@item.TenPhapLy</td>
+                                    <td>@item.TenHienThi</td>
+                                    <td>@item.EmailCongTy</td>
+                                    <td>@item.Hotline</td>
+                                    <td>
+                                        @switch (item.TrangThaiHopTac)
+                                        {
+                                            case HopTacDoanhNghiepStatus.ChoXuLy:
+                                                <span class="badge bg-warning text-dark">Chờ xử lý</span>
+                                                break;
+                                            case HopTacDoanhNghiepStatus.XacNhanDoanhNghiep:
+                                                <span class="badge bg-info text-dark">Xác nhận DN</span>
+                                                break;
+                                            case HopTacDoanhNghiepStatus.XacNhanHopTac:
+                                                <span class="badge bg-success">Xác nhận hợp tác</span>
+                                                break;
+                                            case HopTacDoanhNghiepStatus.DuyetHopTac:
+                                                <span class="badge bg-primary">Duyệt hợp tác</span>
+                                                break;
+                                            case HopTacDoanhNghiepStatus.TuChoi:
+                                                <span class="badge bg-danger">Từ chối</span>
+                                                break;
+                                            default:
+                                                <span class="badge bg-secondary">Không xác định</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/admin/doanh-nghiep/@item.MaDN" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>

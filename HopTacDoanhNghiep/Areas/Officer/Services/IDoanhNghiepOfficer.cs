@@ -16,8 +16,8 @@ namespace HopTacDoanhNghiep.Areas.Officer.Services
         Task<BaseResult<HopTacDonViVM>> GetHopTacDonViByMaHTDV (int MaHTDV);
         Task<BaseResult> UpdateTrangThaiHopTacDV(int maHTDV, HopTacDonViStatus trangThai, string MaCB);
 
-        // Người đại diện
-        Task<BaseResult<NguoiDaiDienVM>> GetNguoiDaiDienInfo(string MaDoanhNghiep);
-        Task<BaseResult> UpdateNguoiDaiDienInfo(string MaDoanhNghiep, NguoiDaiDienUpdateVM updateVM);
+        // Cán bộ
+        Task<BaseResult<CanBoVM>> GetCanBoInfo(string MaCanBo);
+        Task<BaseResult> UpdateCanBoInfo(string MaCanBo, CanBoUpdateVM updateVM);
     }
 }

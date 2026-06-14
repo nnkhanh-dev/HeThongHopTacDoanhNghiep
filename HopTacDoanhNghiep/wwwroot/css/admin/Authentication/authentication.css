@@ -1,7 +1,10 @@
-﻿.thumbnail{
+﻿@import url('../_variables.css');
+
+.thumbnail{
     max-width: 300px;
 }
 
 .thumbnail img{
     width: 100%;
 }
+

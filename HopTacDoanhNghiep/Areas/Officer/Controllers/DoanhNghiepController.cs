@@ -44,7 +44,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
             return View(model);
         }
 
-        [HttpGet("can-bo/dang-ky-doanh-nghiep/{MaDN}")]
+        [HttpGet("can-bo/doanh-nghiep/{MaDN}")]
         public async Task<IActionResult> Details(string MaDN)
         {
             var result = await _service.GetDoanhNghiepByMaDN(MaDN);
@@ -110,51 +110,54 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
         }
 
         [HttpGet("can-bo/thong-tin")]
-        public async Task<IActionResult> NguoiDaiDien()
+        public async Task<IActionResult> ThongTinCanBo()
         {
             var maDoanhNghiep = User.Identity?.Name;
             if (string.IsNullOrWhiteSpace(maDoanhNghiep))
                 return Unauthorized();
 
-            var result = await _service.GetNguoiDaiDienInfo(maDoanhNghiep);
+            var result = await _service.GetCanBoInfo(maDoanhNghiep);
             if (!result.IsSuccess || result.Data == null)
             {
                 TempData["ErrorMessage"] = result.Message ?? "Không tìm thấy người đại diện";
                 return RedirectToAction(nameof(Index));
             }
 
-            return View("NguoiDaiDienChiTiet", result.Data);
+            return View(result.Data);
         }
 
         [HttpGet("can-bo/thong-tin/chinh-sua")]
-        public async Task<IActionResult> ChinhSuaNguoiDaiDien()
+        public async Task<IActionResult> ChinhSuaCanBo()
         {
             var maDoanhNghiep = User.Identity?.Name;
             if (string.IsNullOrWhiteSpace(maDoanhNghiep))
                 return Unauthorized();
 
-            var result = await _service.GetNguoiDaiDienInfo(maDoanhNghiep);
+            var result = await _service.GetCanBoInfo(maDoanhNghiep);
             if (!result.IsSuccess || result.Data == null)
             {
                 TempData["ErrorMessage"] = result.Message ?? "Không tìm thấy người đại diện";
                 return RedirectToAction(nameof(Index));
             }
 
-            var vm = new NguoiDaiDienUpdateVM
+            var data = new CanBoUpdateVM
             {
                 HoTen = result.Data.HoTen ?? string.Empty,
                 SoDienThoai = result.Data.SoDienThoai ?? string.Empty,
                 Email = result.Data.Email ?? string.Empty,
-                AnhNguoiDaiDien = result.Data.AnhNguoiDaiDien
+                AnhNguoiDaiDien = result.Data.AnhNguoiDaiDien,
+                BHTN = result.Data.BHTN,
+                BHTT = result.Data.BHTT,
+                STK = result.Data.STK
             };
 
             ViewBag.DoanhNghiep = await _service.GetDoanhNghiepByMaDN(maDoanhNghiep);
-            return View("NguoiDaiDienChinhSua", vm);
+            return View(data);
         }
 
         [HttpPost("can-bo/thong-tin/chinh-sua")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChinhSuaNguoiDaiDien(NguoiDaiDienUpdateVM model, IFormFile? AnhFile)
+        public async Task<IActionResult> ChinhSuaCanBo(CanBoUpdateVM model, IFormFile? AnhFile)
         {
             var maDoanhNghiep = User.Identity?.Name;
             if (string.IsNullOrWhiteSpace(maDoanhNghiep))
@@ -163,7 +166,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ";
-                var current = await _service.GetNguoiDaiDienInfo(maDoanhNghiep);
+                var current = await _service.GetCanBoInfo(maDoanhNghiep);
                 if (current.IsSuccess && current.Data != null)
                 {
                     ViewBag.DoanhNghiep = await _service.GetDoanhNghiepByMaDN(maDoanhNghiep);
@@ -197,7 +200,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
 
             model.UpdatedBy = User.Identity?.Name;
 
-            var result = await _service.UpdateNguoiDaiDienInfo(maDoanhNghiep, model);
+            var result = await _service.UpdateCanBoInfo(maDoanhNghiep, model);
             if (!result.IsSuccess)
             {
                 TempData["ErrorMessage"] = result.Message;
@@ -211,7 +214,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
             }
 
             TempData["SuccessMessage"] = result.Message;
-            return RedirectToAction(nameof(NguoiDaiDien));
+            return RedirectToAction(nameof(ThongTinCanBo));
         }
     }
 }

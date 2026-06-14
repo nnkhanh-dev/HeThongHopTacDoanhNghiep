@@ -1,28 +1,50 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.AspNetCore.Http.Extensions
+
+@{
+    var keyword = Context.Request.Query["keyword"].ToString();
+    var currentPath = Context.Request.Path;
+    var clearQuery = Context.Request.Query.ToDictionary(x => x.Key, x => x.Value.ToString());
+    clearQuery.Remove("keyword");
+    clearQuery.Remove("pageIndex");
+    var clearUrl = QueryHelpers.AddQueryString(currentPath, clearQuery);
+}
 
 <header class="header">
     <button class="sidebar-toggle" id="sidebarToggle">
         <i class="fa-solid fa-bars"></i>
     </button>
-    
+
     <div class="header-right">
-        <div class="header-search">
+        <form class="header-search" method="get" action="@currentPath">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Tìm kiếm...">
-        </div>
-        
-        <div class="header-notifications">
+            <input type="text" name="keyword" placeholder="Tìm kiếm..." value="@keyword">
+            <input type="hidden" name="pageIndex" value="1" />
+            @if (!string.IsNullOrWhiteSpace(Context.Request.Query["pageSize"]))
+            {
+                <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+            }
+            @if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                <a href="@clearUrl" class="header-search-clear" title="Xóa tìm kiếm">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            }
+        </form>
+
+        @* <div class="header-notifications">
             <button class="notification-btn">
                 <i class="fa-solid fa-bell"></i>
                 <span class="notification-badge">3</span>
             </button>
-        </div>
-        
+        </div> *@
+
         @if (User.Identity?.IsAuthenticated == true)
         {
             var fullName = User.FindFirst("FullName")?.Value ?? User.Identity.Name ?? "User";
             var avatar = User.FindFirst("Avatar")?.Value;
-            
+
             <div class="header-user dropdown">
                 <button class="user-btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-avatar">
@@ -38,7 +60,7 @@
                     <span class="user-name">@fullName</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="/admin/profile"><i class="fa-solid fa-user"></i> Hồ sơ</a></li>
+                    <li><a class="dropdown-item" href="/admin/profile"><i class="fa-solid fa-user"></i> Tài khoản</a></li>
                     <li><a class="dropdown-item" href="/admin/settings"><i class="fa-solid fa-gear"></i> Cài đặt</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>

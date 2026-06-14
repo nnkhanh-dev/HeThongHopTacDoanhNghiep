@@ -1,5 +1,6 @@
 @model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Student.ViewModels.DonUngTuyen.DonUngTuyenVM>
 @using HopTacDoanhNghiep.Enums.HoSo
+@using HopTacDoanhNghiep.Enums.ViecLam
 
 @{
     ViewData["Title"] = "Đơn ứng tuyển";
@@ -50,13 +51,34 @@
                                 <h3 class="don-ung-tuyen-title">
                                     <a href="/sinh-vien/don-ung-tuyen/@item.MaTTD">@item.TieuDeTinTuyenDung</a>
                                 </h3>
+                                <div>
+                                    <i class="fa-solid fa-piggy-bank"></i> @((item.LuongToiThieu.ToString("N0") ?? "0") + " - " + (item.LuongToiDa.ToString("N0") ?? "0")) VNĐ
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-clock-rotate-left"></i> @item.NgayBatDau.ToString("dd/MM/yyyy") - @item.NgayHetHan.ToString("dd/MM/yyyy")
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-cubes"></i>
+                                    @switch (item.LoaiViecLam)
+                                    {
+                                        case ViecLamType.BanThoiGian:
+                                            <span> Bán thời gian</span>
+                                            break;
+                                        case ViecLamType.ToanThoiGian:
+                                            <span> Toàn thời gian</span>
+                                            break;
+                                        case ViecLamType.ThucTap:
+                                            <span> Thực tập</span>
+                                            break;
+                                    }
+                                </div>
                             </div>
 
-                            <div class="don-ung-tuyen-card-footer">
+                            @* <div class="don-ung-tuyen-card-footer">
                                 <a href="/sinh-vien/don-ung-tuyen/@item.MaTTD" class="btn btn-outline-secondary w-100">
                                     <i class="fa-solid fa-eye"></i> Chi tiết
                                 </a>
-                            </div>
+                            </div> *@
                         </article>
                     }
                 </div>

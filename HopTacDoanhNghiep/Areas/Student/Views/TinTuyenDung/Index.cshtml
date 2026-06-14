@@ -2,7 +2,7 @@
 @using HopTacDoanhNghiep.Enums.ViecLam
 
 @{
-    ViewData["Title"] = "Quản lý việc làm";
+    ViewData["Title"] = "Tin Tuyển Dụng";
     var statusFilter = Context.Request.Query["status"].ToString();
     var linhVucFilter = Context.Request.Query["linhVuc"].ToString();
     var loaiViecLamFilter = Context.Request.Query["loaiViecLam"].ToString();
@@ -55,8 +55,6 @@
                                     }
                                 </div>
                             </div>
-                            <div class="job-footer">
-                            </div>
                         </div>
                     }
                 }
@@ -64,7 +62,7 @@
                 {
                     <div class="text-center w-100 fs-4 fw-bold text-muted mt-5">
                         <i class="fa-solid fa-folder-open empty-icon"></i>
-                        Không có việc làm nào
+                        Không có tin tuyển dụng nào
                     </div>
                 }
 

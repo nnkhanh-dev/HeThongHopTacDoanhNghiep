@@ -1,0 +1,144 @@
+﻿@using HopTacDoanhNghiep.Enums.ViecLam
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.TinTuyenDung.TinTuyenDungVM>
+
+@{
+    var Data = Model.Data;
+    ViewData["Title"] = Data?.TieuDe ?? "Chi tiết tin tuyển dụng";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> @Data?.TieuDe
+        </div>
+
+        <div class="box-body">
+            <div>
+                <div class="mb-3">
+                    <strong>Tiêu đề:</strong>
+                    <p>@Data?.TieuDe</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Địa điểm:</strong>
+                    <p>@Data?.DiaDiem</p>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <strong>Loại việc làm:</strong>
+                            <p>
+                                @switch (Data?.LoaiViecLam)
+                                {
+                                    case ViecLamType.BanThoiGian:
+                                        <span class="badge bg-warning text-dark">Bán thời gian</span>
+                                        break;
+                                    case ViecLamType.ToanThoiGian:
+                                        <span class="badge bg-primary">Toàn thời gian</span>
+                                        break;
+                                    case ViecLamType.ThucTap:
+                                        <span class="badge bg-info">Thực tập</span>
+                                        break;
+                                }
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Đối tượng:</strong>
+                            <p>
+                                @switch (Data?.DoiTuongUngTuyen)
+                                {
+                                    case DoiTuongUngTuyen.ThucTapSinh:
+                                        <span>Thực tập sinh</span>
+                                        break;
+                                    case DoiTuongUngTuyen.SinhVienNamCuoi:
+                                        <span>Sinh viên năm cuối</span>
+                                        break;
+                                    case DoiTuongUngTuyen.MoiTotNghiep:
+                                        <span>Mới tốt nghiệp</span>
+                                        break;
+                                    case DoiTuongUngTuyen.DaTotNghiep:
+                                        <span>Đã tốt nghiệp</span>
+                                        break;
+                                }
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Trình độ:</strong>
+                            <p>
+                                @switch (Data?.TrinhDo)
+                                {
+                                    case TrinhDoType.TrungCap:
+                                        <span>Trung cấp</span>
+                                        break;
+                                    case TrinhDoType.CaoDang:
+                                        <span>Cao đẳng</span>
+                                        break;
+                                    case TrinhDoType.DaiHoc:
+                                        <span>Đại học</span>
+                                        break;
+                                    case TrinhDoType.SauDaiHoc:
+                                        <span>Sau đại học</span>
+                                        break;
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <strong>Lương:</strong>
+                            <p>@((Data?.LuongToiThieu?.ToString("N0") ?? "0") + " - " + (Data?.LuongToiDa?.ToString("N0") ?? "0")) VNĐ</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Ngày bắt đầu:</strong>
+                            <p>@Data?.NgayBatDau?.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Ngày hết hạn:</strong>
+                            <p>@Data?.NgayHetHan?.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+                <strong>Mô tả công việc:</strong>
+                <div class="content-box">
+                    @Html.Raw(Data?.MoTa)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Yêu cầu công việc:</strong>
+                <div class="content-box">
+                    @Html.Raw(Data?.YeuCau)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Quyền lợi:</strong>
+                <div class="content-box">
+                    @Html.Raw(Data?.QuyenLoi)
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Data?.UuTien))
+            {
+                <div class="mb-3">
+                    <strong>Ưu tiên:</strong>
+                    <div class="content-box">
+                        @Html.Raw(Data?.UuTien)
+                    </div>
+                </div>
+            }
+
+            <div class="d-flex gap-2">
+                <a href="/admin/tin-tuyen-dung" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/student/ViecLam/ViecLam.css" rel="stylesheet" />
+}

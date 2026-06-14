@@ -189,6 +189,14 @@
     border-bottom: 1px solid #e2e2e2;
 }
 
+.job-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+}
+
+
 .job-header:hover img {
     transform: scale(1.05);
     transition: transform 0.3s ease;
@@ -199,7 +207,7 @@
     aspect-ratio: 2/1;
     height: auto;
     object-position: center;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .job-body {

@@ -1,6 +1,7 @@
 ﻿using HopTacDoanhNghiep.Areas.Student.ViewModels.DonUngTuyen;
 using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Enums.HoSo;
+using HopTacDoanhNghiep.Enums.ViecLam;
 using HopTacDoanhNghiep.Models;
 using HopTacDoanhNghiep.ViewModels.Common;
 using Microsoft.EntityFrameworkCore;
@@ -147,6 +148,11 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
                     TenSinhVien = x.SinhVien != null && x.SinhVien.NguoiDung != null ? x.SinhVien.NguoiDung.HoTen : null,
                     MaTTD = x.MaTTD,
                     TieuDeTinTuyenDung = x.TinTuyenDung != null ? x.TinTuyenDung.TieuDe : null,
+                    LuongToiDa = x.TinTuyenDung != null ? x.TinTuyenDung.LuongToiDa : 0,
+                    LuongToiThieu = x.TinTuyenDung != null ? x.TinTuyenDung.LuongToiThieu : 0,
+                    NgayBatDau = x.TinTuyenDung != null ? x.TinTuyenDung.NgayBatDau : DateTime.MinValue,
+                    NgayHetHan = x.TinTuyenDung != null ? x.TinTuyenDung.NgayHetHan : DateTime.MinValue,
+                    LoaiViecLam = x.TinTuyenDung != null ? x.TinTuyenDung.LoaiViecLam : ViecLamType.ToanThoiGian,
                     HoSoUngTuyen = x.HoSoUngTuyen,
                     TrangThai = x.TrangThai,
                     CreatedAt = x.CreatedAt,

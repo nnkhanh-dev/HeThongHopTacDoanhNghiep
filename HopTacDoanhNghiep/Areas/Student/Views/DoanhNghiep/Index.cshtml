@@ -1,0 +1,69 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Student.ViewModels.DoanhNghiep.DoanhNghiepVM>
+
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "Doanh nghiệp";
+    var keyword = Context.Request.Query["keyword"].ToString();
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> Doanh Nghiệp
+        </div>
+        <div class="box-body">
+            <div class="list-companys">
+                @if (Model.Records != null && Model.Records.Any())
+                {
+                    foreach (var item in Model.Records)
+                    {
+                        <div class="company mb-3">
+                            <div class="company-header">
+                                @{
+                                    if(!string.IsNullOrWhiteSpace(item.Logo))
+                                    {
+                                        <div class="company-logo">
+                                            <img src="@item.Logo" alt="Logo doanh nghiệp">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="company-logo-placeholder">
+                                            <i class="fa-solid fa-building"></i>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="company-body">
+                                <div>
+                                    <h3 class="company-title"><a href="/sinh-vien/doanh-nghiep/@item.MaDN">@item.TenPhapLy</a></h3>
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-mail-forward"></i> @item.EmailCongTy
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-phone"></i> @item.Hotline
+                                </div>
+                            </div>
+ 
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center w-100 fs-4 fw-bold text-muted mt-5">
+                        <i class="fa-solid fa-folder-open empty-icon"></i>
+                        Không có doanh nghiệp
+                    </div>
+                }
+
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/student/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

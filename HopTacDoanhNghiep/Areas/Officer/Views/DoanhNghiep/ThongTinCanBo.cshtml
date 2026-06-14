@@ -1,0 +1,68 @@
+@using HopTacDoanhNghiep.Areas.Officer.ViewModels
+@model CanBoVM
+@{
+    ViewData["Title"] = "Thông tin cán bộ";
+}
+
+<div class="container">
+    <div class="box mb-4">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-user"></i> Thông tin cán bộ
+        </div>
+        <div class="box-body">
+            @if (Model != null)
+            {
+                <div class="content-box">
+                    <div class="row g-4">
+                        <div class="col-md-3 text-center">
+                            @if (!string.IsNullOrWhiteSpace(Model.AnhNguoiDaiDien))
+                            {
+                                <img src="@Model.AnhNguoiDaiDien" alt="Ảnh cán bộ" class="img-fluid img-thumbnail" style="max-width:180px;" />
+                            }
+                            else
+                            {
+                                <div class="border rounded d-flex align-items-center justify-content-center bg-light" style="min-height: 140px;">
+                                    <span class="text-muted">Chưa có ảnh</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-9">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-3">Mã cán bộ</dt>
+                                <dd class="col-sm-9">@Model.MaCanBo</dd>
+
+                                <dt class="col-sm-3">Họ và tên</dt>
+                                <dd class="col-sm-9">@Model.HoTen</dd>
+
+                                <dt class="col-sm-3">Số điện thoại</dt>
+                                <dd class="col-sm-9">@Model.SoDienThoai</dd>
+
+                                <dt class="col-sm-3">Email</dt>
+                                <dd class="col-sm-9">@Model.Email</dd>
+
+                                <dt class="col-sm-3">Bảo hiểm thân thể</dt>
+                                <dd class="col-sm-9">@Model.BHTT</dd>
+
+                                <dt class="col-sm-3">Bảo hiểm tai nạn</dt>
+                                <dd class="col-sm-9">@Model.BHTN</dd>
+
+                                <dt class="col-sm-3">Số tài khoản ngân hàng</dt>
+                                <dd class="col-sm-9">@Model.STK</dd>
+
+                            </dl>
+
+                            <div class="d-flex gap-2 mt-3">
+                                <a href="/can-bo/thong-tin/chinh-sua" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Cập nhật</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/company/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

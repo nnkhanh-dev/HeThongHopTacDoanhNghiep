@@ -1,0 +1,63 @@
+﻿@model HopTacDoanhNghiep.Areas.Student.ViewModels.DoanhNghiep.DoanhNghiepVM
+
+@{
+    ViewData["Title"] = Model.TenPhapLy;
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> @Model.TenPhapLy
+        </div>
+        <div class="box-body">
+            <div class="content-box">
+                <div class="company-header d-md-flex">
+                    @{
+                        if (!string.IsNullOrWhiteSpace(Model.Logo))
+                        {
+                            <div class="company-logo">
+                                <img src="@Model.Logo" alt="Logo doanh nghiệp">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="company-logo-placeholder">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                        }
+                    }
+                    <div class="mt-3 mt-md-0 ms-md-3">
+                        <h2>@Model.TenHienThi</h2>
+                        @if(!string.IsNullOrEmpty(Model.TenPhapLy)) { <div class="text-muted">@Model.TenPhapLy</div> }
+                        <div class="small mt-1">@Model.MaDN</div>
+                    </div>
+                </div>
+
+                <div class="company-body mb-3">
+                    @if(!string.IsNullOrEmpty(Model.Website)) { <div><strong>Website:</strong> <a href="@Model.Website" target="_blank">@Model.Website</a></div> }
+                    @if(!string.IsNullOrEmpty(Model.EmailCongTy)) { <div><strong>Email:</strong> @Model.EmailCongTy</div> }
+                    @if(!string.IsNullOrEmpty(Model.Hotline)) { <div><strong>Hotline:</strong> @Model.Hotline</div> }
+                    @if(!string.IsNullOrEmpty(Model.DiaChi)) { <div><strong>Địa chỉ:</strong> @Model.DiaChi</div> }
+                    @if(!string.IsNullOrEmpty(Model.MaSoThue)) { <div><strong>Mã số thuế:</strong> @Model.MaSoThue</div> }
+                    @if(!string.IsNullOrEmpty(Model.QuyMoNhanSu?.ToString())) { <div><strong>Quy mô nhân sự:</strong> @Model.QuyMoNhanSu</div> }
+                </div>
+
+                @if(!string.IsNullOrEmpty(Model.GioiThieu))
+                {
+                    <div class="company-intro">
+                        <h4>Giới thiệu</h4>
+                        <p>@Html.Raw(Model.GioiThieu)</p>
+                    </div>
+                }
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <a href="/sinh-vien/doanh-nghiep" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/student/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

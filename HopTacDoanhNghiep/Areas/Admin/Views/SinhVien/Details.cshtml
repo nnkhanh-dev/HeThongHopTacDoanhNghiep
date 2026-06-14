@@ -1,0 +1,72 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.SinhVien.SinhVienVM>
+
+@{
+    ViewData["Title"] = "Chi tiết sinh viên";
+    var sinhVien = Model?.Data;
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-user-graduate"></i> Chi tiết sinh viên
+        </div>
+
+        <div class="box-body">
+            <div class="content-box">
+
+                <div class="company-header d-md-flex">
+                    @if (!string.IsNullOrWhiteSpace(sinhVien?.AnhThe))
+                    {
+                        <div class="company-logo">
+                            <img src="@sinhVien.AnhThe" alt="Ảnh thẻ sinh viên">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="company-logo-placeholder">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                    }
+
+                    <div class="mt-3 mt-md-0 ms-md-3">
+                        <h2>@sinhVien?.HoTen</h2>
+                        <div class="text-muted">Mã sinh viên: @sinhVien?.MaSV</div>
+                    </div>
+                </div>
+
+                <div class="company-body mb-3">
+                    @if (!string.IsNullOrWhiteSpace(sinhVien?.EmailGiaoDuc))
+                    {
+                        <div>
+                            <strong>Email giáo dục:</strong>
+                            @sinhVien.EmailGiaoDuc
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(sinhVien?.HoSoNangLuc))
+                    {
+                        <div>
+                            <strong>Hồ sơ năng lực:</strong>
+                            <a href="@sinhVien.HoSoNangLuc"
+                               target="_blank">
+                                Xem hồ sơ
+                            </a>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <a href="/admin/sinh-vien" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/student/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

@@ -1,0 +1,88 @@
+﻿@using HopTacDoanhNghiep.Enums.ViecLam
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.TinTuyenDung.TinTuyenDungVM>
+
+@{
+    ViewData["Title"] = "Quản lý tin tuyển dụng";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-briefcase"></i> Quản lý tin tuyển dụng
+        </div>
+
+        <div class="box-body">
+            @await Html.PartialAsync("_Search")
+
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Doanh nghiệp</th>
+                            <th>Mức lương</th>
+                            <th>Bắt đầu</th>
+                            <th>Hết hạn</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.TieuDe</td>
+
+                                    <td>@item.DoanhNghiep</td>
+
+                                    <td>
+                                        @if (item.LuongToiThieu.HasValue || item.LuongToiDa.HasValue)
+                                        {
+                                            @(string.Format("{0:N0}", item.LuongToiThieu ?? 0))
+                                            <span>-</span>
+                                            @(string.Format("{0:N0}", item.LuongToiDa ?? 0))
+                                        }
+                                        else
+                                        {
+                                            <span>Thoả thuận</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @(item.NgayBatDau?.ToString("dd/MM/yyyy"))
+                                    </td>
+
+                                    <td>
+                                        @(item.NgayHetHan?.ToString("dd/MM/yyyy"))
+                                    </td>
+
+                                    <td>
+                                        <a href="/admin/tin-tuyen-dung/@item.MaTTD"
+                                           class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    Không có dữ liệu
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>

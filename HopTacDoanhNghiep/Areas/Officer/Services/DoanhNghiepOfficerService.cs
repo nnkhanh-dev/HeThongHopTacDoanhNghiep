@@ -458,40 +458,44 @@ namespace HopTacDoanhNghiep.Areas.Officer.Services
             return BaseResult<HopTacDonViVM>.Success(item);
         }
 
-        public async Task<BaseResult<NguoiDaiDienVM>> GetNguoiDaiDienInfo(string MaDoanhNghiep)
+        public async Task<BaseResult<CanBoVM>> GetCanBoInfo(string MaCanBo)
         {
-            if (string.IsNullOrWhiteSpace(MaDoanhNghiep))
+            if (string.IsNullOrWhiteSpace(MaCanBo))
             {
-                return BaseResult<NguoiDaiDienVM>.Fail("Mã doanh nghiệp không hợp lệ");
+                return BaseResult<CanBoVM>.Fail("Mã Cán bộ không hợp lệ");
             }
 
-            var dn = await _context.DoanhNghieps
+            var canBo = await _context.CanBos
                 .Include(x => x.NguoiDung)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.MaDN == MaDoanhNghiep && x.DeletedAt == null);
+                .FirstOrDefaultAsync(x => x.MaCB == MaCanBo && x.DeletedAt == null);
 
-            if (dn == null)
+            if (canBo == null)
             {
-                return BaseResult<NguoiDaiDienVM>.Fail("Không tìm thấy doanh nghiệp");
+                return BaseResult<CanBoVM>.Fail("Không tìm thấy doanh nghiệp");
             }
 
-            var user = dn.NguoiDung;
+            var user = canBo.NguoiDung;
 
-            var vm = new NguoiDaiDienVM
+            var vm = new CanBoVM
             {
                 HoTen = user?.HoTen,
                 SoDienThoai = user?.PhoneNumber,
                 Email = user?.Email,
-                AnhNguoiDaiDien = user?.AnhDaiDien
+                AnhNguoiDaiDien = user?.AnhDaiDien,
+                MaCanBo = canBo?.MaCB,
+                BHTT = canBo?.BHTT,
+                BHTN = canBo?.BHTN,
+                STK = canBo?.STK
             };
 
-            return BaseResult<NguoiDaiDienVM>.Success(vm, "Lấy thông tin người đại diện thành công");
+            return BaseResult<CanBoVM>.Success(vm, "Lấy thông tin người đại diện thành công");
         }
-        public async Task<BaseResult> UpdateNguoiDaiDienInfo(string MaDoanhNghiep, NguoiDaiDienUpdateVM updateVM)
+        public async Task<BaseResult> UpdateCanBoInfo(string MaCanBo, CanBoUpdateVM updateVM)
         {
-            if (string.IsNullOrWhiteSpace(MaDoanhNghiep))
+            if (string.IsNullOrWhiteSpace(MaCanBo))
             {
-                return BaseResult.Fail("Mã doanh nghiệp không hợp lệ");
+                return BaseResult.Fail("Mã cán bộ không hợp lệ");
             }
 
             if (updateVM == null)
@@ -499,25 +503,31 @@ namespace HopTacDoanhNghiep.Areas.Officer.Services
                 return BaseResult.Fail("Dữ liệu cập nhật không hợp lệ");
             }
 
-            var doanhNghiep = await _context.DoanhNghieps
+            var canBo = await _context.CanBos
                 .Include(x => x.NguoiDung)
-                .FirstOrDefaultAsync(x => x.MaDN == MaDoanhNghiep && x.DeletedAt == null);
+                .FirstOrDefaultAsync(x => x.MaCB == MaCanBo && x.DeletedAt == null);
 
-            if (doanhNghiep == null)
+            if (canBo == null)
             {
-                return BaseResult.Fail("Không tìm thấy doanh nghiệp");
+                return BaseResult.Fail("Không tìm thấy cán bộ");
             }
 
-            var user = doanhNghiep.NguoiDung;
+            var user = canBo.NguoiDung;
             if (user == null)
             {
-                return BaseResult.Fail("Người đại diện chưa được gán");
+                return BaseResult.Fail("Có lỗi liên kết cán bộ đến tài khoản");
             }
 
             user.HoTen = updateVM.HoTen.Trim();
             user.PhoneNumber = updateVM.SoDienThoai.Trim();
             user.Email = updateVM.Email.Trim();
             user.AnhDaiDien = string.IsNullOrWhiteSpace(updateVM.AnhNguoiDaiDien) ? user.AnhDaiDien : updateVM.AnhNguoiDaiDien.Trim();
+            canBo.BHTT = updateVM.BHTT;
+            canBo.BHTN = updateVM.BHTN;
+            canBo.STK = updateVM.STK?.Trim();
+            canBo.UpdatedAt = DateTime.UtcNow;
+            canBo.UpdatedBy = MaCanBo;
+
 
             await _context.SaveChangesAsync();
 

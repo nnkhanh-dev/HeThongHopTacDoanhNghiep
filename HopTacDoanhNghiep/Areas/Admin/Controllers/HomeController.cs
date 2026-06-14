@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using HopTacDoanhNghiep.Areas.Admin.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HopTacDoanhNghiep.Areas.Admin.Controllers
@@ -7,10 +8,18 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
-        [HttpGet("admin/dashboard")]
-        public IActionResult Index()
+        private readonly IDashboardAdmin _dashboardAdmin;
+
+        public HomeController(IDashboardAdmin dashboardAdmin)
         {
-            return View();
+            _dashboardAdmin = dashboardAdmin;
+        }
+
+        [HttpGet("admin/dashboard")]
+        public async Task<IActionResult> Index()
+        {
+            var dashboardData = await _dashboardAdmin.GetDashboardData();
+            return View(dashboardData);
         }
     }
 }

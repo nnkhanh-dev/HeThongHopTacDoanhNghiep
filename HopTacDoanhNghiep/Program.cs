@@ -74,6 +74,7 @@ builder.Services.AddScoped<IFileStorage, FileStorageService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IBaiViet, BaiVietService>();
 builder.Services.AddScoped<IBaiVietAdmin, BaiVietAdminService>();
+builder.Services.AddScoped<IBaiVietStudent, BaiVietStudentService>();
 builder.Services.AddScoped<IDanhMucBaiVietAdmin, DanhMucBaiVietAdminService>();
 builder.Services.AddScoped<IDonUngTuyenStudent, DonUngTuyenStudentService>();
 builder.Services.AddScoped<IDonUngTuyenCompany, DonUngTuyenCompanyService>();
@@ -86,6 +87,12 @@ builder.Services.AddScoped<IDonViAdmin, DonViAdminService>();
 builder.Services.AddScoped<IChucVuAdmin, ChucVuAdminService>();
 builder.Services.AddScoped<ICanBoAdmin, CanBoAdminService>();
 builder.Services.AddScoped<IDoanhNghiepCompany, DoanhNghiepCompanyService>();
+builder.Services.AddScoped<IDoanhNghiepStudent, DoanhNghiepStudentService>();
+builder.Services.AddScoped<IDoanhNghiepAdmin, DoanhNghiepAdminService>();
+builder.Services.AddScoped<ISinhVienAdmin, SinhVienAdminService>();
+builder.Services.AddScoped<ITinTuyenDungAdmin, TinTuyenDungAdminService>(); 
+builder.Services.AddScoped<IDashboardAdmin, DashboardAdminService>();
+
 
 var app = builder.Build();
 

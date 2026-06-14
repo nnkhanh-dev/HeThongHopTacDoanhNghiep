@@ -1,0 +1,74 @@
+@using HopTacDoanhNghiep.Areas.Officer.ViewModels
+@model CanBoUpdateVM
+@{
+    ViewData["Title"] = "Cập nhật người đại diện";
+}
+
+<div class="container">
+    <div class="box mb-4">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-user"></i> Cập nhật thông tin cán bộ
+        </div>
+        <div class="box-body">
+            <form method="post" asp-action="ChinhSuaCanBo" asp-controller="DoanhNghiep" asp-area="Officer" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <input asp-for="AnhNguoiDaiDien" type="hidden" />
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="HoTen" class="form-label"><strong>Họ và tên</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="HoTen" class="form-control" />
+                        <span asp-validation-for="HoTen" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="SoDienThoai" class="form-label"><strong>Số điện thoại</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="SoDienThoai" class="form-control" />
+                        <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label"><strong>Email</strong> <span class="text-danger">(*)</span></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="AnhFile" class="form-label"><strong>Ảnh mới</strong></label>
+                        <input name="AnhFile" id="AnhFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.gif,.webp" />
+                        <div class="form-text">Nếu không chọn file, ảnh hiện tại sẽ được giữ nguyên.</div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="BHTN" class="form-label"><strong>Bảo hiểm tai nạn</strong></label>
+                        <input asp-for="BHTN" class="form-control" />
+                        <span asp-validation-for="BHTN" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="BHTT" class="form-label"><strong>Bảo hiểm thân thể</strong></label>
+                        <input asp-for="BHTT" class="form-control" />
+                        <span asp-validation-for="BHTT" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="STK" class="form-label"><strong>Số tài khoản ngân hàng</strong></label>
+                        <input asp-for="STK" class="form-control" />
+                        <span asp-validation-for="STK" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+                    <a href="/can-bo/thong-tin" class="btn btn-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
