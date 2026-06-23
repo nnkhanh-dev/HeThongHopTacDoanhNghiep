@@ -1,0 +1,99 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Student.ViewModels.BaiViet.BaiVietVM>
+@{
+    var data = Model.Data;
+    ViewData["Title"] = Model.Data?.TieuDe;
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = Model.Data?.TieuDe;
+    ViewData["OgDescription"] =
+        Model.Data?.TieuDe;
+    ViewData["OgUrl"] = $"/thong-tin/ute-doanh-nghiep/{Model.Data?.Slug}";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+               <li class="breadcrumb-item">
+                    <a href="/thong-tin">
+                        Thông tin
+                    </a>
+                </li>
+                 <li class="breadcrumb-item">
+                    <a href="/thong-tin/ute-doanh-nghiep">
+                        UTE - Doanh nghiệp
+                    </a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <article class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">@data.TieuDe</h1>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <i class="fa-solid fa-clock"></i> @data.CreatedAt?.ToString("dd/MM/yyyy")
+                </div>
+                <div class="metadata-item">
+                    <i class="fa-solid fa-user-tie"></i> @data.TacGia
+                </div>
+            </div>
+            <hr>
+            
+            @Html.Raw(data.NoiDung)
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = $"/thong-tin/ute-doanh-nghiep/{data?.Slug}",
+                Title = data?.TieuDe
+            })
+
+            
+             <hr>
+
+            @{
+                if(data.BaiVietLienQuan != null && data.BaiVietLienQuan.Any())
+                {
+                    <div>
+                        <h3>Bài viết liên quan</h3>
+                        <div class="list-related">
+                            @{
+                                foreach(var related in data.BaiVietLienQuan)
+                                {
+                                    <div class="related-item">
+                                        <a href="/thong-tin/ute-doanh-nghiep/@related.Slug"><i class="fa-solid fa-circle-right"></i> @related.TieuDe</a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }      
+        </div>
+         <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            <div>
+                @await Html.PartialAsync("_ThongTinSidebar")
+            </div>
+            <div>
+                @await Html.PartialAsync("_VerticalBanner")
+            </div>
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

@@ -1,4 +1,17 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.AspNetCore.Http.Extensions
+
+@{
+    var keyword = Context.Request.Query["keyword"].ToString();
+    var currentPath = Context.Request.Path.StartsWithSegments("/doanh-nghiep/trang-chu")
+        ? "/doanh-nghiep/bai-viet"
+        : Context.Request.Path.Value;
+    var clearQuery = Context.Request.Query.ToDictionary(x => x.Key, x => x.Value.ToString());
+    clearQuery.Remove("keyword");
+    clearQuery.Remove("pageIndex");
+    var clearUrl = QueryHelpers.AddQueryString(currentPath, clearQuery);
+}
 
 <header class="header">
     <button class="sidebar-toggle" id="sidebarToggle">
@@ -6,17 +19,28 @@
     </button>
     
     <div class="header-right">
-        <div class="header-search">
+        <form class="header-search" method="get" action="@currentPath">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Tìm kiếm...">
-        </div>
+            <input type="text" name="keyword" placeholder="Tìm kiếm..." value="@keyword">
+            <input type="hidden" name="pageIndex" value="1" />
+            @if (!string.IsNullOrWhiteSpace(Context.Request.Query["pageSize"]))
+            {
+                <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+            }
+            @if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                <a href="@clearUrl" class="header-search-clear" title="Xóa tìm kiếm">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            }
+        </form>
         
-        <div class="header-notifications">
+        @* <div class="header-notifications">
             <button class="notification-btn">
                 <i class="fa-solid fa-bell"></i>
                 <span class="notification-badge">3</span>
             </button>
-        </div>
+        </div> *@
         
         @if (User.Identity?.IsAuthenticated == true)
         {
@@ -39,7 +63,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="/doanh-nghiep/nguoi-dai-dien"><i class="fa-solid fa-user"></i> Tài khoản</a></li>
-                    <li><a class="dropdown-item" href="/doanh-nghiep/thong-tin"><i class="fa-solid fa-building"></i> Doanh Nghiệp</a></li>
+                    <li><a class="dropdown-item" href="/doanh-nghiep/ho-so"><i class="fa-solid fa-building"></i> Doanh Nghiệp</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="post" action="/dang-xuat">

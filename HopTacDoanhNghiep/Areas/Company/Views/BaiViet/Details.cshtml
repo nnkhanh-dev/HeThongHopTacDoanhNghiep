@@ -1,0 +1,75 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Company.ViewModels.BaiViet.BaiVietVM>
+@{
+    var data = Model.Data;
+    ViewData["Title"] = Model.Data?.TieuDe;
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = Model.Data?.TieuDe;
+    ViewData["OgDescription"] =
+        Model.Data?.TieuDe;
+    ViewData["OgUrl"] = $"/doanh-nghiep/bai-viet/{Model.Data?.Slug}";
+}
+
+<div class="container mb-4">
+
+    <article class="box">
+        <div>
+            <h1 class="page-title">@data.TieuDe</h1>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <i class="fa-solid fa-clock"></i> @data.CreatedAt?.ToString("dd/MM/yyyy")
+                </div>
+                <div class="metadata-item">
+                    <i class="fa-solid fa-user-tie"></i> @data.TacGia
+                </div>
+                <div class="metadata-item">
+                    <i class="fa-solid fa-list"></i> @data.DanhMuc
+                </div>
+            </div>
+            <hr>
+            
+            @Html.Raw(data.NoiDung)
+
+            @await Html.PartialAsync("_ShareSocial",
+            new ShareSocialVM {
+                Url = $"/doanh-nghiep/bai-viet/{data?.Slug}",
+                Title = data?.TieuDe
+            })
+
+             <hr>
+
+            @{
+                if(data.BaiVietLienQuan != null && data.BaiVietLienQuan.Any())
+                {
+                    <div>
+                        <h3>Bài viết liên quan</h3>
+                        <div class="list-related">
+                            @{
+                                foreach(var related in data.BaiVietLienQuan)
+                                {
+                                    <div class="related-item">
+                                        <a href="/doanh-nghiep/bai-viet/@related.Slug"><i class="fa-solid fa-circle-right"></i> @related.TieuDe</a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }  
+            
+              <div class="box-footer mt-3">
+                 <a href="/doanh-nghiep/bai-viet" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </article>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}
+
+@section Scripts {
+    <script src="/js/guest/ShareSocial.js"></script>
+}

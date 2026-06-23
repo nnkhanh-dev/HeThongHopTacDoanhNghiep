@@ -4,15 +4,64 @@
 @{
     ViewData["Title"] = "Đơn ứng tuyển";
     var keyword = Context.Request.Query["keyword"].ToString();
+    var hoSoStatusQuery = Context.Request.Query["hoSoStatus"].ToString();
+    var maTTDFilter = Context.Request.Query["maTTD"].ToString();
 }
 
 <div class="container">
     <div class="box">
         <div class="box-header mb-4">
-            <i class="fa-solid fa-file-signature"></i> Đơn ứng tuyển
+            <i class="fa-solid fa-paper-plane"></i> Đơn ứng tuyển
         </div>
         <div class="box-body">
             @Html.AntiForgeryToken()
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+                        <i class="fa-solid fa-filter"></i> Bộ lọc
+                    </button>
+                    @if (!string.IsNullOrEmpty(keyword) || !string.IsNullOrEmpty(hoSoStatusQuery) || !string.IsNullOrEmpty(maTTDFilter))
+                    {
+                        <a href="/doanh-nghiep/don-ung-tuyen" class="btn btn-secondary ms-2">
+                            <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form method="get" action="/doanh-nghiep/don-ung-tuyen">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="filterModalLabel"><i class="fa-solid fa-filter"></i> Bộ lọc đơn ứng tuyển</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tìm kiếm</label>
+                                    <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm theo tiêu đề..." value="@keyword">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Trạng thái hồ sơ</label>
+                                    <select name="hoSoStatus" class="form-select">
+                                        <option value="">Tất cả trạng thái</option>
+                                        <option value="0" selected="@(hoSoStatusQuery == "0")">Chờ phản hồi</option>
+                                        <option value="1" selected="@(hoSoStatusQuery == "1")">Chấp nhận</option>
+                                        <option value="2" selected="@(hoSoStatusQuery == "2")">Từ chối</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Áp dụng</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             @if (Model?.Records != null && Model.Records.Any())
             {

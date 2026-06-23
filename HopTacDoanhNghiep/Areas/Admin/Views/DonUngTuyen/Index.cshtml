@@ -1,0 +1,87 @@
+@using HopTacDoanhNghiep.Enums.HoSo
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.DonUngTuyen.DonUngTuyenVM>
+
+@{
+    ViewData["Title"] = "Quản lý đơn ứng tuyển";
+}
+
+<div class="container">
+    <div class="box">
+        <div class="box-header mb-4">
+            <i class="fa-solid fa-file-arrow-up"></i> Quản lý đơn ứng tuyển
+        </div>
+        <div class="box-body">
+            @await Html.PartialAsync("_Search")
+
+            <div class="table-responsive mb-3">
+                <table class="htdn-table">
+                    <thead>
+                        <tr>
+                            <th>Mã UT</th>
+                            <th>Mã SV</th>
+                            <th>Họ tên sinh viên</th>
+                            <th>Mã TTD</th>
+                            <th>Tiêu đề tin</th>
+                            <th>Doanh nghiệp</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null && Model.Records.Any())
+                        {
+                            foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <td>@item.MaUT</td>
+                                    <td>@item.MaSV</td>
+                                    <td>@item.TenSinhVien</td>
+                                    <td>@item.MaTTD</td>
+                                    <td>@item.TieuDeTinTuyenDung</td>
+                                    <td>@item.TenDoanhNghiep</td>
+                                    <td>
+                                        @switch (item.TrangThai)
+                                        {
+                                            case HoSoStatus.RutHoSo:
+                                                <span class="badge bg-secondary">Rút hồ sơ</span>
+                                                break;
+                                            case HoSoStatus.ChoPhanHoi:
+                                                <span class="badge bg-warning text-dark">Chờ phản hồi</span>
+                                                break;
+                                            case HoSoStatus.ChapNhan:
+                                                <span class="badge bg-success">Chấp nhận</span>
+                                                break;
+                                            case HoSoStatus.TuChoi:
+                                                <span class="badge bg-danger">Từ chối</span>
+                                                break;
+                                            default:
+                                                <span class="badge bg-light text-dark">Khác</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <a href="/admin/don-ung-tuyen/@item.MaUT" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>

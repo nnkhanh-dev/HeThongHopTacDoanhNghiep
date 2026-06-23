@@ -1,5 +1,7 @@
-﻿using HopTacDoanhNghiep.Areas.Student.Services;
+using DocumentFormat.OpenXml.Office2010.PowerPoint;
+using HopTacDoanhNghiep.Areas.Student.Services;
 using HopTacDoanhNghiep.Areas.Student.ViewModels.DonUngTuyen;
+using HopTacDoanhNghiep.Enums.HoSo;
 using HopTacDoanhNghiep.Services;
 using HopTacDoanhNghiep.ViewModels.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +24,7 @@ namespace HopTacDoanhNghiep.Areas.Student.Controllers
         }
 
         [HttpGet("/sinh-vien/don-ung-tuyen")]
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string? keyword = null)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string? keyword = null, HoSoStatus? hoSoStatus = null)
         {
             var maSinhVien = User.Identity?.Name;
 
@@ -31,7 +33,7 @@ namespace HopTacDoanhNghiep.Areas.Student.Controllers
                 return NotFound("Không tìm thấy thông tin sinh viên");
             }
 
-            var result = await _donUngTuyenStudent.GetListDonUngTuyen(pageIndex, pageSize, keyword, maSinhVien);
+            var result = await _donUngTuyenStudent.GetListDonUngTuyen(pageIndex, pageSize, keyword, maSinhVien, hoSoStatus);
             return View(result);
         }
 
@@ -120,6 +122,23 @@ namespace HopTacDoanhNghiep.Areas.Student.Controllers
             }
 
             return View(result.Data);
+        }
+
+        [HttpPost("/sinh-vien/don-ung-tuyen/rut-ho-so/{MaUT}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Withdraw(int MaUT)
+        {
+            var maSinhVien = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(maSinhVien))
+            {
+                return Json(new { success = false, message = "Không tìm thấy thông tin sinh viên" });
+            }
+            var result = await _donUngTuyenStudent.WithdrawApplication(MaUT, maSinhVien);
+            if (!result.IsSuccess)
+            {
+                return Json(new { success = false, message = result.Message });
+            }
+            return Json(new { success = true, message = result.Message });
         }
     }
 }

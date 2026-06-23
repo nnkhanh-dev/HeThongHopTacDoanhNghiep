@@ -4,7 +4,9 @@
 
 @{
     var keyword = Context.Request.Query["keyword"].ToString();
-    var currentPath = Context.Request.Path;
+    var currentPath = Context.Request.Path.StartsWithSegments("/sinh-vien/trang-chu")
+        ? "/sinh-vien/bai-viet"
+        : Context.Request.Path.Value;
     var clearQuery = Context.Request.Query.ToDictionary(x => x.Key, x => x.Value.ToString());
     clearQuery.Remove("keyword");
     clearQuery.Remove("pageIndex");
@@ -60,8 +62,8 @@
                     <span class="user-name">@fullName</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="/admin/profile"><i class="fa-solid fa-user"></i> Tài khoản</a></li>
-                    <li><a class="dropdown-item" href="/admin/settings"><i class="fa-solid fa-gear"></i> Cài đặt</a></li>
+                    <li><a class="dropdown-item" href="/sinh-vien/tai-khoan"><i class="fa-solid fa-user"></i> Tài khoản</a></li>
+                    @* <li><a class="dropdown-item" href="/admin/settings"><i class="fa-solid fa-gear"></i> Cài đặt</a></li> *@
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="post" action="/dang-xuat">

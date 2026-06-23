@@ -2,12 +2,13 @@ using Hangfire;
 using Hangfire.SqlServer;
 using HopTacDoanhNghiep.Areas.Admin.Services;
 using HopTacDoanhNghiep.Areas.Company.Services;
-using HopTacDoanhNghiep.Areas.Student.Services;
 using HopTacDoanhNghiep.Areas.Officer.Services;
+using HopTacDoanhNghiep.Areas.Student.Services;
 using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Middlewares;
 using HopTacDoanhNghiep.Models;
 using HopTacDoanhNghiep.Services;
+using HopTacDoanhNghiep.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<MailSettings>(
+    builder.Configuration.GetSection("MailSettings"));
 
 // ===== AppDbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -75,9 +79,12 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IBaiViet, BaiVietService>();
 builder.Services.AddScoped<IBaiVietAdmin, BaiVietAdminService>();
 builder.Services.AddScoped<IBaiVietStudent, BaiVietStudentService>();
+builder.Services.AddScoped<IBaiVietCompany, BaiVietCompanyService>();
+builder.Services.AddScoped<IBaiVietOfficer, BaiVietOfficerService>();
 builder.Services.AddScoped<IDanhMucBaiVietAdmin, DanhMucBaiVietAdminService>();
 builder.Services.AddScoped<IDonUngTuyenStudent, DonUngTuyenStudentService>();
 builder.Services.AddScoped<IDonUngTuyenCompany, DonUngTuyenCompanyService>();
+builder.Services.AddScoped<IDonUngTuyenAdmin, DonUngTuyenAdminService>();
 builder.Services.AddScoped<ITinTuyenDungStudent, TinTuyenDungStudentService>();
 builder.Services.AddScoped<ITinTuyenDungCompany, TinTuyenDungCompanyService>();
 builder.Services.AddScoped<ITinTuyenDung, TinTuyenDungService>();
@@ -92,6 +99,8 @@ builder.Services.AddScoped<IDoanhNghiepAdmin, DoanhNghiepAdminService>();
 builder.Services.AddScoped<ISinhVienAdmin, SinhVienAdminService>();
 builder.Services.AddScoped<ITinTuyenDungAdmin, TinTuyenDungAdminService>(); 
 builder.Services.AddScoped<IDashboardAdmin, DashboardAdminService>();
+builder.Services.AddScoped<ISinhVienStudent, SinhVienStudentService>();
+builder.Services.AddScoped<IMailService, MailService>();
 
 
 var app = builder.Build();

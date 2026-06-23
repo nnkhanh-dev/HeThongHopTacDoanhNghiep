@@ -1,0 +1,69 @@
+﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Company.ViewModels.BaiViet.BaiVietVM>
+@{
+    var data = Model.Records;
+    ViewData["Title"] = "Tin tức";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Tin tức";
+    ViewData["OgDescription"] =
+        "Tin tức Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/thong-tin/tin-tuc";
+}
+
+<div class="container mb-4">
+
+    <div class="box">
+        <div>
+            <div class="box-header mb-4">
+                <i class="fa-solid fa-newspaper"></i> Tin tức
+            </div>
+            
+            <div class="list-post mb-4">
+                @if (data != null && data.Any())
+                {
+                    foreach (var post in data)
+                    {
+                        <article class="post">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="thumbnail-wrapper">
+                                        <img src="@(!string.IsNullOrWhiteSpace(post.AnhMinhHoa) ? post.AnhMinhHoa : "/image/layout/default_post_thumbnail.jpg")" alt="Ảnh thumbnail bài viết">
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div>
+                                        <h2 class="post-title"><a href="/doanh-nghiep/thong-tin/tin-tuc/@post.Slug">@post.TieuDe</a></h2>
+                                        <p class="summary">
+                                            @post.NoiDung
+                                        </p>
+                                        <div class="metadata">
+                                            <div class="metadata-item">
+                                                <i class="fa-solid fa-clock"></i> @post.CreatedAt?.ToString("dd/MM/yyyy")
+                                            </div>
+                                            <div class="metadata-item">
+                                                <i class="fa-solid fa-user-tie"></i> @post.TacGia
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+                else
+                {
+                    <div class="text-center w-100 fs-4 fw-bold text-muted mt-5">
+                        <i class="fa-solid fa-folder-open empty-icon"></i>
+                        Không có bài viết nào
+                    </div>
+                }
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}

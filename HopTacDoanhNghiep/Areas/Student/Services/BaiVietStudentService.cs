@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.RegularExpressions;
 
+using HopTacDoanhNghiep.Areas.Student.Services;
+
 namespace HopTacDoanhNghiep.Areas.Student.Services
 {
     public class BaiVietStudentService : IBaiVietStudent

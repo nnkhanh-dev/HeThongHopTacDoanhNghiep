@@ -1,0 +1,87 @@
+﻿@using HopTacDoanhNghiep.ViewModels.Common
+@{
+    ViewData["Title"] = "Thông tin";
+    ViewData["OgType"] = "article";
+    ViewData["OgTitle"] = "Thông tin";
+    ViewData["OgDescription"] =
+        "Thông tin Hệ thống Hợp tác Doanh nghiệp – Trường Đại học Công nghệ Kỹ thuật, Đại học Đà Nẵng";
+    ViewData["OgUrl"] = "/thong-tin";
+}
+
+<div class="breadcrumb-wrap mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Thông tin</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container mb-4">
+
+    <div class="row">
+        <div class="col-12 col-xl-9">
+            <h1 class="page-title">Thông tin</h1>
+            <hr>
+            <div class="list-post mb-4">
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/thong-tin/tin-tuc">Tin tức</a></h2>
+                        <p class="summary">
+                            Cập nhật các tin tức mới nhất về hoạt động đào tạo, nghiên cứu khoa học,
+                            hợp tác doanh nghiệp và sự kiện nổi bật của Trường Đại học Công nghệ Kỹ thuật
+                            – Đại học Đà Nẵng.
+                        </p>
+                        
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/thong-tin/thong-bao">Thông báo</a></h2>
+                        <p class="summary">
+                            Tổng hợp các thông báo chính thức của nhà trường liên quan đến kế hoạch đào tạo,
+                            lịch công tác, hoạt động sinh viên và các nội dung cần lưu ý dành cho giảng viên,
+                            sinh viên và đối tác.
+                        </p>
+                       
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/thong-tin/ute-doanh-nghiep">UTE & Doanh nghiệp</a></h2>
+                        <p class="summary">
+                            Giới thiệu các chương trình, hoạt động hợp tác giữa Trường Đại học Công nghệ Kỹ thuật
+                            và doanh nghiệp trong đào tạo, nghiên cứu, chuyển giao công nghệ
+                            và phát triển nguồn nhân lực.
+                        </p>
+                        
+                    </div>
+                </article>
+                <article class="post">
+                    <div class="content">
+                        <h2 class="post-title"><a href="/thong-tin/hop-tac-doanh-nghiep">Hợp tác doanh nghiệp</a></h2>
+                        <p class="summary">
+                            Thông tin về các đối tác doanh nghiệp, chương trình phối hợp đào tạo,
+                            thực tập, tuyển dụng và các hoạt động kết nối doanh nghiệp
+                            nhằm nâng cao chất lượng đào tạo và cơ hội nghề nghiệp cho sinh viên.
+                        </p>
+                       
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-12 col-xl-3 mt-5 mt-xl-0">
+            @await Html.PartialAsync("_VerticalBanner")
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="/css/guest/post_page.css" />
+}

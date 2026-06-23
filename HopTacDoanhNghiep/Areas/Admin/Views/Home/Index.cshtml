@@ -1,4 +1,4 @@
-﻿@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.Dashboard.DashboardDataVM>
+@model HopTacDoanhNghiep.ViewModels.Common.BaseResult<HopTacDoanhNghiep.Areas.Admin.ViewModels.Dashboard.DashboardDataVM>
 @using HopTacDoanhNghiep.Enums.ViecLam
 
 @{
@@ -11,6 +11,28 @@
         <div class="box-header mb-4">
             <i class="fa-solid fa-gauge"></i> Dashboard
         </div>
+        <form method="get" class="mb-3">
+    @{
+        var selectedYear = Context.Request.Query["year"].FirstOrDefault();
+        if (string.IsNullOrEmpty(selectedYear))
+        {
+            selectedYear = DateTime.Now.Year.ToString();
+        }
+    }
+    <select name="year" onchange="this.form.submit()" class="form-select" style="max-width: 350px;">
+        @for (int y = DateTime.Now.Year; y >= DateTime.Now.Year - 5; y--)
+        {
+            if (y.ToString() == selectedYear)
+            {
+                <option value="@y" selected>@y</option>
+            }
+            else
+            {
+                <option value="@y">@y</option>
+            }
+        }
+    </select>
+        </form>
         <div class="box-body">
             <div class="list-card">
                 <div class="card">
@@ -26,10 +48,134 @@
                     <strong>Tin Tuyển dụng:</strong> @Data?.TinTuyenDungs
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="chart-container chart card mt-3 p-2">
+                        <canvas id="tinTuyenDungChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="chart-container chart card mt-3 p-2">
+                        <canvas id="doanhNghiepChart"></canvas>
+                    </div>
+                </div>
+</div>
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="chart-container chart card mt-3 p-2">
+                        <canvas id="tinTuyenDungByDoanhNghiepChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="chart-container chart card mt-3 p-2">
+                        <canvas id="donUngTuyenChart"></canvas>
+                    </div>
+                </div>
+            </div>
+          
+           
         </div>
     </div>
 </div>
 
 @section Styles{
     <link rel="stylesheet" href="/css/admin/Dashboard/Dashboard.css">
+}
+
+@* Chart.js script *@
+@section Scripts {
+    @using System.Text.Json
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // Line chart: Tin tuyển dụng theo tháng
+    const labelsTinMonth = @Html.Raw(JsonSerializer.Serialize(Data?.TinTuyenDungByMonth?.Select(x => $"{x.Label}") ?? Enumerable.Empty<string>()));
+    const valuesTinMonth = @Html.Raw(JsonSerializer.Serialize(Data?.TinTuyenDungByMonth?.Select(x => x.Count) ?? Enumerable.Empty<int>()));
+    const ctxTinMonth = document.getElementById('tinTuyenDungChart');
+    new Chart(ctxTinMonth, {
+        type: 'bar',
+        data: {
+            labels: labelsTinMonth,
+            datasets: [{
+                label: 'Tin tuyển dụng theo tháng',
+                data: valuesTinMonth,
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+
+    // Line chart: Đơn ứng tuyển theo tháng
+    const labelsDonUng = @Html.Raw(JsonSerializer.Serialize(Data?.DonUngTuyenByMonth?.Select(x => $"{x.Label}") ?? Enumerable.Empty<string>()));
+    const valuesDonUng = @Html.Raw(JsonSerializer.Serialize(Data?.DonUngTuyenByMonth?.Select(x => x.Count) ?? Enumerable.Empty<int>()));
+    const ctxDonUng = document.getElementById('donUngTuyenChart');
+    new Chart(ctxDonUng, {
+        type: 'bar',
+        data: {
+            labels: labelsDonUng,
+            datasets: [{
+                label: 'Đơn ứng tuyển theo tháng',
+                data: valuesDonUng,
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+
+    // Donut chart: Tin tuyển dụng theo doanh nghiệp
+    const labelsTinDoanh = @Html.Raw(JsonSerializer.Serialize(Data?.TintuyenDungByDoanhNghiep?.Select(x => $"{x.Label}") ?? Enumerable.Empty<string>()));
+    const valuesTinDoanh = @Html.Raw(JsonSerializer.Serialize(Data?.TintuyenDungByDoanhNghiep?.Select(x => x.Count) ?? Enumerable.Empty<int>()));
+    const ctxTinDoanh = document.getElementById('tinTuyenDungByDoanhNghiepChart');
+    new Chart(ctxTinDoanh, {
+        type: 'doughnut',
+        data: {
+            labels: labelsTinDoanh,
+            datasets: [{
+                label: 'Tin tuyển dụng theo doanh nghiệp',
+                data: valuesTinDoanh,
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true } },
+            // doughnut charts do not use y‑axis, but keep configuration for consistency
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+
+    // Line chart: Doanh nghiệp hợp tác theo tháng
+    const labelsDoanh = @Html.Raw(JsonSerializer.Serialize(Data?.DoanhNghiepByMonth?.Select(x => $"{x.Label}") ?? Enumerable.Empty<string>()));
+    const valuesDoanh = @Html.Raw(JsonSerializer.Serialize(Data?.DoanhNghiepByMonth?.Select(x => x.Count) ?? Enumerable.Empty<int>()));
+    const ctxDoanh = document.getElementById('doanhNghiepChart');
+    new Chart(ctxDoanh, {
+        type: 'bar',
+        data: {
+            labels: labelsDoanh,
+            datasets: [{
+                label: 'Doanh nghiệp hợp tác theo tháng',
+                data: valuesDoanh,
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+});
+    </script>
 }

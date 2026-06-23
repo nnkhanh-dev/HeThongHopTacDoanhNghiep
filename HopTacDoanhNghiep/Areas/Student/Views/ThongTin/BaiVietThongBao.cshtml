@@ -7,7 +7,7 @@
     ViewData["OgTitle"] = Model.Data?.TieuDe;
     ViewData["OgDescription"] =
         Model.Data?.TieuDe;
-    ViewData["OgUrl"] = $"/thong-tin/thong-bao/{Model.Data?.Slug}";
+    ViewData["OgUrl"] = $"/sinh-vien/thong-tin/thong-bao/{Model.Data?.Slug}";
 }
 
 <div class="container mb-4">
@@ -29,7 +29,7 @@
 
             @await Html.PartialAsync("_ShareSocial",
             new ShareSocialVM {
-                Url = $"/thong-tin/thong-bao/{data?.Slug}",
+                Url = $"/sinh-vien/thong-tin/thong-bao/{data?.Slug}",
                 Title = data?.TieuDe
             })
 
@@ -45,7 +45,7 @@
                                 foreach(var related in data.BaiVietLienQuan)
                                 {
                                     <div class="related-item">
-                                        <a href="/thong-tin/thong-bao/@related.Slug"><i class="fa-solid fa-circle-right"></i> @related.TieuDe</a>
+                                        <a href="/sinh-vien/thong-tin/thong-bao/@related.Slug"><i class="fa-solid fa-circle-right"></i> @related.TieuDe</a>
                                     </div>
                                 }
                             }
@@ -55,7 +55,7 @@
             }  
             
             <div class="box-footer mt-3">
-                 <a href="/sinh-vien/trang-chu" class="btn btn-secondary">
+                 <a href="/sinh-vien/thong-tin/thong-bao" class="btn btn-secondary">
                     <i class="fa-solid fa-arrow-left"></i> Quay lại
                 </a>
             </div>

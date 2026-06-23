@@ -22,7 +22,8 @@ namespace HopTacDoanhNghiep.Areas.Company.Services
                 .Where(x => x.MaTTD == MaTTD
                     && x.DeletedAt == null
                     && x.TinTuyenDung != null
-                    && x.TinTuyenDung.MaDoanhNgiep == MaDoanhNghiep)
+                    && x.TinTuyenDung.MaDoanhNgiep == MaDoanhNghiep
+                   )
                 .Select(x => new DonUngTuyenVM
                 {
                     MaUT = x.MaUT,
@@ -47,7 +48,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Services
             return BaseResult<DonUngTuyenVM>.Success(item, "Lấy dữ liệu đơn ứng tuyển thành công");
         }
 
-        public async Task<PageResult<DonUngTuyenVM>> GetListDonUngTuyen(int pageInge, int pageSize, string? keyword, string MaDoanhNghiep)
+        public async Task<PageResult<DonUngTuyenVM>> GetListDonUngTuyen(int pageInge, int pageSize, string? keyword, string MaDoanhNghiep,HoSoStatus? hoSoStatus, int? maTTD)
         {
             if (pageInge < 1) pageInge = 1;
             if (pageSize <= 0) pageSize = 10;
@@ -56,7 +57,18 @@ namespace HopTacDoanhNghiep.Areas.Company.Services
                 .AsNoTracking()
                 .Where(x => x.DeletedAt == null
                     && x.TinTuyenDung != null
-                    && x.TinTuyenDung.MaDoanhNgiep == MaDoanhNghiep);
+                    && x.TinTuyenDung.MaDoanhNgiep == MaDoanhNghiep
+                    && x.TrangThai != HoSoStatus.RutHoSo);
+
+            if (hoSoStatus.HasValue)
+            {
+                query = query.Where(x => x.TrangThai == hoSoStatus.Value);
+            }
+
+            if (maTTD.HasValue)
+            {
+                query = query.Where(x => x.MaTTD == maTTD); 
+            }
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {

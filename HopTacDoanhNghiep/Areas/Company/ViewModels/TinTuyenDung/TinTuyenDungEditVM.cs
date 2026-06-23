@@ -36,7 +36,6 @@ namespace HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam
         [Required(ErrorMessage = "Trạng thái không thể để trống")]
         public ViecLamStatus? Status { get; set; }
         public string? MaDoanhNghiep { get; set; }
-        [Required(ErrorMessage = "Lĩnh vực không thể để trống")]
         public string? UpdatedBy { get; set; }
     }
 }

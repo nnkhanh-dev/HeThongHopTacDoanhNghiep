@@ -1,21 +1,26 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
 using HopTacDoanhNghiep.Areas.Officer.ViewModels;
 using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Enums.HopTac;
+using HopTacDoanhNghiep.Services;
+using HopTacDoanhNghiep.ViewModels;
 using HopTacDoanhNghiep.ViewModels.Common;
 using HopTacDoanhNghiep.ViewModels.DonVi;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Text;
 
 namespace HopTacDoanhNghiep.Areas.Officer.Services
 {
     public class DoanhNghiepOfficerService : IDoanhNghiepOfficer
     {
         private readonly AppDbContext _context;
+        private readonly IMailService _mailService;
 
-        public DoanhNghiepOfficerService(AppDbContext context)
+        public DoanhNghiepOfficerService(AppDbContext context, IMailService mailService)
         {
             _context = context;
+            _mailService = mailService;
         }
 
         public async Task<PageResult<DangKyDoanhNghiepVM>> GetListDangKyDoanhNghiep(int pageIndex, int pageSize, string? keyword, string MaCB)
@@ -290,6 +295,41 @@ namespace HopTacDoanhNghiep.Areas.Officer.Services
                 if (!result)
                 {
                     return BaseResult.Fail("Cập nhật trạng thái hợp tác thất bại");
+                }
+
+                // Gửi email thông báo
+                MailData mailData = new MailData();
+
+                if(trangThai == HopTacDoanhNghiepStatus.TuChoi)
+                {
+                    mailData.Title = "Thông báo từ chối hợp tác";
+                    mailData.Body = 
+                        "Kính gửi công ty " + doanhNghiep.TenHienThi + ", <br><br>" +
+                        "Chúng tôi rất tiếc phải thông báo rằng doanh nghiệp của bạn đã bị từ chối hợp tác. <br>" +
+                        "Cảm ơn bạn đã quan tâm và hợp tác với chúng tôi. <br><br>" +
+                        "Trân trọng<br><br>" +
+                        "Mọi thắc mắc xin vui lòng liên hệ: <a href=\"https://htdn.ute.id.vn/lien-he\">Tại đây</a>";
+                    mailData.ReceiverEmail = doanhNghiep.EmailCongTy ?? "";
+                    mailData.ReceiverName = doanhNghiep.TenHienThi;
+
+                    _mailService.SendMail(mailData);
+                }
+                else if(trangThai == HopTacDoanhNghiepStatus.DuyetHopTac)
+                {
+                    mailData.Title = "Thông báo duyệt hợp tác";
+                    mailData.Body =
+                       "Kính gửi công ty " + doanhNghiep.TenHienThi + ", <br><br>" +
+                       "Đơn đăng ký doanh nghiệp của công ty đã được phê duyệt. Chúng tôi rất hân hạnh được hợp tác với quý công ty trong tương lai.<br>" +
+                       "Thông tin đăng nhập hệ thống:<br>" +
+                       "<strong>Tài khoản: </strong>" + doanhNghiep.MaDN + "<br>" +
+                       "<strong>Mật khẩu: </strong> DoanhNghiep@123<br>" +
+                       "<strong>Hệ thống hợp tác doanh nghiệp: </strong> <a href=\"https://htdn.ute.id.vn/dang-nhap\">Đăng nhập</a><br><br>" +
+                       "Trân trọng<br><br>" +
+                       "Mọi thắc mắc xin vui lòng liên hệ: <a href=\"https://htdn.ute.id.vn/lien-he\">Tại đây</a>";
+                    mailData.ReceiverEmail = doanhNghiep.EmailCongTy ?? "";
+                    mailData.ReceiverName = doanhNghiep.TenHienThi;
+
+                    _mailService.SendMail(mailData);
                 }
 
                 return BaseResult.Success("Cập nhật trạng thái hợp tác thành công");

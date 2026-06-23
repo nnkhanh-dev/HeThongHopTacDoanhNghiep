@@ -656,3 +656,8 @@ tbody td {
 .manage-btn i {
     font-size: 0.9rem;
 }
+
+.chart {
+    border: 1px solid #adc3ef !important;
+    box-shadow: var(--shadow-md) !important;
+}

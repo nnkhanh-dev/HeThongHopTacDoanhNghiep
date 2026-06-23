@@ -1,0 +1,94 @@
+@model HopTacDoanhNghiep.Areas.Student.ViewModels.SinhVien.SinhVienVM
+
+@{
+    ViewData["Title"] = "Thông tin sinh viên";
+}
+
+<div class="container">
+    <div class="box mb-4">
+        <div class="box-header mb-3">
+            <i class="fa-solid fa-user-graduate"></i> Thông tin sinh viên
+        </div>
+
+        <div class="box-body">
+            @if (Model != null)
+            {
+                <div class="content-box mb-4">
+                    <div class="row g-4 align-items-start">
+
+                        <div class="col-md-3 text-center">
+                            @if (!string.IsNullOrWhiteSpace(Model.AnhThe))
+                            {
+                                <img src="@Model.AnhThe"
+                                     alt="Ảnh thẻ sinh viên"
+                                     class="img-fluid img-thumbnail"
+                                     style="max-width:220px;" />
+                            }
+                            else
+                            {
+                                <div class="border rounded d-flex align-items-center justify-content-center bg-light"
+                                     style="min-height:220px;">
+                                    <span class="text-muted">Chưa có ảnh thẻ</span>
+                                </div>
+                            }
+                    </div>
+
+                    <div class="col-md-9">
+                        <dl class="row mb-0">
+
+                            <dt class="col-sm-3">Họ và tên</dt>
+                            <dd class="col-sm-9">@Model.HoTen</dd>
+
+                            <dt class="col-sm-3">Mã sinh viên</dt>
+                            <dd class="col-sm-9">@Model.MaSV</dd>
+
+                            <dt class="col-sm-3">Email giáo dục</dt>
+                            <dd class="col-sm-9">
+                                @( !string.IsNullOrWhiteSpace(Model.EmailGiaoDuc) ? Model.EmailGiaoDuc : "-" )
+                            </dd>
+                            <dt class="col-sm-3">Email cá nhân</dt>
+                            <dd class="col-sm-9">
+                                @( !string.IsNullOrWhiteSpace(Model.Email) ? Model.Email : "-" )
+                            </dd>
+                            <dt class="col-sm-3">Số điện thoại</dt>
+                            <dd class="col-sm-9">
+                                @( !string.IsNullOrWhiteSpace(Model.SDT) ? Model.SDT : "-" )
+                            </dd>
+
+                            </dl>
+                        </div>
+
+                    </div>
+                </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.HoSoNangLuc))
+                {
+                    <div class="mb-3">
+                        <strong>Hồ sơ năng lực:</strong>
+
+                        <div class="content-box mt-2">
+                            <a href="@Model.HoSoNangLuc"
+                               target="_blank"
+                               class="btn btn-outline-primary">
+                                <i class="fa-solid fa-file"></i>
+                                Xem hồ sơ năng lực
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                <div class="d-flex gap-2 mt-3">
+                    <a href="/sinh-vien/chinh-sua"
+                       class="btn btn-primary">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Cập nhật
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="/css/company/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+}

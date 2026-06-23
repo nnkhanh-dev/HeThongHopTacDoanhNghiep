@@ -21,5 +21,6 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
             string? sapXepTheo = null
         );
         Task<BaseResult<TinTuyenDungVM>> GetTinTuyenDungBySlug(string slug);
+        Task<PageResult<TinTuyenDungVM>> GetTinTuyenDungByCompanyId(string maDN, int pageIndex, int pageSize, string? keyword = null);
     }
 }

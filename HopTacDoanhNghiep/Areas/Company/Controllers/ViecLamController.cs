@@ -164,8 +164,8 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
                 return View(model);
             }
 
-            var userId = User.FindFirstValue("IdNguoiDung");
-            model.UpdatedBy = userId;
+            var doanhNghiepId = User.Identity?.Name;
+            model.UpdatedBy = doanhNghiepId;
 
             var result = await _viecLam.EditTinTuyenDung(id, model);
 
@@ -182,9 +182,9 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
         [HttpDelete("doanh-nghiep/viec-lam/xoa/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var userId = User.FindFirstValue("IdNguoiDung");
+            var doanhNghiepId = User.Identity?.Name;
 
-            var result = await _viecLam.DeleteTinTuyenDung(id, userId);
+            var result = await _viecLam.DeleteTinTuyenDung(id, doanhNghiepId);
 
             if (!result.IsSuccess)
             {

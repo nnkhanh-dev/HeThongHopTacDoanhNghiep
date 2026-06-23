@@ -20,7 +20,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
             _fileStorage = fileStorage;
         }
 
-        [HttpGet("doanh-nghiep/thong-tin")]
+        [HttpGet("doanh-nghiep/ho-so")]
         public async Task<IActionResult> ThongTin()
         {
             var maDoanhNghiep = User.Identity?.Name;

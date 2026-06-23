@@ -1,6 +1,6 @@
 ﻿@import url('../_variables.css');
 
-.don-ung-tuyen-grid {
+/*.don-ung-tuyen-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 	gap: 1.25rem;
@@ -13,6 +13,34 @@
 	border: 1px solid #efefef;
 	box-shadow: var(--shadow-md);
 	overflow: hidden;
+}*/
+.don-ung-tuyen-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.don-ung-tuyen-card {
+	border: 1px solid #efefef;
+	box-shadow: var(--shadow-md);
+	flex: 1 1 calc(33.333% - 20px);
+	max-width: calc(33.333% - 20px);
+}
+
+/* Tablet */
+@media (max-width: 1200px) {
+	.don-ung-tuyen-card {
+		flex: 1 1 calc(50% - 20px);
+		max-width: calc(50% - 20px);
+	}
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+	.don-ung-tuyen-card {
+		flex: 1 1 100%;
+		max-width: 100%;
+	}
 }
 
 .don-ung-tuyen-card-header {

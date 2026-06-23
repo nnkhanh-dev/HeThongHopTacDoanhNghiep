@@ -3,7 +3,7 @@ var ckeditorInstances = {};
 
 // Document ready
 $(document).ready(function () {
-    initLinhVucSelect();
+    // initLinhVucSelect(); // removed
     initLinhVucFilter();
     initCKEditor();
     initSalaryRangeSliders();

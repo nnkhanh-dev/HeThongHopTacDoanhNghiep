@@ -1,8 +1,8 @@
-﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.TinTuyenDungVM>
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.Areas.Company.ViewModels.ViecLam.TinTuyenDungVM>
 @using HopTacDoanhNghiep.Enums.ViecLam
 
 @{
-    ViewData["Title"] = "Quản lý việc làm";
+    ViewData["Title"] = "Quản lý tin tuyển dụng";
     var statusFilter = Context.Request.Query["status"].ToString();
     var linhVucFilter = Context.Request.Query["linhVuc"].ToString();
     var loaiViecLamFilter = Context.Request.Query["loaiViecLam"].ToString();
@@ -13,6 +13,7 @@
     var luongMaxFilter = Context.Request.Query["luongMax"].ToString();
     var sapXepLuongToiDaFilter = Context.Request.Query["sapXepLuongToiDa"].ToString();
     var sapXepTheoFilter = Context.Request.Query["sapXepTheo"].ToString();
+    var maTTDFilter = Context.Request.Query["maTTD"].ToString();
 }
 
 <div class="container">
@@ -23,9 +24,24 @@
         <div class="box-body">
             <div class="mb-4">
                 <a href="/doanh-nghiep/viec-lam/tao-moi" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tạo mới</a>
-                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#filterModal">
+                <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#filterModal">
                     <i class="fa-solid fa-filter"></i> Bộ lọc
                 </button>
+                @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) ||
+                                !string.IsNullOrEmpty(loaiViecLamFilter) ||
+                                !string.IsNullOrEmpty(doiTuongFilter) ||
+                                !string.IsNullOrEmpty(trinhDoFilter) ||
+                                !string.IsNullOrEmpty(conHieuLucFilter) ||
+                                !string.IsNullOrEmpty(luongMinFilter) ||
+                                !string.IsNullOrEmpty(luongMaxFilter) ||
+                                !string.IsNullOrEmpty(sapXepTheoFilter) ||
+                                !string.IsNullOrEmpty(sapXepLuongToiDaFilter)||
+                                !string.IsNullOrEmpty(maTTDFilter))
+                {
+                    <a href="/doanh-nghiep/viec-lam" class="btn btn-secondary ms-2">
+                        <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
+                    </a>
+                }
             </div>
             
 
@@ -69,7 +85,7 @@
                                 <a href="/doanh-nghiep/viec-lam/chi-tiet/@item.MaTTD" class="text-info" title="Xem chi tiết"><i class="fa-solid fa-eye"></i></a>
                                 <a href="/doanh-nghiep/viec-lam/chinh-sua/@item.MaTTD" class="text-primary" title="Chỉnh sửa"><i class="fa-solid fa-edit"></i></a>
                                 <a href="javascript:void(0);" onclick="DeleteViecLam(@item.MaTTD, '@item.TieuDe')" class="text-danger" title="Xóa"><i class="fa-solid fa-trash"></i></a>
-                                <a href="#" class="text-success" title="Danh sách ứng viên"><i class="fa-solid fa-users"></i></a>
+                                <a href="/doanh-nghiep/don-ung-tuyen?maTTD=@item.MaTTD" class="text-success" title="Danh sách ứng viên"><i class="fa-solid fa-users"></i></a>
                             </div>
                         </div>
                     }
@@ -109,11 +125,6 @@
                                    value="@Context.Request.Query["keyword"]">
                         </div>
                         <div class="col-12 col-md-3">
-                            <select class="form-select" id="LinhVucFilter" name="linhVuc">
-                                <option value="">Tất cả lĩnh vực</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-3">
                             <select class="form-select" name="status">
                                 <option value="">Tất cả trạng thái</option>
                                 <option value="0" selected="@(statusFilter == "0")">Nháp</option>
@@ -121,8 +132,6 @@
                                 <option value="2" selected="@(statusFilter == "2")">Ẩn</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row g-3 mt-2">
                         <div class="col-12 col-md-3">
                             <select class="form-select" name="loaiViecLam">
                                 <option value="">Tất cả loại việc làm</option>
@@ -131,7 +140,9 @@
                                 <option value="2" selected="@(loaiViecLamFilter == "2")">Thực tập</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-3">
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-12 col-md-4">
                             <select class="form-select" name="doiTuongUngTuyen">
                                 <option value="">Tất cả đối tượng</option>
                                 <option value="1" selected="@(doiTuongFilter == "1")">Thực tập sinh</option>
@@ -140,7 +151,7 @@
                                 <option value="4" selected="@(doiTuongFilter == "4")">Đã tốt nghiệp</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <select class="form-select" name="trinhDo">
                                 <option value="">Tất cả trình độ</option>
                                 <option value="1" selected="@(trinhDoFilter == "1")">Trung cấp</option>
@@ -149,9 +160,9 @@
                                 <option value="4" selected="@(trinhDoFilter == "4")">Sau đại học</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <select class="form-select" name="conHieuLuc">
-                                <option value="">Tất cả</option>
+                                <option value="">Tất cả hiệu lực</option>
                                 <option value="true" selected="@(conHieuLucFilter == "true")">Còn hiệu lực</option>
                                 <option value="false" selected="@(conHieuLucFilter == "false")">Hết hiệu lực</option>
                             </select>
@@ -231,24 +242,14 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-search"></i> Tìm kiếm
-                            </button>
-                            @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) ||
-                                                        !string.IsNullOrEmpty(statusFilter) ||
-                                                        !string.IsNullOrEmpty(linhVucFilter) ||
-                                                        !string.IsNullOrEmpty(loaiViecLamFilter) ||
-                                                        !string.IsNullOrEmpty(doiTuongFilter) ||
-                                                        !string.IsNullOrEmpty(trinhDoFilter) ||
-                                                        !string.IsNullOrEmpty(conHieuLucFilter) ||
-                                                        !string.IsNullOrEmpty(luongMinFilter) ||
-                                                        !string.IsNullOrEmpty(luongMaxFilter) ||
-                                                        !string.IsNullOrEmpty(sapXepTheoFilter))
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) || !string.IsNullOrEmpty(loaiViecLamFilter) || !string.IsNullOrEmpty(doiTuongFilter) || !string.IsNullOrEmpty(trinhDoFilter) || !string.IsNullOrEmpty(conHieuLucFilter) || !string.IsNullOrEmpty(luongMinFilter) || !string.IsNullOrEmpty(luongMaxFilter) || !string.IsNullOrEmpty(sapXepTheoFilter) || !string.IsNullOrEmpty(sapXepLuongToiDaFilter) || !string.IsNullOrEmpty(maTTDFilter))
                             {
-                                <a href="/doanh-nghiep/viec-lam" class="btn btn-secondary">
+                                <a href="/doanh-nghiep/viec-lam" class="btn btn-danger">
                                     <i class="fa-solid fa-times"></i> Xóa bộ lọc
                                 </a>
                             }
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </div>
 

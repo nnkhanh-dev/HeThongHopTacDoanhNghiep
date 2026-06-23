@@ -1,4 +1,5 @@
-﻿@model HopTacDoanhNghiep.Areas.Student.ViewModels.DoanhNghiep.DoanhNghiepVM
+@using HopTacDoanhNghiep.Enums.ViecLam
+@model HopTacDoanhNghiep.Areas.Student.ViewModels.DoanhNghiep.DoanhNghiepVM
 
 @{
     ViewData["Title"] = Model.TenPhapLy;
@@ -7,7 +8,7 @@
 <div class="container">
     <div class="box">
         <div class="box-header mb-4">
-            <i class="fa-solid fa-briefcase"></i> @Model.TenPhapLy
+            <i class="fa-solid fa-building"></i> @Model.TenPhapLy
         </div>
         <div class="box-body">
             <div class="content-box">
@@ -51,6 +52,62 @@
                 }
             </div>
 
+            <hr>
+            <h4>
+                <i class="fa-solid fa-briefcase"></i> Tin tuyển dụng
+            </h4>
+
+
+            <div class="list-jobs">
+                @if (Model.TinTuyenDung?.Records != null && Model.TinTuyenDung.Records.Any())
+                {
+                    foreach (var item in Model.TinTuyenDung.Records)
+                    {
+                        var isValid = item.NgayBatDau <= DateTime.UtcNow && item.NgayHetHan >= DateTime.UtcNow;
+                        <div class="job mb-3">
+                            <div class="job-header">
+                                <img src="@item.LogoDoanhNghiep" alt="Logo doanh nghiệp">
+                            </div>
+                            <div class="job-body mt-3">
+                                <h3 class="job-title"><a href="/sinh-vien/tin-tuyen-dung/@item.Slug">@item.TieuDe</a></h3>
+                                <div>
+                                    <i class="fa-solid fa-piggy-bank"></i> @((item.LuongToiThieu?.ToString("N0") ?? "0") + " - " + (item.LuongToiDa?.ToString("N0") ?? "0")) VNĐ
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-clock-rotate-left"></i> @item.NgayBatDau?.ToString("dd/MM/yyyy") - @item.NgayHetHan?.ToString("dd/MM/yyyy")
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-cubes"></i>
+                                    @switch (item.LoaiViecLam)
+                                    {
+                                        case ViecLamType.BanThoiGian:
+                                            <span> Bán thời gian</span>
+                                            break;
+                                        case ViecLamType.ToanThoiGian:
+                                            <span> Toàn thời gian</span>
+                                            break;
+                                        case ViecLamType.ThucTap:
+                                            <span> Thực tập</span>
+                                            break;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center w-100 fs-4 fw-bold text-muted mt-5">
+                        <i class="fa-solid fa-folder-open empty-icon"></i>
+                        Không có tin tuyển dụng nào
+                    </div>
+                }
+
+            </div>
+            <div class="pagination-wrapper">
+                @await Html.PartialAsync("_Pagination", Model.TinTuyenDung)
+            </div>
+
             <div class="d-flex gap-2 mt-3">
                 <a href="/sinh-vien/doanh-nghiep" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
             </div>
@@ -60,4 +117,5 @@
 
 @section Styles {
     <link href="/css/student/DoanhNghiep/DoanhNghiep.css" rel="stylesheet" />
+    <link href="/css/student/ViecLam/ViecLam.css" rel="stylesheet" />
 }

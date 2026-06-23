@@ -1,14 +1,16 @@
 @model HopTacDoanhNghiep.Areas.Student.ViewModels.DonUngTuyen.DonUngTuyenVM
 @using HopTacDoanhNghiep.Enums.HoSo
+@using HopTacDoanhNghiep.Enums.ViecLam
 
 @{
     ViewData["Title"] = "Chi tiết đơn ứng tuyển";
+    var tinTuyenDung = Model.TinTuyenDung;
 }
 
 <div class="container">
     <div class="box">
         <div class="box-header mb-4">
-            <i class="fa-solid fa-file-signature"></i> Chi tiết đơn ứng tuyển
+            <i class="fa-solid fa-paper-plane"></i> Chi tiết đơn ứng tuyển
         </div>
         <div class="box-body">
             <div class="row g-3">
@@ -27,7 +29,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <strong>Tiêu đề tin tuyển dụng:</strong>
-                        <p class="mb-0">@Model.TieuDeTinTuyenDung</p>
+                        <p class="mb-0">@(Model.TinTuyenDung?.TieuDe ?? "")</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -72,11 +74,155 @@
                 </div>
             </div>
 
+            <hr>
+
+            @if (tinTuyenDung == null)
+            {
+                <div class="alert alert-warning mb-0">
+                    Không tìm thấy thông tin tin tuyển dụng.
+                </div>
+                return;
+            }
+
+            <div>
+                <div class="mb-3">
+                    
+                    <strong>Loại việc làm:</strong>
+                    <p>
+                        @switch (tinTuyenDung.LoaiViecLam)
+                        {
+                            case ViecLamType.BanThoiGian:
+                                <span class="badge bg-warning text-dark">Bán thời gian</span>
+                                break;
+                            case ViecLamType.ToanThoiGian:
+                                <span class="badge bg-primary">Toàn thời gian</span>
+                                break;
+                            case ViecLamType.ThucTap:
+                                <span class="badge bg-info">Thực tập</span>
+                                break;
+                        }
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <strong>Địa điểm:</strong>
+                            <p>@tinTuyenDung.DiaDiem</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Đối tượng:</strong>
+                            <p>
+                                @switch (tinTuyenDung.DoiTuongUngTuyen)
+                                {
+                                    case DoiTuongUngTuyen.ThucTapSinh:
+                                        <span>Thực tập sinh</span>
+                                        break;
+                                    case DoiTuongUngTuyen.SinhVienNamCuoi:
+                                        <span>Sinh viên năm cuối</span>
+                                        break;
+                                    case DoiTuongUngTuyen.MoiTotNghiep:
+                                        <span>Mới tốt nghiệp</span>
+                                        break;
+                                    case DoiTuongUngTuyen.DaTotNghiep:
+                                        <span>Đã tốt nghiệp</span>
+                                        break;
+                                }
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Trình độ:</strong>
+                            <p>
+                                @switch (tinTuyenDung.TrinhDo)
+                                {
+                                    case TrinhDoType.TrungCap:
+                                        <span>Trung cấp</span>
+                                        break;
+                                    case TrinhDoType.CaoDang:
+                                        <span>Cao đẳng</span>
+                                        break;
+                                    case TrinhDoType.DaiHoc:
+                                        <span>Đại học</span>
+                                        break;
+                                    case TrinhDoType.SauDaiHoc:
+                                        <span>Sau đại học</span>
+                                        break;
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <strong>Lương:</strong>
+                            <p>@((tinTuyenDung.LuongToiThieu?.ToString("N0") ?? "0") + " - " + (tinTuyenDung.LuongToiDa?.ToString("N0") ?? "0")) VNĐ</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Ngày bắt đầu:</strong>
+                            <p>@tinTuyenDung.NgayBatDau?.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Ngày hết hạn:</strong>
+                            <p>@tinTuyenDung.NgayHetHan?.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+                <strong>Mô tả công việc:</strong>
+                <div class="content-box">
+                    @Html.Raw(tinTuyenDung.MoTa)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Yêu cầu công việc:</strong>
+                <div class="content-box">
+                    @Html.Raw(tinTuyenDung.YeuCau)
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <strong>Quyền lợi:</strong>
+                <div class="content-box">
+                    @Html.Raw(tinTuyenDung.QuyenLoi)
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(tinTuyenDung.UuTien))
+            {
+                <div class="mb-3">
+                    <strong>Ưu tiên:</strong>
+                    <div class="content-box">
+                        @Html.Raw(tinTuyenDung.UuTien)
+                    </div>
+                </div>
+            }
+
+
             <div class="d-flex gap-2">
                 <a href="/sinh-vien/don-ung-tuyen" class="btn btn-secondary">
                     <i class="fa-solid fa-arrow-left"></i> Quay lại
                 </a>
+                @if (Model.TrangThai == HoSoStatus.ChoPhanHoi)
+                {
+                    <form method="post" action="/sinh-vien/don-ung-tuyen/rut-ho-so/@Model.MaUT" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-undo"></i> Rút hồ sơ
+                        </button>
+                    </form>
+                }
             </div>
         </div>
     </div>
 </div>
+
+@section Styles {
+    <link href="/css/student/ViecLam/ViecLam.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="/js/student/ViecLam/DonUngTuyen.js"></script>
+}

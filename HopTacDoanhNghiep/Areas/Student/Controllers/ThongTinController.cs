@@ -15,7 +15,7 @@ namespace HopTacDoanhNghiep.Areas.Student.Controllers
             _baiViet = baiViet;
         }
 
-        [HttpGet("/sinh-vien/sinh-vien/thong-tin")]
+        [HttpGet("/sinh-vien/thong-tin")]
         public IActionResult Index()
         {
             return View();

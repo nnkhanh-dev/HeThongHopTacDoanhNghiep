@@ -109,7 +109,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
             return Json(new {success = true, message = result.Message});
         }
 
-        [HttpGet("can-bo/thong-tin")]
+        [HttpGet("can-bo/ho-so")]
         public async Task<IActionResult> ThongTinCanBo()
         {
             var maDoanhNghiep = User.Identity?.Name;
@@ -126,7 +126,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
             return View(result.Data);
         }
 
-        [HttpGet("can-bo/thong-tin/chinh-sua")]
+        [HttpGet("can-bo/ho-so/chinh-sua")]
         public async Task<IActionResult> ChinhSuaCanBo()
         {
             var maDoanhNghiep = User.Identity?.Name;
@@ -155,7 +155,7 @@ namespace HopTacDoanhNghiep.Areas.Officer.Controllers
             return View(data);
         }
 
-        [HttpPost("can-bo/thong-tin/chinh-sua")]
+        [HttpPost("can-bo/ho-so/chinh-sua")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChinhSuaCanBo(CanBoUpdateVM model, IFormFile? AnhFile)
         {

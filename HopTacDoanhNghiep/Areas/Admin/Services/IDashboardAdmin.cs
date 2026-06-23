@@ -5,6 +5,6 @@ namespace HopTacDoanhNghiep.Areas.Admin.Services
 {
     public interface IDashboardAdmin
     {
-        Task<BaseResult<DashboardDataVM>> GetDashboardData();
+        Task<BaseResult<DashboardDataVM>> GetDashboardData(int? year);
     }
 }

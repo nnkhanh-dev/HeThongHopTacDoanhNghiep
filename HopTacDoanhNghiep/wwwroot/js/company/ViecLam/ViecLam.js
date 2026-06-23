@@ -3,8 +3,8 @@ var ckeditorInstances = {};
 
 // Document ready
 $(document).ready(function () {
-    initLinhVucSelect();
-    initLinhVucFilter();
+    // initLinhVucSelect();
+    // initLinhVucFilter();
     initCKEditor();
     initSalaryRangeSliders();
     initSortSalaryRadio();
@@ -36,12 +36,12 @@ function initSalaryRangeSliders() {
     var currentMax = parseInt($luongMaxRange.val()) || 1000000000;
 
     // Calculate left position percentage
-    var calcLeftPosition = function(value) {
+    var calcLeftPosition = function (value) {
         return (100 / (maxValue - minValue)) * (value - minValue);
     };
 
     // Update UI
-    var updateUI = function() {
+    var updateUI = function () {
         var minPercent = calcLeftPosition(currentMin);
         var maxPercent = calcLeftPosition(currentMax);
 
@@ -49,7 +49,7 @@ function initSalaryRangeSliders() {
         $thumbMax.css('left', maxPercent + '%');
         $luongMinValue.text(currentMin);
         $luongMaxValue.text(currentMax);
-        
+
         $line.css({
             'left': minPercent + '%',
             'right': (100 - maxPercent) + '%'
@@ -60,7 +60,7 @@ function initSalaryRangeSliders() {
     updateUI();
 
     // Min range input handler
-    $luongMinRange.on('input', function(e) {
+    $luongMinRange.on('input', function (e) {
         var newValue = parseInt(e.target.value);
         if (newValue > currentMax) return;
         currentMin = newValue;
@@ -68,7 +68,7 @@ function initSalaryRangeSliders() {
     });
 
     // Max range input handler
-    $luongMaxRange.on('input', function(e) {
+    $luongMaxRange.on('input', function (e) {
         var newValue = parseInt(e.target.value);
         if (newValue < currentMin) return;
         currentMax = newValue;
@@ -88,9 +88,9 @@ function initSortSalaryRadio() {
     }
 
     // Update hidden input when radio changes
-    $sapXepRadios.on('change', function() {
+    $sapXepRadios.on('change', function () {
         var selectedValue = $(this).val();
-        
+
         if (selectedValue === 'asc' || selectedValue === 'desc') {
             // Nếu chọn tăng dần hoặc giảm dần, set sapXepLuongToiDa = true
             $sapXepLuongToiDaInput.val('true');
@@ -121,7 +121,7 @@ function initSortSalaryRadio() {
  */
 function initLinhVucFilter() {
     var $filter = $('#LinhVucFilter');
-    
+
     // Only init if filter exists on page
     if ($filter.length === 0) {
         return;
@@ -139,7 +139,7 @@ function initLinhVucFilter() {
             data: { pageSize: 100 },
             success: function (data) {
                 var items = data.records || [];
-                var selectedItem = items.find(function(item) {
+                var selectedItem = items.find(function (item) {
                     return item.slug == initialVal;
                 });
                 if (selectedItem) {
@@ -150,7 +150,7 @@ function initLinhVucFilter() {
                 // Initialize Select2 after adding the option
                 initSelect2ForLinhVucFilter($filter);
             },
-            error: function() {
+            error: function () {
                 // Initialize Select2 even if loading fails
                 initSelect2ForLinhVucFilter($filter);
             }
@@ -187,7 +187,7 @@ function initSelect2ForLinhVucFilter($filter) {
 
                 var results = [];
                 var items = data.records || [];
-                
+
                 if (items.length > 0) {
                     results = items.map(function (item) {
                         return {
@@ -229,10 +229,10 @@ function initSelect2ForLinhVucFilter($filter) {
  */
 function initCKEditor() {
     var editorIds = ['MoTa', 'YeuCau', 'QuyenLoi', 'UuTien'];
-    
-    editorIds.forEach(function(editorId) {
+
+    editorIds.forEach(function (editorId) {
         var $editor = $('#' + editorId);
-        
+
         // Only init if editor exists on page
         if ($editor.length === 0) {
             return;
@@ -279,7 +279,7 @@ function initCKEditor() {
 
             try {
                 var result = JSON.parse(response);
-                
+
                 if (result.uploaded === 1) {
                     data.url = result.url;
                 } else {
@@ -372,7 +372,7 @@ function DeleteViecLam(id, title) {
 // CLEANUP ON PAGE UNLOAD
 // ========================================
 
-$(window).on('beforeunload', function() {
+$(window).on('beforeunload', function () {
     // Destroy all CKEditor instances
     for (var key in ckeditorInstances) {
         if (ckeditorInstances[key]) {

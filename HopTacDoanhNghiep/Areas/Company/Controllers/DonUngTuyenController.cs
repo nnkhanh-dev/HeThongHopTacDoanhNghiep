@@ -1,4 +1,5 @@
 ﻿using HopTacDoanhNghiep.Areas.Company.Services;
+using HopTacDoanhNghiep.Enums.HoSo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
         }
 
         [HttpGet("doanh-nghiep/don-ung-tuyen")]
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 6, string? keyword = null)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 6, string? keyword = null, HoSoStatus? hoSoStatus = null, int? maTTD = null)
         {
             var maDoanhNghiep = User.Identity?.Name;
 
@@ -25,7 +26,7 @@ namespace HopTacDoanhNghiep.Areas.Company.Controllers
                 return Unauthorized();
             }
 
-            var result = await _donUngTuyen.GetListDonUngTuyen(pageIndex, pageSize, keyword, maDoanhNghiep);
+            var result = await _donUngTuyen.GetListDonUngTuyen(pageIndex, pageSize, keyword, maDoanhNghiep, hoSoStatus, maTTD);
             return View(result);
         }
 

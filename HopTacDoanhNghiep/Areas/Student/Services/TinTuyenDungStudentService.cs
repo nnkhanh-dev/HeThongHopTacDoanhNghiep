@@ -122,6 +122,76 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
             };
         }
 
+        public async Task<PageResult<TinTuyenDungVM>> GetTinTuyenDungByCompanyId(
+    string maDN,
+    int pageIndex,
+    int pageSize,
+    string? keyword = null)
+        {
+            if (pageIndex < 1) pageIndex = 1;
+            if (pageSize <= 0) pageSize = 10;
+
+            var query = _context.TinTuyenDungs
+                .AsNoTracking()
+                .Where(x =>
+                    x.DeletedAt == null &&
+                    x.Status == ViecLamStatus.CongBo &&
+                    x.MaDoanhNgiep == maDN);
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(x =>
+                    x.TieuDe.Contains(keyword) ||
+                    x.MoTa.Contains(keyword) ||
+                    x.TuKhoa.Contains(keyword) ||
+                    x.DiaDiem.Contains(keyword));
+            }
+
+            var total = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(x => x.CreatedAt)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .Select(x => new TinTuyenDungVM
+                {
+                    MaTTD = x.MaTTD,
+                    TieuDe = x.TieuDe,
+                    Slug = x.Slug,
+                    MoTa = x.MoTa,
+                    YeuCau = x.YeuCau,
+                    UuTien = x.UuTien,
+                    QuyenLoi = x.QuyenLoi,
+                    LuongToiThieu = x.LuongToiThieu,
+                    LuongToiDa = x.LuongToiDa,
+                    DiaDiem = x.DiaDiem,
+                    TuKhoa = x.TuKhoa,
+                    NgayBatDau = x.NgayBatDau,
+                    NgayHetHan = x.NgayHetHan,
+                    LoaiViecLam = x.LoaiViecLam,
+                    DoiTuongUngTuyen = x.DoiTuongUngTuyen,
+                    TrinhDo = x.TrinhDo,
+                    Status = x.Status,
+                    MaDoanhNghiep = x.MaDoanhNgiep,
+                    DoanhNghiep = x.DoanhNghiep != null
+                        ? x.DoanhNghiep.TenHienThi
+                        : null,
+                    LogoDoanhNghiep = x.DoanhNghiep != null
+                        ? x.DoanhNghiep.Logo
+                        : null,
+                    CreatedAt = x.CreatedAt
+                })
+                .ToListAsync();
+
+            return new PageResult<TinTuyenDungVM>
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalRecords = total,
+                Records = items
+            };
+        }
+
         public async Task<BaseResult<TinTuyenDungVM>> GetTinTuyenDungBySlug(string slug)
         {
             var item = await _context.TinTuyenDungs

@@ -1,4 +1,5 @@
-﻿using HopTacDoanhNghiep.Areas.Student.ViewModels.DonUngTuyen;
+using HopTacDoanhNghiep.Areas.Student.ViewModels.DonUngTuyen;
+using HopTacDoanhNghiep.Areas.Student.ViewModels.ViecLam;
 using HopTacDoanhNghiep.Data;
 using HopTacDoanhNghiep.Enums.HoSo;
 using HopTacDoanhNghiep.Enums.ViecLam;
@@ -98,7 +99,30 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
                     MaSV = x.MaSV,
                     TenSinhVien = x.SinhVien != null && x.SinhVien.NguoiDung != null ? x.SinhVien.NguoiDung.HoTen : null,
                     MaTTD = x.MaTTD,
-                    TieuDeTinTuyenDung = x.TinTuyenDung != null ? x.TinTuyenDung.TieuDe : null,
+                    TinTuyenDung = x.TinTuyenDung != null ? new TinTuyenDungVM
+                    {
+                        MaTTD = x.TinTuyenDung.MaTTD,
+                        TieuDe = x.TinTuyenDung.TieuDe,
+                        Slug = x.TinTuyenDung.Slug,
+                        MoTa = x.TinTuyenDung.MoTa,
+                        YeuCau = x.TinTuyenDung.YeuCau,
+                        UuTien = x.TinTuyenDung.UuTien,
+                        QuyenLoi = x.TinTuyenDung.QuyenLoi,
+                        LuongToiThieu = x.TinTuyenDung.LuongToiThieu,
+                        LuongToiDa = x.TinTuyenDung.LuongToiDa,
+                        DiaDiem = x.TinTuyenDung.DiaDiem,
+                        TuKhoa = x.TinTuyenDung.TuKhoa,
+                        NgayBatDau = x.TinTuyenDung.NgayBatDau,
+                        NgayHetHan = x.TinTuyenDung.NgayHetHan,
+                        LoaiViecLam = x.TinTuyenDung.LoaiViecLam,
+                        DoiTuongUngTuyen = x.TinTuyenDung.DoiTuongUngTuyen,
+                        TrinhDo = x.TinTuyenDung.TrinhDo,
+                        Status = x.TinTuyenDung.Status,
+                        MaDoanhNghiep = x.TinTuyenDung.MaDoanhNgiep,
+                        DoanhNghiep = x.TinTuyenDung.DoanhNghiep != null ? x.TinTuyenDung.DoanhNghiep.TenHienThi : null,
+                        LogoDoanhNghiep = x.TinTuyenDung.DoanhNghiep != null ? x.TinTuyenDung.DoanhNghiep.Logo : null,
+                        CreatedAt = x.TinTuyenDung.CreatedAt
+                    } : null,
                     HoSoUngTuyen = x.HoSoUngTuyen,
                     TrangThai = x.TrangThai,
                     CreatedAt = x.CreatedAt,
@@ -114,7 +138,7 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
             return BaseResult<DonUngTuyenVM>.Success(item, "Lấy dữ liệu đơn ứng tuyển thành công");
         }
 
-        public async Task<PageResult<DonUngTuyenVM>> GetListDonUngTuyen(int pageInge, int pageSize, string? keyword, string MaSinhVien)
+        public async Task<PageResult<DonUngTuyenVM>> GetListDonUngTuyen(int pageInge, int pageSize, string? keyword, string MaSinhVien, HoSoStatus? trangthai)
         {
             if (pageInge < 1) pageInge = 1;
             if (pageSize <= 0) pageSize = 10;
@@ -135,6 +159,11 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
                     )));
             }
 
+            if (trangthai.HasValue)
+            {
+                query = query.Where(x => x.TrangThai == trangthai.Value);
+            }
+
             var total = await query.CountAsync();
 
             var items = await query
@@ -147,12 +176,30 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
                     MaSV = x.MaSV,
                     TenSinhVien = x.SinhVien != null && x.SinhVien.NguoiDung != null ? x.SinhVien.NguoiDung.HoTen : null,
                     MaTTD = x.MaTTD,
-                    TieuDeTinTuyenDung = x.TinTuyenDung != null ? x.TinTuyenDung.TieuDe : null,
-                    LuongToiDa = x.TinTuyenDung != null ? x.TinTuyenDung.LuongToiDa : 0,
-                    LuongToiThieu = x.TinTuyenDung != null ? x.TinTuyenDung.LuongToiThieu : 0,
-                    NgayBatDau = x.TinTuyenDung != null ? x.TinTuyenDung.NgayBatDau : DateTime.MinValue,
-                    NgayHetHan = x.TinTuyenDung != null ? x.TinTuyenDung.NgayHetHan : DateTime.MinValue,
-                    LoaiViecLam = x.TinTuyenDung != null ? x.TinTuyenDung.LoaiViecLam : ViecLamType.ToanThoiGian,
+                    TinTuyenDung = x.TinTuyenDung != null ? new TinTuyenDungVM
+                    {
+                        MaTTD = x.TinTuyenDung.MaTTD,
+                        TieuDe = x.TinTuyenDung.TieuDe,
+                        Slug = x.TinTuyenDung.Slug,
+                        MoTa = x.TinTuyenDung.MoTa,
+                        YeuCau = x.TinTuyenDung.YeuCau,
+                        UuTien = x.TinTuyenDung.UuTien,
+                        QuyenLoi = x.TinTuyenDung.QuyenLoi,
+                        LuongToiThieu = x.TinTuyenDung.LuongToiThieu,
+                        LuongToiDa = x.TinTuyenDung.LuongToiDa,
+                        DiaDiem = x.TinTuyenDung.DiaDiem,
+                        TuKhoa = x.TinTuyenDung.TuKhoa,
+                        NgayBatDau = x.TinTuyenDung.NgayBatDau,
+                        NgayHetHan = x.TinTuyenDung.NgayHetHan,
+                        LoaiViecLam = x.TinTuyenDung.LoaiViecLam,
+                        DoiTuongUngTuyen = x.TinTuyenDung.DoiTuongUngTuyen,
+                        TrinhDo = x.TinTuyenDung.TrinhDo,
+                        Status = x.TinTuyenDung.Status,
+                        MaDoanhNghiep = x.TinTuyenDung.MaDoanhNgiep,
+                        DoanhNghiep = x.TinTuyenDung.DoanhNghiep != null ? x.TinTuyenDung.DoanhNghiep.TenHienThi : null,
+                        LogoDoanhNghiep = x.TinTuyenDung.DoanhNghiep != null ? x.TinTuyenDung.DoanhNghiep.Logo : null,
+                        CreatedAt = x.TinTuyenDung.CreatedAt
+                    } : null,
                     HoSoUngTuyen = x.HoSoUngTuyen,
                     TrangThai = x.TrangThai,
                     CreatedAt = x.CreatedAt,
@@ -167,6 +214,43 @@ namespace HopTacDoanhNghiep.Areas.Student.Services
                 TotalRecords = total,
                 Records = items
             };
+        }
+
+        public async Task<BaseResult> WithdrawApplication(int MaUT, string MaSinhVien)
+        {
+            // Find the application belonging to the student
+            var entity = await _context.DonUngTuyens
+                .Where(x => x.MaUT == MaUT && x.MaSV == MaSinhVien && x.DeletedAt == null)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                return BaseResult.Fail("Đơn ứng tuyển không tồn tại hoặc không thuộc sinh viên này");
+            }
+
+            // Only allow withdrawal when the application is still pending (ChoPhanHoi)
+            if (entity.TrangThai != HoSoStatus.ChoPhanHoi)
+            {
+                return BaseResult.Fail("Chỉ có thể rút hồ sơ khi trạng thái đang ở 'Chờ phản hồi'.");
+            }
+
+            try
+            {
+                entity.TrangThai = HoSoStatus.RutHoSo;
+                entity.UpdatedAt = DateTime.UtcNow;
+                entity.UpdatedBy = MaSinhVien;
+
+                _context.DonUngTuyens.Update(entity);
+                var saved = await _context.SaveChangesAsync() > 0;
+                if (!saved)
+                    return BaseResult.Fail("Cập nhật trạng thái thất bại");
+
+                return BaseResult.Success("Rút hồ sơ thành công");
+            }
+            catch (Exception ex)
+            {
+                return BaseResult.Fail("Lỗi khi rút hồ sơ: " + ex.Message);
+            }
         }
     }
 }

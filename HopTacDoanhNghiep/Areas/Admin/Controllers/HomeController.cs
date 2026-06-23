@@ -16,9 +16,9 @@ namespace HopTacDoanhNghiep.Areas.Admin.Controllers
         }
 
         [HttpGet("admin/dashboard")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? year)
         {
-            var dashboardData = await _dashboardAdmin.GetDashboardData();
+            var dashboardData = await _dashboardAdmin.GetDashboardData(year);
             return View(dashboardData);
         }
     }

@@ -1,4 +1,7 @@
-﻿namespace HopTacDoanhNghiep.Areas.Student.ViewModels.DoanhNghiep
+﻿using HopTacDoanhNghiep.Areas.Student.ViewModels.ViecLam;
+using HopTacDoanhNghiep.ViewModels.Common;
+
+namespace HopTacDoanhNghiep.Areas.Student.ViewModels.DoanhNghiep
 {
     public class DoanhNghiepVM
     {
@@ -13,5 +16,7 @@
         public string? DiaChi { get; set; }
         public string? GioiThieu { get; set; }
         public int? QuyMoNhanSu { get; set; }
+
+        public PageResult<TinTuyenDungVM>? TinTuyenDung { get; set; } = new PageResult<TinTuyenDungVM>();
     }
 }
