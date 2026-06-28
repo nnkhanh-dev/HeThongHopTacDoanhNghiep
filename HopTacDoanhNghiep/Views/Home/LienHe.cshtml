@@ -1,4 +1,4 @@
-﻿@model HopTacDoanhNghiep.ViewModels.LienHe.LienHeVM
+@model HopTacDoanhNghiep.ViewModels.LienHe.LienHeVM
 @inject IConfiguration Configuration
 
 @{
@@ -53,8 +53,11 @@
                     </div>
                     <!-- CAPTCHA -->
                     <div class="g-recaptcha mb-3"
-                         data-sitekey="@Configuration["GoogleReCaptcha:SiteKey"]">
+                         data-sitekey="@Configuration["GoogleReCaptcha:SiteKey"]"
+                         data-callback="recaptchaCallback"
+                         data-expired-callback="recaptchaExpiredCallback">
                     </div>
+                    <span asp-validation-for="CapCha" class="text-danger mb-3 d-block"></span>
                     <div>
                         <button type="submit">Gửi</button>
                     </div>
@@ -74,4 +77,26 @@
 
 @section Scripts {
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function recaptchaCallback() {
+            $('[data-valmsg-for="CapCha"]').text("").addClass("field-validation-valid").removeClass("field-validation-error");
+        }
+        function recaptchaExpiredCallback() {
+            $('[data-valmsg-for="CapCha"]').text("Mã xác nhận không được để trống").addClass("field-validation-error").removeClass("field-validation-valid");
+        }
+
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+                if (typeof grecaptcha !== 'undefined') {
+                    var response = grecaptcha.getResponse();
+                    if (response.length === 0) {
+                        $('[data-valmsg-for="CapCha"]').text("Mã xác nhận không được để trống").addClass("field-validation-error").removeClass("field-validation-valid");
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
 }

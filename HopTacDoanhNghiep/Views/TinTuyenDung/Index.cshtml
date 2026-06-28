@@ -1,4 +1,4 @@
-﻿@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.ViewModels.ViecLam.ViecLamVM>
+@model HopTacDoanhNghiep.ViewModels.Common.PageResult<HopTacDoanhNghiep.ViewModels.ViecLam.ViecLamVM>
 
 @using HopTacDoanhNghiep.Enums.ViecLam
 @using HopTacDoanhNghiep.ViewModels.Common
@@ -20,6 +20,8 @@
     var luongMinFilter = Context.Request.Query["luongMin"].ToString();
     var luongMaxFilter = Context.Request.Query["luongMax"].ToString();
     var sapXepTheoFilter = Context.Request.Query["sapXepTheo"].ToString();
+    var conHieuLucFilter = Context.Request.Query["conHieuLuc"].ToString();
+    var sapXepLuongToiDaFilter = Context.Request.Query["sapXepLuongToiDa"].ToString();
 }
 
 <div class="breadcrumb-wrap mb-4">
@@ -66,9 +68,6 @@
                                     <div class="content">
                                         <h2 class="post-title"><a href="/viec-lam-tuyen-dung/@job.Slug">@job.TieuDe</a></h2>
                                         <p class="summary">
-                                            <div>
-                                                <i class="fa-solid fa-layer-group"></i> @(job.LinhVuc ?? "N/A")
-                                            </div>
                                             <div>
                                                 <i class="fa-solid fa-map-pin"></i> @(job.DiaDiem ?? "")
                                                 </div>
@@ -119,6 +118,7 @@
                     <form method="get" action="/viec-lam-tuyen-dung">
                         <div class="row g-3">
                             <div class="col-12">
+                                <label class="form-label">Tìm kiếm</label>
                                 <input type="text"
                                        class="form-control"
                                        name="keyword"
@@ -126,50 +126,127 @@
                                        value="@keywordFilter">
                             </div>
                             <div class="col-12">
-                                <select class="form-select" id="LinhVucFilterDesktop" name="linhVucSlug">
-                                    <option value="">Tất cả lĩnh vực</option>
+                                <label class="form-label">Hiệu lực</label>
+                                <select class="form-select" name="conHieuLuc">
+                                    <option value="">Tất cả</option>
+                                    <option value="true" selected="@(conHieuLucFilter == "true")">Còn hiệu lực</option>
+                                    <option value="false" selected="@(conHieuLucFilter == "false")">Hết hiệu lực</option>
                                 </select>
                             </div>
                             <div class="col-12">
+                                <label class="form-label">Loại việc làm</label>
                                 <select class="form-select" id="LoaiViecLamFilterDesktop" name="loaiViecLam">
                                     <option value="">Tất cả loại việc làm</option>
-                                    <option value="ban-thoi-gian" selected="@(loaiViecLamFilter == "ban-thoi-gian")">Bán thời gian</option>
-                                    <option value="toan-thoi-gian" selected="@(loaiViecLamFilter == "toan-thoi-gian")">Toàn thời gian</option>
-                                    <option value="thuc-tap" selected="@(loaiViecLamFilter == "thuc-tap")">Thực tập</option>
+                                    <option value="0" selected="@(loaiViecLamFilter == "0")">Bán thời gian</option>
+                                    <option value="1" selected="@(loaiViecLamFilter == "1")">Toàn thời gian</option>
+                                    <option value="2" selected="@(loaiViecLamFilter == "2")">Thực tập</option>
                                 </select>
                             </div>
-                            <div class="col-12 ">
+                            <div class="col-12">
+                                <label class="form-label">Đối tượng ứng tuyển</label>
                                 <select class="form-select" id="DoiTuongFilterDesktop" name="doiTuongUngTuyen">
                                     <option value="">Tất cả đối tượng</option>
-                                    <option value="thuc-tap-sinh" selected="@(doiTuongFilter == "thuc-tap-sinh")">Thực tập sinh</option>
-                                    <option value="sinh-vien-nam-cuoi" selected="@(doiTuongFilter == "sinh-vien-nam-cuoi")">Sinh viên năm cuối</option>
-                                    <option value="moi-tot-nghiep" selected="@(doiTuongFilter == "moi-tot-nghiep")">Mới tốt nghiệp</option>
-                                    <option value="da-tot-nghiep" selected="@(doiTuongFilter == "da-tot-nghiep")">Đã tốt nghiệp</option>
+                                    <option value="1" selected="@(doiTuongFilter == "1")">Thực tập sinh</option>
+                                    <option value="2" selected="@(doiTuongFilter == "2")">Sinh viên năm cuối</option>
+                                    <option value="3" selected="@(doiTuongFilter == "3")">Mới tốt nghiệp</option>
+                                    <option value="4" selected="@(doiTuongFilter == "4")">Đã tốt nghiệp</option>
                                 </select>
                             </div>
-                            <div class="col-12 ">
+                            <div class="col-12">
+                                <label class="form-label">Trình độ</label>
                                 <select class="form-select" id="TrinhDoFilterDesktop" name="trinhDo">
                                     <option value="">Tất cả trình độ</option>
-                                    <option value="trung-cap" selected="@(trinhDoFilter == "trung-cap")">Trung cấp</option>
-                                    <option value="cao-dang" selected="@(trinhDoFilter == "cao-dang")">Cao đẳng</option>
-                                    <option value="dai-hoc" selected="@(trinhDoFilter == "dai-hoc")">Đại học</option>
-                                    <option value="sau-dai-hoc" selected="@(trinhDoFilter == "sau-dai-hoc")">Sau đại học</option>
+                                    <option value="1" selected="@(trinhDoFilter == "1")">Trung cấp</option>
+                                    <option value="2" selected="@(trinhDoFilter == "2")">Cao đẳng</option>
+                                    <option value="3" selected="@(trinhDoFilter == "3")">Đại học</option>
+                                    <option value="4" selected="@(trinhDoFilter == "4")">Sau đại học</option>
                                 </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">
+                                    <strong>Mức lương:</strong>
+                                    <span id="luongMinValueDesktop" class="text-primary fw-bold"></span> -
+                                    <span id="luongMaxValueDesktop" class="text-success fw-bold"></span>
+                                </label>
+                                <div class="range-slide">
+                                    <div class="slide">
+                                        <div class="line" id="salaryLineDesktop"></div>
+                                        <span class="thumb" id="thumbMinDesktop"></span>
+                                        <span class="thumb" id="thumbMaxDesktop"></span>
+                                    </div>
+                                    <input id="luongMinRangeDesktop"
+                                           name="luongMin"
+                                           type="range"
+                                           min="0"
+                                           max="1000000000"
+                                           step="1000000"
+                                           value="@(string.IsNullOrEmpty(luongMinFilter) ? "0" : luongMinFilter)" />
+                                    <input id="luongMaxRangeDesktop"
+                                           name="luongMax"
+                                           type="range"
+                                           min="0"
+                                           max="1000000000"
+                                           step="1000000"
+                                           value="@(string.IsNullOrEmpty(luongMaxFilter) ? "1000000000" : luongMaxFilter)" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label mb-2">Sắp xếp theo lương:</label>
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sapXepTheo"
+                                               id="sapXepAscDesktop"
+                                               value="asc"
+                                               @(sapXepTheoFilter == "asc" ? "checked" : "") />
+                                        <label class="form-check-label" for="sapXepAscDesktop">
+                                            <i class="fa-solid fa-arrow-up"></i> Tăng dần
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sapXepTheo"
+                                               id="sapXepDescDesktop"
+                                               value="desc"
+                                               @(sapXepTheoFilter == "desc" ? "checked" : "") />
+                                        <label class="form-check-label" for="sapXepDescDesktop">
+                                            <i class="fa-solid fa-arrow-down"></i> Giảm dần
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="sapXepTheo"
+                                               id="sapXepNoneDesktop"
+                                               value=""
+                                               @(string.IsNullOrEmpty(sapXepTheoFilter) ? "checked" : "") />
+                                        <label class="form-check-label" for="sapXepNoneDesktop">
+                                            Không sắp xếp
+                                        </label>
+                                    </div>
+                                </div>
+                                <input type="hidden"
+                                       id="sapXepLuongToiDaInputDesktop"
+                                       name="sapXepLuongToiDa"
+                                       value="@(sapXepLuongToiDaFilter)" />
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-12">
+                            <div class="col-12 d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa-solid fa-search"></i> Tìm kiếm
                                 </button>
                                 @if (!string.IsNullOrEmpty(keywordFilter) ||
-                                                                !string.IsNullOrEmpty(linhVucFilter) ||
-                                                                !string.IsNullOrEmpty(loaiViecLamFilter) ||
-                                                                !string.IsNullOrEmpty(doiTuongFilter) ||
-                                                                !string.IsNullOrEmpty(trinhDoFilter) ||
-                                                                !string.IsNullOrEmpty(luongMinFilter) ||
-                                                                !string.IsNullOrEmpty(luongMaxFilter) ||
-                                                                !string.IsNullOrEmpty(sapXepTheoFilter))
+                                     !string.IsNullOrEmpty(loaiViecLamFilter) ||
+                                     !string.IsNullOrEmpty(doiTuongFilter) ||
+                                     !string.IsNullOrEmpty(trinhDoFilter) ||
+                                     !string.IsNullOrEmpty(conHieuLucFilter) ||
+                                     !string.IsNullOrEmpty(luongMinFilter) ||
+                                     !string.IsNullOrEmpty(luongMaxFilter) ||
+                                     !string.IsNullOrEmpty(sapXepTheoFilter) ||
+                                     !string.IsNullOrEmpty(sapXepLuongToiDaFilter))
                                 {
                                     <a href="/viec-lam-tuyen-dung" class="btn btn-secondary">
                                         <i class="fa-solid fa-times"></i> Xóa bộ lọc
@@ -195,83 +272,150 @@
 
 <!-- Modal Bộ lọc -->
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="filterModalLabel"><i class="fa-solid fa-filter"></i> Bộ lọc tìm kiếm</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="get" action="/viec-lam-tuyen-dung">
+    <div class="modal-dialog modal-lg">
+        <form method="get" action="/viec-lam-tuyen-dung">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="filterModalLabel"><i class="fa-solid fa-filter"></i> Bộ lọc tin tuyển dụng</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label">Tìm kiếm</label>
                             <input type="text"
                                    class="form-control"
                                    name="keyword"
                                    placeholder="Tìm kiếm theo tiêu đề, mô tả, từ khóa, địa điểm..."
-                                   value="@keywordFilter">
+                                   value="@Context.Request.Query["keyword"]" />
                         </div>
-                        <div class="col-12 col-md-6">
-                            <select class="form-select" id="LinhVucFilterModal" name="linhVucSlug">
-                                <option value="">Tất cả lĩnh vực</option>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Hiệu lực</label>
+                            <select class="form-select" name="conHieuLuc">
+                                <option value="">Tất cả</option>
+                                <option value="true" selected="@(conHieuLucFilter == "true")">Còn hiệu lực</option>
+                                <option value="false" selected="@(conHieuLucFilter == "false")">Hết hiệu lực</option>
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
+                            <label class="form-label">Loại việc làm</label>
                             <select class="form-select" id="LoaiViecLamFilterModal" name="loaiViecLam">
                                 <option value="">Tất cả loại việc làm</option>
-                                <option value="ban-thoi-gian" selected="@(loaiViecLamFilter == "ban-thoi-gian")">Bán thời gian</option>
-                                <option value="toan-thoi-gian" selected="@(loaiViecLamFilter == "toan-thoi-gian")">Toàn thời gian</option>
-                                <option value="thuc-tap" selected="@(loaiViecLamFilter == "thuc-tap")">Thực tập</option>
+                                <option value="0" selected="@(loaiViecLamFilter == "0")">Bán thời gian</option>
+                                <option value="1" selected="@(loaiViecLamFilter == "1")">Toàn thời gian</option>
+                                <option value="2" selected="@(loaiViecLamFilter == "2")">Thực tập</option>
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
+                            <label class="form-label">Đối tượng ứng tuyển</label>
                             <select class="form-select" id="DoiTuongFilterModal" name="doiTuongUngTuyen">
                                 <option value="">Tất cả đối tượng</option>
-                                <option value="thuc-tap-sinh" selected="@(doiTuongFilter == "thuc-tap-sinh")">Thực tập sinh</option>
-                                <option value="sinh-vien-nam-cuoi" selected="@(doiTuongFilter == "sinh-vien-nam-cuoi")">Sinh viên năm cuối</option>
-                                <option value="moi-tot-nghiep" selected="@(doiTuongFilter == "moi-tot-nghiep")">Mới tốt nghiệp</option>
-                                <option value="da-tot-nghiep" selected="@(doiTuongFilter == "da-tot-nghiep")">Đã tốt nghiệp</option>
+                                <option value="1" selected="@(doiTuongFilter == "1")">Thực tập sinh</option>
+                                <option value="2" selected="@(doiTuongFilter == "2")">Sinh viên năm cuối</option>
+                                <option value="3" selected="@(doiTuongFilter == "3")">Mới tốt nghiệp</option>
+                                <option value="4" selected="@(doiTuongFilter == "4")">Đã tốt nghiệp</option>
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
+                            <label class="form-label">Trình độ</label>
                             <select class="form-select" id="TrinhDoFilterModal" name="trinhDo">
                                 <option value="">Tất cả trình độ</option>
-                                <option value="trung-cap" selected="@(trinhDoFilter == "trung-cap")">Trung cấp</option>
-                                <option value="cao-dang" selected="@(trinhDoFilter == "cao-dang")">Cao đẳng</option>
-                                <option value="dai-hoc" selected="@(trinhDoFilter == "dai-hoc")">Đại học</option>
-                                <option value="sau-dai-hoc" selected="@(trinhDoFilter == "sau-dai-hoc")">Sau đại học</option>
+                                <option value="1" selected="@(trinhDoFilter == "1")">Trung cấp</option>
+                                <option value="2" selected="@(trinhDoFilter == "2")">Cao đẳng</option>
+                                <option value="3" selected="@(trinhDoFilter == "3")">Đại học</option>
+                                <option value="4" selected="@(trinhDoFilter == "4")">Sau đại học</option>
                             </select>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-search"></i> Tìm kiếm
-                            </button>
-                            @if (!string.IsNullOrEmpty(keywordFilter) ||
-                                 !string.IsNullOrEmpty(linhVucFilter) ||
-                                 !string.IsNullOrEmpty(loaiViecLamFilter) ||
-                                 !string.IsNullOrEmpty(doiTuongFilter) ||
-                                 !string.IsNullOrEmpty(trinhDoFilter) ||
-                                 !string.IsNullOrEmpty(luongMinFilter) ||
-                                 !string.IsNullOrEmpty(luongMaxFilter) ||
-                                 !string.IsNullOrEmpty(sapXepTheoFilter))
-                            {
-                                <a href="/viec-lam-tuyen-dung" class="btn btn-secondary">
-                                    <i class="fa-solid fa-times"></i> Xóa bộ lọc
-                                </a>
-                            }
+                    <div class="row g-3 mt-2">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">
+                                <strong>Mức lương:</strong>
+                                <span id="luongMinValueModal" class="text-primary fw-bold"></span> -
+                                <span id="luongMaxValueModal" class="text-success fw-bold"></span>
+                            </label>
+                            <div class="range-slide">
+                                <div class="slide">
+                                    <div class="line" id="salaryLineModal"></div>
+                                    <span class="thumb" id="thumbMinModal"></span>
+                                    <span class="thumb" id="thumbMaxModal"></span>
+                                </div>
+                                <input id="luongMinRangeModal"
+                                       name="luongMin"
+                                       type="range"
+                                       min="0"
+                                       max="1000000000"
+                                       step="1000000"
+                                       value="@(string.IsNullOrEmpty(luongMinFilter) ? "0" : luongMinFilter)" />
+                                <input id="luongMaxRangeModal"
+                                       name="luongMax"
+                                       type="range"
+                                       min="0"
+                                       max="1000000000"
+                                       step="1000000"
+                                       value="@(string.IsNullOrEmpty(luongMaxFilter) ? "1000000000" : luongMaxFilter)" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label mb-3">Sắp xếp theo lương:</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="sapXepTheo"
+                                           id="sapXepAscModal"
+                                           value="asc"
+                                           @(sapXepTheoFilter == "asc" ? "checked" : "") />
+                                    <label class="form-check-label" for="sapXepAscModal">
+                                        <i class="fa-solid fa-arrow-up"></i> Tăng dần
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="sapXepTheo"
+                                           id="sapXepDescModal"
+                                           value="desc"
+                                           @(sapXepTheoFilter == "desc" ? "checked" : "") />
+                                    <label class="form-check-label" for="sapXepDescModal">
+                                        <i class="fa-solid fa-arrow-down"></i> Giảm dần
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="sapXepTheo"
+                                           id="sapXepNoneModal"
+                                           value=""
+                                           @(string.IsNullOrEmpty(sapXepTheoFilter) ? "checked" : "") />
+                                    <label class="form-check-label" for="sapXepNoneModal">
+                                        Không sắp xếp
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="hidden"
+                                   id="sapXepLuongToiDaInputModal"
+                                   name="sapXepLuongToiDa"
+                                   value="@(sapXepLuongToiDaFilter)" />
                         </div>
                     </div>
-
-                    @* Giữ pageSize nếu có *@
-                    @if (!string.IsNullOrEmpty(Context.Request.Query["pageSize"]))
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["keyword"]) || !string.IsNullOrEmpty(loaiViecLamFilter) || !string.IsNullOrEmpty(doiTuongFilter) || !string.IsNullOrEmpty(trinhDoFilter) || !string.IsNullOrEmpty(conHieuLucFilter) || !string.IsNullOrEmpty(luongMinFilter) || !string.IsNullOrEmpty(luongMaxFilter) || !string.IsNullOrEmpty(sapXepTheoFilter) || !string.IsNullOrEmpty(sapXepLuongToiDaFilter))
                     {
-                        <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+                        <a href="/viec-lam-tuyen-dung" class="btn btn-danger">
+                            <i class="fa-solid fa-times"></i> Xóa bộ lọc
+                        </a>
                     }
-                </form>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
             </div>
-        </div>
+            @if (!string.IsNullOrEmpty(Context.Request.Query["pageSize"]))
+            {
+                <input type="hidden" name="pageSize" value="@Context.Request.Query["pageSize"]" />
+            }
+        </form>
     </div>
 </div>
 

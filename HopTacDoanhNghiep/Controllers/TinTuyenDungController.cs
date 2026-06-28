@@ -1,4 +1,4 @@
-﻿using HopTacDoanhNghiep.Enums.ViecLam;
+using HopTacDoanhNghiep.Enums.ViecLam;
 using HopTacDoanhNghiep.Models;
 using HopTacDoanhNghiep.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,10 @@ namespace HopTacDoanhNghiep.Controllers
             {
                 { "ban-thoi-gian", ViecLamType.BanThoiGian },
                 { "toan-thoi-gian", ViecLamType.ToanThoiGian },
-                { "thuc-tap", ViecLamType.ThucTap }
+                { "thuc-tap", ViecLamType.ThucTap },
+                { "0", ViecLamType.BanThoiGian },
+                { "1", ViecLamType.ToanThoiGian },
+                { "2", ViecLamType.ThucTap }
             };
 
             var slugToTrinhDo = new Dictionary<string, TrinhDoType>(System.StringComparer.OrdinalIgnoreCase)
@@ -45,7 +48,11 @@ namespace HopTacDoanhNghiep.Controllers
                 { "trung-cap", TrinhDoType.TrungCap },
                 { "cao-dang", TrinhDoType.CaoDang },
                 { "dai-hoc", TrinhDoType.DaiHoc },
-                { "sau-dai-hoc", TrinhDoType.SauDaiHoc }
+                { "sau-dai-hoc", TrinhDoType.SauDaiHoc },
+                { "1", TrinhDoType.TrungCap },
+                { "2", TrinhDoType.CaoDang },
+                { "3", TrinhDoType.DaiHoc },
+                { "4", TrinhDoType.SauDaiHoc }
             };
 
             var slugToDoiTuong = new Dictionary<string, DoiTuongUngTuyen>(System.StringComparer.OrdinalIgnoreCase)
@@ -53,7 +60,11 @@ namespace HopTacDoanhNghiep.Controllers
                 { "thuc-tap-sinh", DoiTuongUngTuyen.ThucTapSinh },
                 { "sinh-vien-nam-cuoi", DoiTuongUngTuyen.SinhVienNamCuoi },
                 { "moi-tot-nghiep", DoiTuongUngTuyen.MoiTotNghiep },
-                { "da-tot-nghiep", DoiTuongUngTuyen.DaTotNghiep }
+                { "da-tot-nghiep", DoiTuongUngTuyen.DaTotNghiep },
+                { "1", DoiTuongUngTuyen.ThucTapSinh },
+                { "2", DoiTuongUngTuyen.SinhVienNamCuoi },
+                { "3", DoiTuongUngTuyen.MoiTotNghiep },
+                { "4", DoiTuongUngTuyen.DaTotNghiep }
             };
 
             if (!string.IsNullOrWhiteSpace(loaiViecLam))
